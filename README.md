@@ -1,2 +1,0 @@
-# Suorituspolut
-Opiskelijoiden-suorituspolkujen-visualisointityökalu
