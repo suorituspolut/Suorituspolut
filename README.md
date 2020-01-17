@@ -1,5 +1,7 @@
 # Suorituspolut
 
+[![Build Status](https://www.travis-ci.com/suorituspolut/Suorituspolut.svg?branch=master)](https://www.travis-ci.com/suorituspolut/Suorituspolut)
+
 [![codecov](https://codecov.io/gh/suorituspolut/Suorituspolut/branch/master/graph/badge.svg)](https://codecov.io/gh/suorituspolut/Suorituspolut)
 
 [Product backlog](https://docs.google.com/spreadsheets/d/1LwSKeKnjF9BILT-SWq7dcVWEsRqqfTetZ7wfIkhxkG0/edit#gid=0)
