@@ -34,9 +34,12 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
+    "codecov": "^3.6.1",
     "jest": "^24.9.0"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }
