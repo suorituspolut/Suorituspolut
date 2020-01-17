@@ -12,6 +12,7 @@ before_install:
 - npm update
 install:
 - npm install
-
+script:
+- npm test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
