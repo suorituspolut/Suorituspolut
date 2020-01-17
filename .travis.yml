@@ -1,18 +1,14 @@
-sudo: false
 language: node_js
-node_js:
-- '8'
-branches:
-  only:
-  - master
-cache:
-  directories:
-  - node_modules
-before_install:
-- npm update
-install:
-- npm install
-script:
-- npm test
 
-bash <(curl -s https://codecov.io/bash)
+sudo: false
+
+node_js:
+  - '11'
+  - '10'
+  - '9'
+  - '8'
+  - '7'
+  - '6'
+
+after_success:
+  - ./bin/codecov -e TRAVIS_NODE_VERSION -f coverage/*.json
