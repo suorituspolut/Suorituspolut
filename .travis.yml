@@ -13,6 +13,6 @@ before_install:
 install:
 - npm install
 script:
-- echo "skipping tests"
+- npm test
 after_success:
   - bash <(curl -s https://codecov.io/bash)
