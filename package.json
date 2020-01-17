@@ -1,6 +1,6 @@
 {
-  "name": "suorituspolut",
-  "version": "0.1.0",
+  "name": "notebackend",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -41,5 +41,20 @@
     "testEnvironment": "node",
     "coverageDirectory": "./coverage/",
     "collectCoverage": true
-  }
+  },
+  "description": "[![Build Status](https://www.travis-ci.com/suorituspolut/Suorituspolut.svg?branch=master)](https://www.travis-ci.com/suorituspolut/Suorituspolut)",
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suorituspolut/Suorituspolut.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suorituspolut/Suorituspolut/issues"
+  },
+  "homepage": "https://github.com/suorituspolut/Suorituspolut#readme"
 }
