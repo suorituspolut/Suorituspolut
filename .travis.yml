@@ -14,3 +14,5 @@ install:
 - npm install
 script:
 - npm test
+
+bash <(curl -s https://codecov.io/bash)
