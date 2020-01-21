@@ -4,6 +4,7 @@ const cors = require('cors')
 
 app.use(cors())
 app.use(express.static('build'))
+
 app.get('/', (req, res) => {
   res.send('<h1>Hello World backend</h1>')
 })
