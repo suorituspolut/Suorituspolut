@@ -1,1 +1,1 @@
-web: node /Backend/index.js
+web: sh -c 'cd ./Backend/ && exec index.js'
