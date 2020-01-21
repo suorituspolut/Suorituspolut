@@ -18,6 +18,7 @@
     "watch": "nodemon index.js",
     "test": "jest --verbose",
     "eject": "react-scripts eject"
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": "react-app"
