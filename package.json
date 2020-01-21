@@ -17,6 +17,7 @@
     "build": "react-scripts build",
     "watch": "nodemon index.js",
     "test": "jest --verbose",
+    "heroku-postbuild": "npm install && npm run build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
