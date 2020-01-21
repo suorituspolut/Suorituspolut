@@ -13,7 +13,7 @@
     "tslint-react": "^4.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server/server.js",
     "build": "react-scripts build",
     "watch": "nodemon index.js",
     "test": "jest --verbose",
