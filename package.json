@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "watch": "nodemon index.js",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+
   },
   "author": "",
   "license": "ISC",

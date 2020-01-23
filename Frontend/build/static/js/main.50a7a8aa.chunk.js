@@ -1,2 +1,0 @@
-(this.webpackJsonpnotebackend=this.webpackJsonpnotebackend||[]).push([[0],[,,,function(e,n,t){e.exports=t(4)},function(e,n,t){"use strict";t.r(n);var o=t(0),r=t.n(o),l=t(2);t.n(l).a.render(r.a.createElement((function(){return r.a.createElement("div",null,r.a.createElement("p",null,"Hello world front"))}),null),document.getElementById("root"))}],[[3,1,2]]]);
-//# sourceMappingURL=main.50a7a8aa.chunk.js.map
