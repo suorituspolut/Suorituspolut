@@ -1,15 +1,21 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const path = require('path');
 
-app.use(cors())
-app.use(express.static('build'))
+const app = express();
+
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.get('/', (req, res) => {
-  res.send('<h1>Hello World backend</h1>')
-})
+    res.send('<h1>Hello World backend</h1>')
+  })
 
-const PORT = 3001
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/frontend/build/index.html'));
+});
+
+const port = process.env.PORT || 3001;
+app.listen(port);
+
+console.log('App is listening on port ' + port);
