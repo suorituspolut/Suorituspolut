@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import * as d3 from "d3"
 
 d3.selectAll("div").style('color','red')
-const svgCanvas = d3.selectAll("div")
 .append("svg")
 .attr("width", 900)
 .attr("height", 600)
