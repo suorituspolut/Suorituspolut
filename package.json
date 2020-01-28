@@ -4,7 +4,6 @@
   "description": "Boilerplate for future toska frontend projects",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
     "dev": "sudo docker-compose up",
     "build": "webpack --mode=production",
     "start:prod": "cross-env NODE_ENV=production node index.js",
@@ -13,12 +12,6 @@
     "lint:fix": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "stats": "webpack --mode production --json --optimize-minimize > stats.json"
-=======
-    "start": "node index.js",
-    "watch": "nodemon index.js",
-    "test": "jest --verbose",
-    "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
->>>>>>> 1412e587625be981f9cc4465bcb448bd490aa4cc
   },
   "engines": {
     "node": ">=10.15"
@@ -26,7 +19,6 @@
   "author": "Jami Kousa",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "@babel/core": "^7.1.2",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.3.1",
@@ -68,11 +60,6 @@
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "winston": "^3.2.1"
-=======
-    "cors": "^2.8.5",
-    "d3": "^5.15.0",
-    "express": "^4.17.1"
->>>>>>> 1412e587625be981f9cc4465bcb448bd490aa4cc
   },
   "devDependencies": {
     "babel-preset-stage-2": "^6.24.1",
