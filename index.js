@@ -1,21 +1,44 @@
-const express = require('express');
-const path = require('path');
+require('dotenv').config()
+require('module-alias/register')
+const chokidar = require('chokidar')
+const express = require('express')
+require('express-async-errors')
 
-const app = express();
+const { PORT, inProduction } = require('@util/common')
+const logger = require('@util/logger')
 
-// Serve the static files from the React app
-app.use(express.static(path.join(__dirname, 'frontend/build')));
+const app = express()
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World backend</h1>')
+// Require is here so we can delete it from cache when files change (*)
+app.use('/api', (req, res, next) => require('@root/server')(req, res, next)) // eslint-disable-line
+
+/**
+ *  Use "hot loading" in backend
+ */
+const watcher = chokidar.watch('server') // Watch server folder
+watcher.on('ready', () => {
+  watcher.on('all', () => {
+    Object.keys(require.cache).forEach((id) => {
+      if (id.includes('server')) delete require.cache[id] // Delete all require caches that point to server folder (*)
+    })
   })
+})
 
-// Handles any requests that don't match the ones above
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/frontend/build/index.html'));
-});
+/**
+ * For frontend use hot loading when in development, else serve the static content
+ */
+if (!inProduction) {
+  /* eslint-disable */
+  const webpack = require('webpack')
+  const middleware = require('webpack-dev-middleware')
+  const hotMiddleWare = require('webpack-hot-middleware')
+  const webpackConf = require('@root/webpack.config')
+  /* eslint-enable */
+  const compiler = webpack(webpackConf('development', { mode: 'development' }))
+  app.use(middleware(compiler))
+  app.use(hotMiddleWare(compiler))
+} else {
+  app.use('/', express.static('dist/'))
+}
 
-const port = process.env.PORT || 3001;
-app.listen(port);
-
-console.log('App is listening on port ' + port);
+app.listen(PORT, () => { logger.info(`Started on port ${PORT}`) })
