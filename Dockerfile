@@ -11,6 +11,10 @@ ENV BASE_PATH=$BASE_PATH
 WORKDIR /usr/src/app
 COPY . .
 
+RUN rm package-lock.json
+RUN -rf node_modules
+RUN npm install
+
 RUN npm ci
 
 RUN npm run build
