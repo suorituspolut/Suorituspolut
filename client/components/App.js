@@ -8,8 +8,8 @@ export default () => (
   <div>
     <Course name = "tira"/>
     <Course name = "ohpe"/>
-    <NavBar />
-    <Router />
-    <Footer />
+{/*   <NavBar />
+      <Router />
+      <Footer /> */}
   </div>
 )
