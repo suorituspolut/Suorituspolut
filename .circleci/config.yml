@@ -5,7 +5,7 @@ workflows:
   test-build-deploy:
     jobs:
       - dockerhub/publish:
-          image: suorituspolut/$CIRCLE_PROJECT_REPONAME
+          image: suorituspolut/suorituspolut
           extra_build_args: '--build-arg BASE_PATH=/suorituspolut/'
           filters:
             branches:
