@@ -1,48 +1,12 @@
-# JavaScript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2.1
 orbs:
-  docker: circleci/docker@0.5.20
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:7.10
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-
-      - run: bash <(curl -s https://codecov.io/bash)
-
-production-release:
-  jobs:
+  dockerhub: circleci/docker@0.5.1
+workflows:
+  test-build-deploy:
+    jobs:
       - dockerhub/publish:
-          image: toska/$CIRCLE_PROJECT_REPONAME
-          tag: 'prod'
+          image: suorituspolut/$CIRCLE_PROJECT_REPONAME
+          extra_build_args: '--build-arg BASE_PATH=/suorituspolut/'
           filters:
-            tags:
-              only: /.*/
             branches:
-              ignore: /.*/
+              only: master
