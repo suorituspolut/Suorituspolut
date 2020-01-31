@@ -2,7 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.1
+orbs:
+  docker: circleci/docker@0.5.20
 jobs:
   build:
     docker:
@@ -31,3 +33,13 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+production-release:
+  jobs:
+      - dockerhub/publish:
+          image: toska/$CIRCLE_PROJECT_REPONAME
+          tag: 'prod'
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
