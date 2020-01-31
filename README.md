@@ -9,3 +9,5 @@
 [Sprint backlog](https://docs.google.com/spreadsheets/d/10I3woz3KTBmCiSt_vDrgeIdjG_VAujJe4kMJsc5h_64/edit#gid=1103601563)
 
 [Codecov](https://codecov.io/gh/suorituspolut/Suorituspolut)
+
+[29.1. - Visualization ideas](https://drive.google.com/file/d/1wv-ooICCFOkA7cIQ_uEerSDFzVKA0Bdz/view?usp=sharing)
