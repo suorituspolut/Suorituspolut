@@ -3,13 +3,10 @@ import NavBar from 'Components/NavBar'
 import Footer from 'Components/Footer'
 import Router from 'Components/Router'
 import Course from 'Components/Course'
+import Graph from './Graph'
 
 export default () => (
   <div>
-    <Course name = "tira"/>
-    <Course name = "ohpe"/>
-{/*   <NavBar />
-      <Router />
-      <Footer /> */}
+    <Graph />
   </div>
 )
