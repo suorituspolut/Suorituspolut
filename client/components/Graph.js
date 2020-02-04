@@ -14,6 +14,28 @@ const options = {
   credits: {
     text: ''
   },
+  exporting: {
+    menuItemDefinitions: {
+      viewFullscreen: {
+        text: 'Koko näyttö'
+      },
+      downloadPNG: {
+        text: 'Lataa PNG-kuva'
+      },
+      downloadSVG: {
+        text: 'Lataa SVG-kuva'
+      },
+      downloadPDF: {
+        text: 'Lataa PDF:nä'
+      }
+
+    },
+    buttons: {
+      contextButton: {
+        menuItems: ['viewFullscreen', 'downloadPNG', 'downloadSVG', 'downloadPDF']
+      }
+    }
+  },
   title: {
     text: 'Suorituspolut'
   },
