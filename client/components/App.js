@@ -28,7 +28,7 @@ console.log('taulu', taulu)
   //JSON.parse(obj): reverse function
 };
 
-function App() {
+function load() {
   const [data, setData] = useState();
 //  console.log('before data',data)
 let whatToShow = data!== undefined
@@ -55,6 +55,6 @@ console.log("data", data)
 export default () => (
   <div>
     <Graph />
-    {App()}
+    {load()}
   </div>
 )
