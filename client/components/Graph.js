@@ -11,6 +11,9 @@ Highcharts.setOptions({
 
 
 const options = {
+  credits: {
+    text: ''
+  },
   title: {
     text: 'Suorituspolut'
   },

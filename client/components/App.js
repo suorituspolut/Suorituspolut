@@ -7,6 +7,8 @@ import Graph from './Graph'
 
 export default () => (
   <div>
-    <Graph />
+    <NavBar />
+    <Router />
+    <Footer />
   </div>
 )

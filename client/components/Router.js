@@ -1,12 +1,11 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-
-import OnlyView from 'Components/OnlyView'
+import Graph from 'Components/Graph'
 
 export default () => (
   <div className="content">
     <Switch>
-      <Route path="/" component={OnlyView} />
+      <Route exact path="/" component={Graph} />
     </Switch>
   </div>
 )
