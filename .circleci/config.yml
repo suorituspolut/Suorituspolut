@@ -12,13 +12,11 @@ workflows:
           filters:
             branches:
               only: master
-        docker:
-          - image: circleci/node:10.0-browsers
-        steps:
-          - checkout
-          - run: npm install
-          - run: npm test
-          - store_artifacts:
-              path: coverage
-          - run: bash <(curl -s https://codecov.io/bash) 
+          steps:
+            - checkout
+            - run: npm install
+            - run: npm test
+            - store_artifacts:
+                path: coverage
+            - run: bash <(curl -s https://codecov.io/bash) 
         
