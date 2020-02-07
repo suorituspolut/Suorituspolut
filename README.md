@@ -9,7 +9,7 @@ A course recommendation system is also being planned.
 ## Used technologies
 
 The application is built using React and NodeJS, and deployed with Docker.  
-React library HighCharts is used to draw Sankey diagrams to help with visualization.
+React library Highcharts is used to draw Sankey diagrams to help with visualization.
 
 ## Documentation
 [![CircleCI](https://circleci.com/gh/suorituspolut/Suorituspolut.svg?style=svg)](https://circleci.com/gh/suorituspolut/Suorituspolut)
