@@ -8,7 +8,7 @@ A course recommendation system is also being planned.
 
 ## Used technologies
 
-The application is built using React and NodeJS, and deployed with Docker.  
+The application is built using React, and deployed with Docker.  
 React library Highcharts is used to draw Sankey diagrams to help with visualization.
 
 ## Documentation
