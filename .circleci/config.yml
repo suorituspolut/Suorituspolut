@@ -3,13 +3,17 @@ orbs:
   dockerhub: circleci/docker@0.5.1
 
 jobs:
-  test:
+  build:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/node:10.0-browsers
     steps:
       - checkout
       - run: npm install
-      - run: npm test
+      - run:
+          name: "Run Jest and Collect Coverage Reports"
+          command: jest --collectCoverage=true
+      - store_artifacts:
+          path: coverage
       - run: bash <(curl -s https://codecov.io/bash)        
 workflows:
   test-build-deploy:
@@ -21,5 +25,5 @@ workflows:
           filters:
             branches:
               only: master
-      - test
+      - build
         
