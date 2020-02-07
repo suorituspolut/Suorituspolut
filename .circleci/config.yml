@@ -18,7 +18,8 @@ workflows:
     jobs:
       - test
       - dockerhub/publish:
-          requires: test
+          requires:
+            - test
           image: suorituspolut/suorituspolut
           tag: 'latest'
           extra_build_args: '--build-arg BASE_PATH=/suorituspolut/'
