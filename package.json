@@ -29,6 +29,7 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "chokidar": "^3.0.2",
+    "codecov": "^3.6.1",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
     "d3": "^5.15.0",
@@ -92,6 +93,8 @@
     "@util": "server/util"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }
