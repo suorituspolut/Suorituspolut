@@ -11,8 +11,10 @@ workflows:
           filters:
             branches:
               only: master
-          steps: 
-            - run: npm test         
-            - run: bash <(curl -s https://codecov.io/bash)
+jobs:
+  build:
+    steps:
+      - run: npm test         
+      - run: bash <(curl -s https://codecov.io/bash)
 
         
