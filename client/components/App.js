@@ -4,11 +4,13 @@ import Footer from 'Components/Footer'
 import Router from 'Components/Router'
 import Course from 'Components/Course'
 import Graph from './Graph'
+import Datahandler from './Datahandler'
 
 export default () => (
   <div>
     <NavBar />
     <Router />
+    <Datahandler />
     <Footer />
   </div>
 )
