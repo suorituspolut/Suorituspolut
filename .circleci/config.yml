@@ -1,22 +1,29 @@
 version: 2.1
 orbs:
   dockerhub: circleci/docker@0.5.1
-      
+
+jobs:
+  test:
+    docker:
+      - image: circleci/node:10.0-browsers
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+      - store_artifacts:
+          path: coverage
+      - run: bash <(curl -s https://codecov.io/bash)        
 workflows:
   test-build-deploy:
     jobs:
+      - test
       - dockerhub/publish:
+          requires: test
           image: suorituspolut/suorituspolut
           tag: 'latest'
           extra_build_args: '--build-arg BASE_PATH=/suorituspolut/'
           filters:
             branches:
               only: master
-          steps:
-            - checkout
-            - run: npm install
-            - run: npm test
-            - store_artifacts:
-                path: coverage
-            - run: bash <(curl -s https://codecov.io/bash) 
+
         
