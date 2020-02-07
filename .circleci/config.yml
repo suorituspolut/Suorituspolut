@@ -1,6 +1,12 @@
 version: 2.1
 orbs:
   dockerhub: circleci/docker@0.5.1
+
+jobs:
+  build:
+    docker:
+      - run: npm test
+      - run: bash <(curl -s https://codecov.io/bash)        
 workflows:
   test-build-deploy:
     jobs:
