@@ -9,9 +9,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run:
-          name: "Run Jest and Collect Coverage Reports"
-          command: jest --collectCoverage=true
+      - run: npm test
       - store_artifacts:
           path: coverage
       - run: bash <(curl -s https://codecov.io/bash)        
