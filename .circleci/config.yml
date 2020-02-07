@@ -16,6 +16,7 @@ jobs:
 workflows:
   test-build-deploy:
     jobs:
+      - test
       - dockerhub/publish:
           requires:
             - test
