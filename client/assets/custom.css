@@ -13,8 +13,8 @@
 }
 
 .footer {
-  height: 5em;
-  background-color: whitesmoke;
+  height: 2em;
+  text-align: center;
+  vertical-align: bottom;
 }
-
 
