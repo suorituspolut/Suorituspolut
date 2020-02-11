@@ -5,7 +5,7 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 // import CSVReader from 'react-csv-reader'
 // import { connect } from 'react-redux'
-import dataset from '../data/anon_dataset.csv'
+import dataset from '@root/client/data/anon_dataset.csv'
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 
