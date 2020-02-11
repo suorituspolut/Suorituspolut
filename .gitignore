@@ -8,7 +8,7 @@ stats.json
 
 # testing
 /coverage
-
+/data
 # production
 /build
 
@@ -22,5 +22,6 @@ stats.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.csv
 *.dsv
 
