@@ -8,7 +8,6 @@ import Datahandler from './Datahandler'
 
 export default () => (
   <div>
-    <NavBar />
     <Router />
     <Datahandler />
     <Footer />
