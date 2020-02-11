@@ -22,7 +22,7 @@ workflows:
             - test
           image: suorituspolut/suorituspolut
           tag: 'latest'
-          extra_build_args: '--build-arg BASE_PATH=/suorituspolut/'
+          extra_build_args: '--build-arg BASE_PATH=/suorituspolut'
           filters:
             branches:
               only: master
