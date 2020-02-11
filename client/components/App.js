@@ -9,7 +9,7 @@ import Datahandler from './Datahandler'
 export default () => (
   <div>
     <Router />
-    <Datahandler />
+    hello
     <Footer />
   </div>
 )
