@@ -5,7 +5,7 @@ RUN echo "Europe/Helsinki" > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
 
 ARG BASE_PATH
-ENV BASE_PATH=$BASE_PATH
+ENV BASE_PATH=$BASE_PATH/suorituspolut
 
 # Setup
 WORKDIR /usr/src/app

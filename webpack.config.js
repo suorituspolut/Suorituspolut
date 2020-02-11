@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
 
   const additionalEntries = mode === 'production' ? [] : ['webpack-hot-middleware/client?http://localhost:8000']
 
-  const BASE_PATH = process.env.BASE_PATH || '/suorituspolut'
+  const BASE_PATH = process.env.BASE_PATH || '/'
 
   return {
     mode,
