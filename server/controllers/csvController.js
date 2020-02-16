@@ -7,7 +7,7 @@ const datahandler = require('@root/server/datahandling/dataHandler')
 const getAll = async (req, res) => {
   var fs = require('fs');
   console.log(process.cwd())
-  var data = fs.readFileSync(process.cwd() + '/client/data/anon_dataset.csv', 'utf8');
+  var data = fs.readFileSync(process.cwd() + '/server/data/dummydata.csv', 'utf8');
   console.log(data);
   res.send(data)
 }
