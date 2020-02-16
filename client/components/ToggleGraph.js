@@ -9,7 +9,7 @@ const ToggleGraph = () => {
     <>
       {graphToShow ? 
         <Datahandler year={selectedYear} startCourse={selectedCourse} /> :
-        <Datahandler year={2017} startCourse="Ohjelmoinnin perusteet" />
+        <Datahandler year={2018} startCourse="Ohjelmoinnin perusteet" />
       }
       <div className="toggle-container">
         <div className="ui buttons">
