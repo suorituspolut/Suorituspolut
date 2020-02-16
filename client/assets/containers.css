@@ -1,0 +1,8 @@
+.sankey-container { 
+  margin: 3em;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: center;
+}

@@ -1,11 +1,14 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-import Graph from 'Components/Graph'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import Datahandler from './Datahandler'
+
 
 export default () => (
   <div className="content">
-    <Switch>
-      <Route exact path="/" component={Graph} />
-    </Switch>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+      </Switch>
+    </Router>
   </div>
 )

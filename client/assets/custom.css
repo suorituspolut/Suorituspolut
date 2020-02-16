@@ -1,4 +1,6 @@
 @import 'fonts.css';
+@import 'containers.css';
+@import 'colors.css';
 
 .navbar {
   height: 5em;
@@ -7,14 +9,17 @@
 
 .content {
   padding: 10px;
-  min-height: calc(100vh - 10em);
+  min-height: calc(100vh - 5em);
   display: flex;
   flex-direction: column;
 }
 
 .footer {
-  height: 2em;
+  height: 3.5em;
   text-align: center;
   vertical-align: bottom;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 
