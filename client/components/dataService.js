@@ -8,18 +8,18 @@ require("highcharts/modules/exporting")(Highcharts)
 
 function httpGet() {
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", "http://localhost:8000/api/data", false );
+  xmlHttp.open( "GET", "http://localhost:8000/api/data", false );  //Making the get request
   xmlHttp.send( null );
   return xmlHttp.responseText;
 }
 
-const Data = () => {
-  let paths = httpGet();
-  console.log(paths)
+const Data = () => { //Getting the data from backend
+  let paths = JSON.parse(httpGet())
   console.log(paths.length)
   return (
     <div>
-      <Graph/>
+      
+      <Graph data={paths}/>
       
       </div>
   )
