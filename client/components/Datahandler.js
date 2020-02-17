@@ -6,19 +6,27 @@ import Graph from './Graph'
 
 const toPeriod = (date) => {
   let period = 0
+  const day = date.getDate()
   const month = date.getMonth() + 1
+  let year = date.getFullYear()
 
-  if (month >= 11 && month <= 12) {
+  if ((month > 9 && month < 11) || (month === 9 && day >= 23) || (month === 11 && day <= 17)) {
     period = 1
-  } else if (month >= 1 && month <= 3) {
+  } else if ((month === 12 || month === 1) || (month === 11 && day >= 18) || (month === 2 && day <= 9)) {
     period = 2
-  } else if (month >= 4 && month <= 5) {
+  } else if ((month > 2 && month < 4) || (month === 2 && day >= 2) || (month === 4 && day <= 5)) {
     period = 3
-  } else {
+  } else if ((month === 4 && day >= 6) || month === 5) {
     period = 4
+  } else {
+    period = 5
   }
 
-  return period
+  if (period === 2 && month <= 2) {
+    year -= 1
+  }
+
+  return { period, year }
 }
 
 const dataByYear = (data, firstYear) => {
