@@ -54,6 +54,7 @@ const Graph = ({ data }) => {
   },
     series: [{
       keys: ['from', 'to', 'weight'],
+      turboThreshold: 4000,
       data: data ? data : [
         ['Ohjelmoinnin perusteet', 'Ohjelmoinnin jatkokurssi', 70],
         ['Ohjelmoinnin jatkokurssi', 'Tietorakenteet ja algoritmit', 30],
