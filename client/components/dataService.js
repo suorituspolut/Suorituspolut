@@ -8,7 +8,7 @@ require("highcharts/modules/exporting")(Highcharts)
 
 function httpGet() {
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", "http://localhost:8000/api/data", false );  //Making the get request
+  xmlHttp.open( "GET", "https://toska.cs.helsinki.fi/suorituspolut/api/data", false );  //Making the get request
   xmlHttp.send( null );
   return xmlHttp.responseText;
 }
