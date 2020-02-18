@@ -21,6 +21,21 @@ const toPeriod = (date) => {
   return period
 }
 
+const nextPeriodOf = (period) => {
+  const nextPeriod = { period: period.period, year: period.year }
+
+  if (period.period === 5) {
+    nextPeriod.period = 1
+  } else if (period.period === 2) {
+    nextPeriod.period = 3
+    nextPeriod.year += 1
+  } else {
+    nextPeriod.period += 1
+  }
+
+  return nextPeriod
+}
+
 const highChartsObjects = (data, startingCourse) => {
 
   let highChartsArrays = []
