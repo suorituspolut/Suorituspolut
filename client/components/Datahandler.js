@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import * as d3 from 'd3'
-import dataset from '../data/anon_dataset.csv'
+//import dataset from '../data/anon_dataset.csv'
 import Graph from './Graph'
 
 

@@ -10,7 +10,7 @@ const ToggleGraph = () => {
     <>
       {graphToShow ? 
         <DataService /> :
-        <Datahandler year={2018} startCourse="Ohjelmoinnin perusteet" />
+        <DataService />
       }
       <div className="toggle-container">
         <div className="ui buttons">
