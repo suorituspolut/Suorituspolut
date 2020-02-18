@@ -6,7 +6,7 @@ const fs = require('fs')
 
 const getAll = async (req, res) => {
   // Getting the correct file from backend. 
-  const file = (process.cwd() + '/client/data/anon_dataset.csv')
+  const file = (process.cwd() + '/data/anon_dataset.csv')
   console.log(file)
   //const file = ('/usr/src/app/client/data/anon_dataset.csv')
   const array = []
