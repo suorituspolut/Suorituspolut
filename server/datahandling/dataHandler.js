@@ -44,6 +44,12 @@ const nextPeriodOf = (period) => {
   return nextPeriod
 }
 
+const isSamePeriod = (period1, period2) => {
+  if (period1.year !== period2.year) return false
+  if (period1.period === period2.period) return true
+  return false
+}
+
 const highChartsObjects = (data, startingCourse) => {
 
   let highChartsArrays = []
@@ -60,7 +66,7 @@ const highChartsObjects = (data, startingCourse) => {
     }
 
     if (isStartingCourse) {
-      const nextCourses = data[i].courses.filter(credit => toPeriod(credit.date).period === nextPeriodOf(periodOfStartingCourse).period)
+      const nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartingCourse)))
       nextCourses.forEach(credit => highChartsArrays = [...highChartsArrays, [startingCourse, credit.course, 1]])
     }
     isStartingCourse = false
