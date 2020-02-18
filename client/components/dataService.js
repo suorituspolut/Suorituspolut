@@ -18,7 +18,7 @@ const Data = () => { //Getting the data from backend
   console.log(paths.length)
   return (
     <div>
-      
+   
       <Graph data={paths}/>
       
       </div>
