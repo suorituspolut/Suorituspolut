@@ -25,7 +25,7 @@ const getAll = async (req, res) => {
     })
     // Finally sending the correct highchart-objects as a response.
     // Defining the year, start course and ending course could be eg. done as a parameters for a post- or a get-request 
-    res.send(studentPaths(array, 2018, "Ohjelmoinnin perusteet"))
+    res.send(studentPaths(array, 2018, "Ohjelmoinnin jatkokurssi"))
   })
 
   // Creating a stream of data in the file, and piping it with the given parser
