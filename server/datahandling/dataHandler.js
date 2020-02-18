@@ -50,6 +50,31 @@ const isSamePeriod = (period1, period2) => {
   return false
 }
 
+const addWeights = (arrayOfCredits) => {
+  
+  const courseSet = new Map()
+  let weightedArray = []
+
+  for (let i = 0; i < arrayOfCredits.length; i++) {
+    const startCourse = arrayOfCredits[i][0]
+    const finishCourse = arrayOfCredits[i][1]
+    const coursepair = `${startCourse}>${finishCourse}`
+    if (!courseSet.has(coursepair)) {
+      courseSet.set(coursepair, 1)
+    } else {
+      const weight = courseSet.get(coursepair) + 1
+      courseSet.set(coursepair, weight)
+    }
+  }
+
+  for (let [courses, weight] of courseSet.entries()) {
+    const coursepair = courses.split('>')
+    weightedArray = [...weightedArray, [coursepair[0], coursepair[1], weight]]
+  }
+  
+  return weightedArray
+}
+
 const highChartsObjects = (data, startingCourse) => {
 
   let highChartsArrays = []
@@ -72,8 +97,9 @@ const highChartsObjects = (data, startingCourse) => {
     isStartingCourse = false
   }
 
-  return highChartsArrays
+  return addWeights(highChartsArrays)
 }
+
 
 const studentPaths = (data, year, startCourse) => {
   const stNumbers = [...new Set(data.map(x => x.studentId))]
