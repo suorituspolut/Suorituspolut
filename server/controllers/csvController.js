@@ -5,10 +5,8 @@ const parse = require('csv-parse')
 const fs = require('fs')
 
 const getAll = async (req, res) => {
-  res.send('moi')
-  return
   // Getting the correct file from backend. 
-  //const file = (process.cwd() + '/client/data/anon_dataset.csv')
+  const file = (process.cwd() + '/client/data/anon_dataset.csv')
   //const file = ('@root/client/data/anon_dataset.csv')
   const array = []
 
