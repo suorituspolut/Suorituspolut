@@ -6,12 +6,15 @@ const fs = require('fs')
 
 const getAll = async (req, res) => {
   // Getting the correct file from backend. 
-  //const file = (process.cwd() + '/client/data/anon_dataset.csv')
-  const file = ('/usr/src/app/client/data/anon_dataset.csv')
+  const file = (process.cwd() + '/client/data/anon_dataset.csv')
+  console.log(file)
+  //const file = ('/usr/src/app/client/data/anon_dataset.csv')
   const array = []
 
   // Parsing the data by semi-colon and creating an object of each line
   const parser = parse({delimiter: ';'}, (err, data) => {
+    console.log(data)
+    if (!data) return 
     data.forEach(credit => {
       let newCourse = {
       studentId : credit[0],
