@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Datahandler from './Datahandler'
+import DataService from 'Components/dataService'
 
 const ToggleGraph = () => {
   const [graphToShow, setGraphToShow] = useState(true)
@@ -8,7 +9,7 @@ const ToggleGraph = () => {
   return (
     <>
       {graphToShow ? 
-        <Datahandler year={selectedYear} startCourse={selectedCourse} /> :
+        <DataService /> :
         <Datahandler year={2018} startCourse="Ohjelmoinnin perusteet" />
       }
       <div className="toggle-container">

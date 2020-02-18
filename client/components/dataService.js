@@ -13,7 +13,7 @@ function httpGet() {
   return xmlHttp.responseText;
 }
 
-const Data = () => { //Getting the data from backend
+const Data = () => {                 //Getting the data from backend
   let paths = JSON.parse(httpGet())
   console.log(paths.length)
   return (
