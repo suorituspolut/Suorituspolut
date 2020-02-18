@@ -14,7 +14,7 @@ const toPeriod = (date) => {
     period = 1
   } else if ((month === 12 || month === 1) || (month === 11 && day >= 18) || (month === 2 && day <= 9)) {
     period = 2
-  } else if ((month > 2 && month < 4) || (month === 2 && day >= 2) || (month === 4 && day <= 5)) {
+  } else if ((month > 2 && month < 4) || (month === 2 && day >= 20) || (month === 4 && day <= 5)) {
     period = 3
   } else if ((month === 4 && day >= 6) || month === 5) {
     period = 4
@@ -77,6 +77,7 @@ const addWeights = (arrayOfCredits) => {
 
 const highChartsObjects = (data, startingCourse) => {
 
+
   let highChartsArrays = []
 
   for (let i = 0; i < data.length; i++) {
@@ -102,6 +103,7 @@ const highChartsObjects = (data, startingCourse) => {
 
 
 const studentPaths = (data, year, startCourse) => {
+  data.shift()
   const stNumbers = [...new Set(data.map(x => x.studentId))]
   const students = []
   let courses = []
@@ -116,7 +118,6 @@ const studentPaths = (data, year, startCourse) => {
       courses.sort()
       student.courses = courses
       students.push(student)
-
       courses = []
 
       courses.push({
