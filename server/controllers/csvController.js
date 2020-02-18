@@ -1,5 +1,5 @@
 //var dataset = require('@root/client/data/anon_dataset.csv')
-//const { ApplicationError } = require('@util/customErrors')
+const { ApplicationError } = require('@util/customErrors')
 const { studentPaths } = require('@root/server/datahandling/dataHandler')
 const parse = require('csv-parse')
 const fs = require('fs')

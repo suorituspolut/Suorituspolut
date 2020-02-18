@@ -6,8 +6,9 @@ require('express-async-errors')
 
 const { PORT, inProduction } = require('@util/common')
 const logger = require('@util/logger')
-
+const cors = require('cors')
 const app = express()
+app.use(cors())
 
 // Require is here so we can delete it from cache when files change (*)
 app.use('/api', (req, res, next) => require('@root/server')(req, res, next)) // eslint-disable-line
