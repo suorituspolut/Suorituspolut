@@ -80,11 +80,18 @@ const addWeights = (arrayOfCredits, startingCourse) => {
 const byWeights = (array1, array2) => array2[2]-array1[2]
 
 const filterByWeights = (weightedArray, startingCourse) => {
-  
-  const biggestCourses = weightedArray.filter(array => weightedArray.indexOf(array) < 7)
-  const others = weightedArray.filter(array => weightedArray.indexOf(array) >= 7)
-  const totalWeightsOfOthers = others.reduce((totalWeight, otherCourse) => totalWeight[2] + otherCourse[2])
-  const arrayWithOthers = [...biggestCourses, [startingCourse, "Muut", totalWeightsOfOthers]]  
+
+  //separating the biggest courses from the small courses 
+  let arrayWithOthers = weightedArray.filter(array => weightedArray.indexOf(array) < 9)
+  const others = weightedArray.filter(array => weightedArray.indexOf(array) >= 9)
+
+  //counting together the weights of smaller courses
+  if (weightedArray.length >= 7) {
+    const totalWeightsOfOthers = others.reduce((sum, course) => {
+      return sum + course[2]
+    }, 0)
+    arrayWithOthers = [...arrayWithOthers, [startingCourse, "Muut", totalWeightsOfOthers]] 
+  }
   return arrayWithOthers
 }
 

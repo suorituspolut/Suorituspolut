@@ -5,6 +5,7 @@ import Highcharts from 'highcharts'
 import ToggleGraph from './ToggleGraph'
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
+require("highcharts/modules/boost")(Highcharts)
 
 const Graph = ({ data }) => {
 
