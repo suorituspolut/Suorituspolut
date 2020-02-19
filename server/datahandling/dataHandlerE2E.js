@@ -95,7 +95,7 @@ const filterByWeights = (weightedArray, startCourse) => {
   return arrayWithOthers
 }
 
-const highChartsObjects = (data, startCourse, endCourse, origStartCourse) => {
+const highChartsObjects = (data, startCourse, endCourse, origStartCourse, howMany) => {
 
   let highChartsArrays = []
 
@@ -103,11 +103,15 @@ const highChartsObjects = (data, startCourse, endCourse, origStartCourse) => {
     let isOrigCourse = false
     let isStartCourse = false
     let periodOfStartCourse = 0
+    let periodOfOrigStartCourse = 0
     let isEndCourse = false
+    let orig = null
+    let startCourse = null
 
     for (let j = 0; j < data[i].courses.length; j++) {
       if (data[i].courses[j].course === startCourse) {
         isStartCourse = true
+        startCourse = data[i].courses[j]
         periodOfStartCourse = toPeriod(data[i].courses[j].date)
       }
       if (data[i].courses[j].course === endCourse) {
@@ -115,13 +119,19 @@ const highChartsObjects = (data, startCourse, endCourse, origStartCourse) => {
       }
       if (data[i].courses[j].course === origStartCourse) {
         isOrigCourse = true
+        orig = data[i].courses[j]
+        periodOfOrigStartCourse = toPeriod(data[i].courses[j].date)
       }
     }
 
     if (isStartCourse && isEndCourse && isOrigCourse) {
-      const nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
-      nextCourses.forEach(credit => highChartsArrays = [...highChartsArrays, [startCourse, credit.course, 1]])
+      let nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
+      console.log(nextCourses)
+      nextCourses = nextCourses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(nextPeriodOf((orig.date)))))
+      console.log(nextCourses)
+      nextCourses.forEach(credit => [...highChartsArrays, [startCourse, credit.course, 1]])
     }
+
     isStartCourse = false
     isEndCourse = false
   }
@@ -174,13 +184,11 @@ const studentPathsE2E = (data, year, origStartCourse, endCourse ) => {
       students.push(student)
     }
   }
-  let highChartsArrays = highChartsObjects(students, origStartCourse, endCourse, origStartCourse)
+  let highChartsArrays = highChartsObjects(students, origStartCourse, endCourse, origStartCourse, 1)
   const nextCourses = highChartsArrays.map(array => array[1])
-  console.log(nextCourses)
   nextCourses.forEach(course => {
     if (course !== endCourse && course !== "Muut") {
-      newobjects = highChartsObjects(students, course, endCourse, origStartCourse)
-      console.log(newobjects)
+      newobjects = highChartsObjects(students, course, endCourse, origStartCourse, 2)
       for (let j = 0; j < newobjects.length; j++) {
         highChartsArrays = [...highChartsArrays, newobjects[j]]
       }

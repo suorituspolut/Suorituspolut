@@ -5,6 +5,7 @@ const router = Router()
 
 router.get('/', (req, res) => res.send('welcome to root'))
 router.get('/data', data.getAll)
+router.get('/courses', data.getCourses)
 router.get('/datahandler', data.test)
 
 module.exports = router
