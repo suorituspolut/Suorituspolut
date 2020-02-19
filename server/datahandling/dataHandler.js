@@ -50,7 +50,7 @@ const isSamePeriod = (period1, period2) => {
   return false
 }
 
-const addWeights = (arrayOfCredits) => {
+const addWeights = (arrayOfCredits, startingCourse) => {
   
   const courseSet = new Map()
   let weightedArray = []
@@ -72,7 +72,20 @@ const addWeights = (arrayOfCredits) => {
     weightedArray = [...weightedArray, [coursepair[0], coursepair[1], weight]]
   }
   
-  return weightedArray
+  // sorting the array of courses by weights
+  weightedArray.sort(byWeights)
+  return filterByWeights(weightedArray, startingCourse)
+}
+
+const byWeights = (array1, array2) => array2[2]-array1[2]
+
+const filterByWeights = (weightedArray, startingCourse) => {
+  
+  const biggestCourses = weightedArray.filter(array => weightedArray.indexOf(array) < 7)
+  const others = weightedArray.filter(array => weightedArray.indexOf(array) >= 7)
+  const totalWeightsOfOthers = others.reduce((totalWeight, otherCourse) => totalWeight[2] + otherCourse[2])
+  const arrayWithOthers = [...biggestCourses, [startingCourse, "Muut", totalWeightsOfOthers]]  
+  return arrayWithOthers
 }
 
 const highChartsObjects = (data, startingCourse) => {
@@ -98,7 +111,7 @@ const highChartsObjects = (data, startingCourse) => {
     isStartingCourse = false
   }
 
-  return addWeights(highChartsArrays)
+  return addWeights(highChartsArrays, startingCourse)
 }
 
 
