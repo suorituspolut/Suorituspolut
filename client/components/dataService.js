@@ -12,7 +12,7 @@ const getGraphData = (type, year, course) => {
 
   let urlEnd = type
 
-  if(type === 'normal') {
+  if(type === 'normal' || type === 'E2E') {
     urlEnd = `${type}/${year}/${course}`
   }
 

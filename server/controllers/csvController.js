@@ -41,8 +41,18 @@ const getAllNormal = async (req, res) => {
 }
 
 const getAllE2E = async (req, res) => {
+
   const file = (process.cwd() + '/server/data/anon_dataset.csv')
   const array = []
+  let year = 2017
+  let course = "Ohjelmoinnin perusteet"
+  let type = "normal"
+
+  if (req.params.year !== null) {
+    year = Number(req.params.year)
+    course = req.params.course
+    type = req.params.type
+  }
 
   const parser = parse({delimiter: ';'}, (err, data) => {
     data.forEach(credit => {
@@ -57,7 +67,7 @@ const getAllE2E = async (req, res) => {
     array.push(newCourse)
     })
 
-    res.send(studentPathsE2E(array, 2016, "Ohjelmoinnin perusteet", "Tietokantojen perusteet"))
+    res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet"))
   })
   await fs.createReadStream(file).pipe(parser)
 }
