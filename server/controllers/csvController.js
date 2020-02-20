@@ -16,10 +16,8 @@ const getAllNormal = async (req, res) => {
   if (req.params.year !== null) {
     year = Number(req.params.year)
     course = req.params.course
-    type = req.params.normal
+    type = req.params.type
   }
-
-  console.log(year, course)
 
   const parser = parse({delimiter: ';'}, (err, data) => {
     data.forEach(credit => {
@@ -39,7 +37,6 @@ const getAllNormal = async (req, res) => {
       res.send(studentPaths(array, year, course))      
     }
   })
-
   await fs.createReadStream(file).pipe(parser)
 }
 
