@@ -1,10 +1,10 @@
 import React from 'react'
-import { Label, Select } from 'semantic-ui-react'
+import { Label, Dropdown } from 'semantic-ui-react'
 
-const Filter = ({ label, placeholder, options, handleChange }) => (
+const Filter = ({ label, placeholder, options, handleChange, value }) => (
   <td>
     <Label>{label}</Label>
-    <Select onChange={handleChange} placeholder={placeholder} options={options} />
+    <Dropdown fluid search selection onChange={handleChange} value={value} placeholder={placeholder} options={options} />
   </td>
 )
 

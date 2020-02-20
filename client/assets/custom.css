@@ -2,6 +2,7 @@
 @import 'containers.css';
 @import 'colors.css';
 
+
 .navbar {
   height: 5em;
   background-color: whitesmoke;
@@ -22,4 +23,6 @@
   position: fixed;
   bottom: 0;
 }
+
+
 

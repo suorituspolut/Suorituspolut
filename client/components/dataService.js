@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Highcharts from 'highcharts'
+import { Button } from 'semantic-ui-react'
 import { createNumberOptions, createTextOptions } from '../util/units'
 import Graph from './Graph'
 import Filter from './Filter'
@@ -30,23 +31,43 @@ const Data = () => { //Getting the data from backend
   const e2ePaths = JSON.parse(getGraphData("normal"))
   const courses = JSON.parse(getCourseData())
 
-  const handleYearChange = (event) => {
-    setSelectedYear(event.target.value)
+  const handleYearChange = (e, { value }) => {
+    setSelectedYear(value)
   }
 
-  const handleCourseChange = (event) => {
-    setSelectedCourse(event.target.value)
+  const handleCourseChange = (e, { value }) => {
+    setSelectedCourse(value)
+  }
+
+  const handleSearch = () => {
+    // perform a new getGraphData-call here, using the selectedYear and selectedCourse
   }
 
 
   return (
     <div>
-      <table className="ui celled table">
+      <table className="ui table">
         <tbody>
-          <trow>
-            <Filter label="Year" handleChange={handleYearChange} options={createNumberOptions(2013, 2020).reverse()} placeholder="2019" />
-            <Filter label="Starting course" handleChange={handleCourseChange} options={createTextOptions(courses)} placeholder="Starting course"/>
-          </trow>
+          <tr>
+            <Filter
+              label="Year"
+              handleChange={handleYearChange}
+              value={selectedYear}
+              options={createNumberOptions(2013, 2020).reverse()}
+              placeholder="2019"
+            />
+            <Filter
+              label="Starting course"
+              handleChange={handleCourseChange}
+              value={selectedCourse}
+              options={createTextOptions(courses)}
+              placeholder="Starting course"
+            />
+            <td>
+              <p>   </p>
+              <Button onSubmit={handleSearch} className="blue">Update graph</Button>
+            </td>
+          </tr>
         </tbody>
       </table>
 
