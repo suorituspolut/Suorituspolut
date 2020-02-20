@@ -54,8 +54,6 @@ const Data = () => { //Getting the data from backend
   const handleSearch = () => {
     setE2ePaths(JSON.parse(getGraphData("normal", selectedYear, selectedCourse)))
     setNormalPaths(JSON.parse(getGraphData("E2E", selectedYear, selectedCourse)))
-    console.log(selectedCourse)
-    console.log(selectedYear)
   }
 
 
