@@ -14,7 +14,7 @@ const getAllNormal = async (req, res) => {
 
 
   if(req.params.year !== null) {
-    year = req.params.year
+    year = Number(req.params.year)
     course = req.params.course
   }
 

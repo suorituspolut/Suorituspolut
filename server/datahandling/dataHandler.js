@@ -121,7 +121,6 @@ const highChartsObjects = (data, startingCourse) => {
 
 
 const studentPaths = (data, year, startCourse) => {
-  console.log(year, startCourse)
 
   data.shift()
   const stNumbers = [...new Set(data.map(x => x.studentId))]
