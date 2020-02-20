@@ -1,5 +1,3 @@
-
-
 const dataByYear = (data, year) => {
   return data.filter(credit => credit.date.getFullYear() === year)
 }

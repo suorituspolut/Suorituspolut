@@ -2,7 +2,6 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import ToggleGraph from './ToggleGraph'
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
@@ -58,11 +57,6 @@ const Graph = ({ data }) => {
       turboThreshold: 4000,
       data: data ? data : [
         ['Ohjelmoinnin perusteet', 'Ohjelmoinnin jatkokurssi', 70],
-        ['Ohjelmoinnin jatkokurssi', 'Tietorakenteet ja algoritmit', 30],
-        ['Ohjelmoinnin perusteet', 'Tietokoneen toiminta', 5],
-        ['Ohjelmoinnin perusteet', 'Muut', 15],
-        ['Ohjelmoinnin perusteet', 'Johdatus yliopistomatematiikkaan', 10],
-        ['Ohjelmoinnin perusteet', 'Tietorakenteet ja algoritmit', 20],
       ],
       type: 'sankey',
       name: 'Suoritusten määrä',

@@ -2,6 +2,7 @@
 @import 'containers.css';
 @import 'colors.css';
 
+
 .navbar {
   height: 5em;
   background-color: whitesmoke;
@@ -15,11 +16,15 @@
 }
 
 .footer {
-  height: 3.5em;
+  height: 3em;
   text-align: center;
   vertical-align: bottom;
   width: 100%;
   position: fixed;
   bottom: 0;
+  background-color: white;
+  overflow: hidden;
 }
+
+
 
