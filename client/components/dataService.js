@@ -1,33 +1,41 @@
 import React, { useState } from 'react'
-import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import dataService from 'Components/dataService'
 import Graph from './Graph'
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 
-function httpGet() {
+const httpGet = (type) => {
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", "http://localhost:8000/api/data", false );  //Making the get request
+  xmlHttp.open( "GET", `http://localhost:8000/api/data/${type}`, false ); 
   xmlHttp.send( null );
+  console.log(type)
   return xmlHttp.responseText;
 }
 
 const Data = () => { //Getting the data from backend
-  let paths = JSON.parse(httpGet())
-  console.log(paths.length)
+  const [graphToShow, setGraphToShow] = useState(true)
+  const [selectedCourse, setSelectedCourse] = useState("Ohjelmoinnin perusteet")
+  const [selectedYear, setSelectedYear] = useState(2017)
+  
+  let normalPaths = JSON.parse(httpGet("E2E"))
+  let e2ePaths = JSON.parse(httpGet("normal"))
+  console.log(normalPaths)
+  console.log(e2ePaths)
+
   return (
     <div>
-   
-      <Graph data={paths}/>
-      
+      {graphToShow ? 
+        <Graph data={e2ePaths} /> :
+        <Graph data={normalPaths} />
+      }
+      <div className="toggle-container">
+        <div className="ui buttons">
+          <button type="submit" onClick={() => setGraphToShow(true)} className="ui button">Kurssi kerrallaan</button>
+          <button type="submit" onClick={() => setGraphToShow(false)} className="ui blue button">Polut kurssien välillä</button>
+        </div>
       </div>
+    </div>
   )
 }
 
-
-export default () => (
-  <>
-  <Data />
-  </>
-)
+export default Data

@@ -80,16 +80,16 @@ const addWeights = (arrayOfCredits) => {
 const byWeights = (array1, array2) => array2[2]-array1[2]
 
 const filterByWeights = (weightedArray, startCourse) => {
-
   //separating the biggest courses from the small courses 
-  let arrayWithOthers = weightedArray.filter(array => weightedArray.indexOf(array) < 7)
-  const others = weightedArray.filter(array => weightedArray.indexOf(array) >= 7)
+  let arrayWithOthers = weightedArray.filter(array => weightedArray.indexOf(array) < 6)
+  const others = weightedArray.filter(array => weightedArray.indexOf(array) >= 6)
 
   //counting together the weights of smaller courses
   if (weightedArray.length >= 7) {
     const totalWeightsOfOthers = others.reduce((sum, course) => {
       return sum + course[2]
     }, 0)
+    if (!startCourse.includes("Muut"))
     arrayWithOthers = [...arrayWithOthers, [startCourse, "Muut", totalWeightsOfOthers]] 
   }
   return arrayWithOthers
@@ -98,7 +98,6 @@ const filterByWeights = (weightedArray, startCourse) => {
 const highChartsObjects = (data, startCourse, endCourse, origStartCourse, listOfCourses) => {
 
   let highChartsArrays = []
-  console.log(origStartCourse)
   for (let i = 0; i < data.length; i++) {
     let isOrigCourse = false
     let isStartCourse = false
@@ -118,10 +117,10 @@ const highChartsObjects = (data, startCourse, endCourse, origStartCourse, listOf
       }
     }
 
-    if (isStartCourse && isOrigCourse) {
+    if (isStartCourse && isOrigCourse && isEndCourse) {
       const nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
       nextCourses.forEach((credit) => {
-        if (listOfCourses.includes(credit.course)) {
+        if (listOfCourses.includes(credit.course) ) {
           highChartsArrays = [...highChartsArrays, [startCourse, credit.course+"1", 1]]
         } else {
           highChartsArrays = [...highChartsArrays, [startCourse, credit.course, 1]]
@@ -187,10 +186,13 @@ const studentPathsE2E = (data, year, origStartCourse, endCourse) => {
   let highChartsArrays = highChartsObjects(students, startCourse, endCourse, origStartCourse, [startCourse])
   highChartsArrays = filterByWeights(highChartsArrays, startCourse)
   const nextCourses = highChartsArrays.map(array => array[1])
+  
   for (let i = 0; i < nextCourses.length; i++) {
     let secondPeriod = highChartsObjects(students, nextCourses[i], endCourse, origStartCourse, [...nextCourses, "Muut"])
-    secondPeriod = filterByWeights(secondPeriod, startCourse)
+    secondPeriod = filterByWeights(secondPeriod, nextCourses)
+    
     for (let j = 0; j < secondPeriod.length; j++) {
+      
       highChartsArrays = [...highChartsArrays, secondPeriod[j]]
     }
   }
