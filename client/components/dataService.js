@@ -3,7 +3,6 @@ import Highcharts from 'highcharts'
 import { Button } from 'semantic-ui-react'
 import { createNumberOptions, createTextOptions } from '../util/units'
 import Graph from './Graph'
-import Courselist from './Courselist'
 import Filter from './Filter'
 
 require("highcharts/modules/sankey")(Highcharts)
