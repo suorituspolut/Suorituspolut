@@ -3,6 +3,7 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import dataService from 'Components/dataService'
 import Graph from './Graph'
+import Courselist from './Courselist'
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 
@@ -18,10 +19,9 @@ const Data = () => { //Getting the data from backend
   console.log(paths.length)
   return (
     <div>
-   
-      <Graph data={paths}/>
-      
-      </div>
+      <Courselist />
+      <Graph data={paths}/>     
+    </div>
   )
 }
 
