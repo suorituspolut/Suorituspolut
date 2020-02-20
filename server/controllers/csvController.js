@@ -1,19 +1,25 @@
-//var dataset = require('@root/client/data/anon_dataset.csv')
-const { ApplicationError } = require('@util/customErrors')
+//const { ApplicationError } = require('@util/customErrors')
+const { listOfCourses } = require('@root/server/datahandling/courses')
+const { studentPathsE2E } = require('@root/server/datahandling/dataHandlerE2E')
 const { studentPaths } = require('@root/server/datahandling/dataHandler')
 const parse = require('csv-parse')
 const fs = require('fs')
 
-const getAll = async (req, res) => {
-  // Getting the correct file from backend. 
-  const file = (process.cwd() + '/data/anon_dataset.csv')
-  console.log(file)
-  //const file = ('/usr/src/app/client/data/anon_dataset.csv')
-  const array = []
+const getAllNormal = async (req, res) => {
 
-  // Parsing the data by semi-colon and creating an object of each line
+  const file = (process.cwd() + '/data/anon_dataset.csv')
+  const array = []
+  let year = 2017
+  let course = "Ohjelmoinnin perusteet"
+  let type = "normal"
+
+  if (req.params.year !== null) {
+    year = Number(req.params.year)
+    course = req.params.course
+    type = req.params.type
+  }
+
   const parser = parse({delimiter: ';'}, (err, data) => {
-    console.log(data)
     if (!data) return 
     data.forEach(credit => {
       let newCourse = {
@@ -26,21 +32,78 @@ const getAll = async (req, res) => {
       }
     array.push(newCourse)
     })
-    // Finally sending the correct highchart-objects as a response.
-    // Defining the year, start course and ending course could be eg. done as a parameters for a post- or a get-request 
-    res.send(studentPaths(array, 2018, "Ohjelmoinnin perusteet"))
+    if (type === "E2E") {
+      res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet"))
+    } else {
+      res.send(studentPaths(array, year, course))      
+    }
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
+const getAllE2E = async (req, res) => {
+
+  const file = (process.cwd() + '/data/anon_dataset.csv')
+  const array = []
+  let year = 2017
+  let course = "Ohjelmoinnin perusteet"
+  let type = "normal"
+
+  if (req.params.year !== null) {
+    year = Number(req.params.year)
+    course = req.params.course
+    type = req.params.type
+  }
+
+  const parser = parse({delimiter: ';'}, (err, data) => {
+    data.forEach(credit => {
+      let newCourse = {
+      studentId : credit[0],
+      courseId: credit[1],
+      course: credit[2],
+      isModule: credit[3],
+      date: new Date(credit[4]),
+      grade: credit[5],  
+      }
+    array.push(newCourse)
+    })
+
+    res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet"))
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
+
+const getCourses = async (req, res) => {
+  const file = (process.cwd() + '/data/anon_dataset.csv')
+  const array = []
+
+  const parser = parse({delimiter: ';'}, (err, data) => {
+    data.forEach(credit => {
+      let newCourse = {
+      studentId : credit[0],
+      courseId: credit[1],
+      course: credit[2],
+      isModule: credit[3],
+      date: new Date(credit[4]),
+      grade: credit[5],  
+      }
+    array.push(newCourse)
+    })
+
+    res.send(listOfCourses(array))
   })
 
-  // Creating a stream of data in the file, and piping it with the given parser
   await fs.createReadStream(file).pipe(parser)
 }
 
 const test = async (req, res) => {
-  console.log(datahandler)
   res.send(datahandler)
 }
 
 module.exports = {
-  getAll,
+  getAllNormal,
+  getAllE2E,
+  getCourses,
   test,
 }

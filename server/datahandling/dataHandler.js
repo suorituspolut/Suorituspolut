@@ -1,27 +1,100 @@
-
-
 const dataByYear = (data, year) => {
   return data.filter(credit => credit.date.getFullYear() === year)
 }
 
 const toPeriod = (date) => {
   let period = 0
+  const day = date.getDate()
   const month = date.getMonth() + 1
+  let year = date.getFullYear()
 
-  if (month >= 11 && month <= 12) {
+  if ((month > 9 && month < 11) || (month === 9 && day >= 23) || (month === 11 && day <= 17)) {
     period = 1
-  } else if (month >= 1 && month <= 3) {
+  } else if ((month === 12 || month === 1) || (month === 11 && day >= 18) || (month === 2 && day <= 9)) {
     period = 2
-  } else if (month >= 4 && month <= 5) {
+  } else if ((month > 2 && month < 4) || (month === 2 && day >= 20) || (month === 4 && day <= 5)) {
     period = 3
-  } else {
+  } else if ((month === 4 && day >= 6) || month === 5) {
     period = 4
+  } else {
+    period = 5
   }
 
-  return period
+  if (period === 2 && month <= 2) {
+    year -= 1
+  }
+
+  return { period, year }
+}
+
+const nextPeriodOf = (period) => {
+  const nextPeriod = { period: period.period, year: period.year }
+
+  if (period.period === 5) {
+    nextPeriod.period = 1
+  } else if (period.period === 2) {
+    nextPeriod.period = 3
+    nextPeriod.year += 1
+  } else {
+    nextPeriod.period += 1
+  }
+
+  return nextPeriod
+}
+
+const isSamePeriod = (period1, period2) => {
+  if (period1.year !== period2.year) return false
+  if (period1.period === period2.period) return true
+  return false
+}
+
+const addWeights = (arrayOfCredits, startingCourse) => {
+  
+  const courseSet = new Map()
+  let weightedArray = []
+
+  for (let i = 0; i < arrayOfCredits.length; i++) {
+    const startCourse = arrayOfCredits[i][0]
+    const finishCourse = arrayOfCredits[i][1]
+    const coursepair = `${startCourse}>${finishCourse}`
+    if (!courseSet.has(coursepair)) {
+      courseSet.set(coursepair, 1)
+    } else {
+      const weight = courseSet.get(coursepair) + 1
+      courseSet.set(coursepair, weight)
+    }
+  }
+
+  for (let [courses, weight] of courseSet.entries()) {
+    const coursepair = courses.split('>')
+    weightedArray = [...weightedArray, [coursepair[0], coursepair[1], weight]]
+  }
+  
+  // sorting the array of courses by weights
+  weightedArray.sort(byWeights)
+  return filterByWeights(weightedArray, startingCourse)
+}
+
+const byWeights = (array1, array2) => array2[2]-array1[2]
+
+const filterByWeights = (weightedArray, startingCourse) => {
+
+  //separating the biggest courses from the small courses 
+  let arrayWithOthers = weightedArray.filter(array => weightedArray.indexOf(array) < 9)
+  const others = weightedArray.filter(array => weightedArray.indexOf(array) >= 9)
+
+  //counting together the weights of smaller courses
+  if (weightedArray.length >= 7) {
+    const totalWeightsOfOthers = others.reduce((sum, course) => {
+      return sum + course[2]
+    }, 0)
+    arrayWithOthers = [...arrayWithOthers, [startingCourse, "Muut", totalWeightsOfOthers]] 
+  }
+  return arrayWithOthers
 }
 
 const highChartsObjects = (data, startingCourse) => {
+
 
   let highChartsArrays = []
 
@@ -32,21 +105,24 @@ const highChartsObjects = (data, startingCourse) => {
     for (let j = 0; j < data[i].courses.length; j++) {
       if (data[i].courses[j].course === startingCourse) {
         isStartingCourse = true
-        periodOfStartingCourse = data[i].courses[j].period
+        periodOfStartingCourse = toPeriod(data[i].courses[j].date)
       }
     }
 
     if (isStartingCourse) {
-      const nextCourses = data[i].courses.filter(credit => credit.period === (periodOfStartingCourse + 1))
+      const nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartingCourse)))
       nextCourses.forEach(credit => highChartsArrays = [...highChartsArrays, [startingCourse, credit.course, 1]])
     }
     isStartingCourse = false
   }
 
-  return highChartsArrays
+  return addWeights(highChartsArrays, startingCourse)
 }
 
+
 const studentPaths = (data, year, startCourse) => {
+
+  data.shift()
   const stNumbers = [...new Set(data.map(x => x.studentId))]
   const students = []
   let courses = []
@@ -61,7 +137,6 @@ const studentPaths = (data, year, startCourse) => {
       courses.sort()
       student.courses = courses
       students.push(student)
-
       courses = []
 
       courses.push({
