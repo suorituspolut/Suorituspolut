@@ -181,7 +181,8 @@ const highChartsObjects = (data, startCourse, endCourse, origStartCourse, listOf
       }
     }
 
-    if (isStartCourse && isOrigCourse && isEndCourse) {
+    //add here && endCourse, when that is being used
+    if (isStartCourse && isOrigCourse) {
       const nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
       nextCourses.forEach((credit) => {
         if (listOfCourses.includes(credit.course) ) {

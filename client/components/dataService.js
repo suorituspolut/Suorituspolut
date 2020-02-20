@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Highcharts from 'highcharts'
 import { Button } from 'semantic-ui-react'
 import { createNumberOptions, createTextOptions } from '../util/units'
@@ -33,9 +33,14 @@ const Data = () => { //Getting the data from backend
   const [graphToShow, setGraphToShow] = useState(true)
   const [selectedCourse, setSelectedCourse] = useState("Ohjelmoinnin perusteet")
   const [selectedYear, setSelectedYear] = useState(2017)
+  const [normalPaths, setNormalPaths] = useState([])
+  const [e2ePaths, setE2ePaths] = useState([])
+
+  useEffect(() => {
+    setNormalPaths(JSON.parse(getGraphData("E2E", selectedYear, selectedCourse)))
+    setE2ePaths(JSON.parse(getGraphData("normal", selectedYear, selectedCourse)))
+  }, [])
   
-  const normalPaths = JSON.parse(getGraphData("E2E", selectedYear, selectedCourse))
-  const e2ePaths = JSON.parse(getGraphData("normal", selectedYear, selectedCourse))
   const courses = JSON.parse(getCourseData())
 
   const handleYearChange = (e, { value }) => {
@@ -47,7 +52,10 @@ const Data = () => { //Getting the data from backend
   }
 
   const handleSearch = () => {
-    // perform a new getGraphData-call here, using the selectedYear and selectedCourse
+    setE2ePaths(JSON.parse(getGraphData("normal", selectedYear, selectedCourse)))
+    setNormalPaths(JSON.parse(getGraphData("E2E", selectedYear, selectedCourse)))
+    console.log(selectedCourse)
+    console.log(selectedYear)
   }
 
 
@@ -72,7 +80,7 @@ const Data = () => { //Getting the data from backend
             />
             <td>
               <p>   </p>
-              <Button onSubmit={handleSearch} className="blue">Päivitä</Button>
+              <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
             </td>
           </tr>
         </tbody>

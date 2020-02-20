@@ -11,11 +11,12 @@ const getAllNormal = async (req, res) => {
   const array = []
   let year = 2017
   let course = "Ohjelmoinnin perusteet"
+  let type = "normal"
 
-
-  if(req.params.year !== null) {
+  if (req.params.year !== null) {
     year = Number(req.params.year)
     course = req.params.course
+    type = req.params.normal
   }
 
   console.log(year, course)
@@ -32,8 +33,11 @@ const getAllNormal = async (req, res) => {
       }
     array.push(newCourse)
     })
-
-    res.send(studentPaths(array, year, course))
+    if (type === "E2E") {
+      res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet"))
+    } else {
+      res.send(studentPaths(array, year, course))      
+    }
   })
 
   await fs.createReadStream(file).pipe(parser)
