@@ -23,7 +23,7 @@ const getAllNormal = async (req, res) => {
     array.push(newCourse)
     })
 
-    res.send(studentPaths(array, 2018, "Ohjelmoinnin perusteet"))
+    res.send(studentPaths(array, 2016, "Ohjelmoinnin perusteet"))
   })
 
   await fs.createReadStream(file).pipe(parser)
@@ -46,7 +46,7 @@ const getAllE2E = async (req, res) => {
     array.push(newCourse)
     })
 
-    res.send(studentPathsE2E(array, 2018, "Ohjelmoinnin perusteet", "Tietokantojen perusteet"))
+    res.send(studentPathsE2E(array, 2016, "Ohjelmoinnin perusteet", "Tietokantojen perusteet"))
   })
   await fs.createReadStream(file).pipe(parser)
 }
