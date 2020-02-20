@@ -50,7 +50,7 @@ const isSamePeriod = (period1, period2) => {
   return false
 }
 
-const addWeights = (arrayOfCredits, startCourse) => {
+const addWeights = (arrayOfCredits) => {
 
   const courseSet = new Map()
   let weightedArray = []
@@ -74,7 +74,7 @@ const addWeights = (arrayOfCredits, startCourse) => {
   
   // sorting the array of courses by weights
   weightedArray.sort(byWeights)
-  return filterByWeights(weightedArray, startCourse)
+  return weightedArray
 }
 
 const byWeights = (array1, array2) => array2[2]-array1[2]
@@ -95,51 +95,50 @@ const filterByWeights = (weightedArray, startCourse) => {
   return arrayWithOthers
 }
 
-const highChartsObjects = (data, startCourse, endCourse, origStartCourse, howMany) => {
+const highChartsObjects = (data, startCourse, endCourse, origStartCourse, listOfCourses) => {
 
   let highChartsArrays = []
-
+  console.log(origStartCourse)
   for (let i = 0; i < data.length; i++) {
     let isOrigCourse = false
     let isStartCourse = false
-    let periodOfStartCourse = 0
-    let periodOfOrigStartCourse = 0
     let isEndCourse = false
-    let orig = null
-    let startCourse = null
+    let periodOfStartCourse = 0
 
     for (let j = 0; j < data[i].courses.length; j++) {
       if (data[i].courses[j].course === startCourse) {
         isStartCourse = true
-        startCourse = data[i].courses[j]
         periodOfStartCourse = toPeriod(data[i].courses[j].date)
       }
       if (data[i].courses[j].course === endCourse) {
         isEndCourse = true
       }
       if (data[i].courses[j].course === origStartCourse) {
-        isOrigCourse = true
-        orig = data[i].courses[j]
-        periodOfOrigStartCourse = toPeriod(data[i].courses[j].date)
+        isOrigCourse = true 
       }
     }
 
-    if (isStartCourse && isEndCourse && isOrigCourse) {
-      let nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
-      console.log(nextCourses)
-      nextCourses = nextCourses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(nextPeriodOf((orig.date)))))
-      console.log(nextCourses)
-      nextCourses.forEach(credit => [...highChartsArrays, [startCourse, credit.course, 1]])
+    if (isStartCourse && isOrigCourse) {
+      const nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
+      nextCourses.forEach((credit) => {
+        if (listOfCourses.includes(credit.course)) {
+          highChartsArrays = [...highChartsArrays, [startCourse, credit.course+"1", 1]]
+        } else {
+          highChartsArrays = [...highChartsArrays, [startCourse, credit.course, 1]]
+        }
+      }) 
+      isStartCourse = false
+      isEndCourse = false
+      isOrigCourse = false
     }
 
-    isStartCourse = false
-    isEndCourse = false
+
   }
-  return addWeights(highChartsArrays, startCourse)
+  return addWeights(highChartsArrays)
 }
 
 
-const studentPathsE2E = (data, year, origStartCourse, endCourse ) => {
+const studentPathsE2E = (data, year, origStartCourse, endCourse) => {
   data.shift()
   const stNumbers = [...new Set(data.map(x => x.studentId))]
   const students = []
@@ -147,7 +146,7 @@ const studentPathsE2E = (data, year, origStartCourse, endCourse ) => {
   let helper = stNumbers[0]
   let student = { studentNumber: stNumbers[0], courses: [] }
 
-  const dataOfYear = data
+  const dataOfYear = dataByYear(data, year)
 
   for (let i = 0; i < dataOfYear.length; i++) {
 
@@ -184,18 +183,21 @@ const studentPathsE2E = (data, year, origStartCourse, endCourse ) => {
       students.push(student)
     }
   }
-  let highChartsArrays = highChartsObjects(students, origStartCourse, endCourse, origStartCourse, 1)
+  const startCourse = origStartCourse
+  let highChartsArrays = highChartsObjects(students, startCourse, endCourse, origStartCourse, [startCourse])
+  highChartsArrays = filterByWeights(highChartsArrays, startCourse)
   const nextCourses = highChartsArrays.map(array => array[1])
-  nextCourses.forEach(course => {
-    if (course !== endCourse && course !== "Muut") {
-      newobjects = highChartsObjects(students, course, endCourse, origStartCourse, 2)
-      for (let j = 0; j < newobjects.length; j++) {
-        highChartsArrays = [...highChartsArrays, newobjects[j]]
-      }
+  for (let i = 0; i < nextCourses.length; i++) {
+    let secondPeriod = highChartsObjects(students, nextCourses[i], endCourse, origStartCourse, [...nextCourses, "Muut"])
+    secondPeriod = filterByWeights(secondPeriod, startCourse)
+    for (let j = 0; j < secondPeriod.length; j++) {
+      highChartsArrays = [...highChartsArrays, secondPeriod[j]]
     }
-  })
+  }
+
   return highChartsArrays
 }
+
 
 module.exports = {
   dataByYear,
