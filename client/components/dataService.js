@@ -8,9 +8,16 @@ import Filter from './Filter'
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 
-const getGraphData = (type) => {
+const getGraphData = (type, year, course) => {
+
+  let urlEnd = type
+
+  if(type === 'normal') {
+    urlEnd = `${type}/${year}/${course}`
+  }
+
   var xmlHttp = new XMLHttpRequest()
-  xmlHttp.open( "GET", `http://localhost:8000/api/data/${type}`, false ) 
+  xmlHttp.open( "GET", `http://localhost:8000/api/data/${urlEnd}`, false ) 
   xmlHttp.send( null )
   return xmlHttp.responseText
 }
@@ -27,8 +34,8 @@ const Data = () => { //Getting the data from backend
   const [selectedCourse, setSelectedCourse] = useState("Ohjelmoinnin perusteet")
   const [selectedYear, setSelectedYear] = useState(2017)
   
-  const normalPaths = JSON.parse(getGraphData("E2E"))
-  const e2ePaths = JSON.parse(getGraphData("normal"))
+  const normalPaths = JSON.parse(getGraphData("E2E", selectedYear, selectedCourse))
+  const e2ePaths = JSON.parse(getGraphData("normal", selectedYear, selectedCourse))
   const courses = JSON.parse(getCourseData())
 
   const handleYearChange = (e, { value }) => {

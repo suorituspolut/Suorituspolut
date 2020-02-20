@@ -9,6 +9,16 @@ const getAllNormal = async (req, res) => {
 
   const file = (process.cwd() + '/server/data/anon_dataset.csv')
   const array = []
+  let year = 2017
+  let course = "Ohjelmoinnin perusteet"
+
+
+  if(req.params.year !== null) {
+    year = req.params.year
+    course = req.params.course
+  }
+
+  console.log(year, course)
 
   const parser = parse({delimiter: ';'}, (err, data) => {
     data.forEach(credit => {
@@ -23,7 +33,7 @@ const getAllNormal = async (req, res) => {
     array.push(newCourse)
     })
 
-    res.send(studentPaths(array, 2016, "Ohjelmoinnin perusteet"))
+    res.send(studentPaths(array, year, course))
   })
 
   await fs.createReadStream(file).pipe(parser)
