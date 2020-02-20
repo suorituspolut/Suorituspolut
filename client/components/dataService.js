@@ -50,22 +50,22 @@ const Data = () => { //Getting the data from backend
         <tbody>
           <tr>
             <Filter
-              label="Year"
+              label="Suoritusvuosi"
               handleChange={handleYearChange}
               value={selectedYear}
               options={createNumberOptions(2013, 2020).reverse()}
               placeholder="2019"
             />
             <Filter
-              label="Starting course"
+              label="Aloituskurssi"
               handleChange={handleCourseChange}
               value={selectedCourse}
               options={createTextOptions(courses)}
-              placeholder="Starting course"
+              placeholder="Aloituskurssi"
             />
             <td>
               <p>   </p>
-              <Button onSubmit={handleSearch} className="blue">Update graph</Button>
+              <Button onSubmit={handleSearch} className="blue">Päivitä</Button>
             </td>
           </tr>
         </tbody>
