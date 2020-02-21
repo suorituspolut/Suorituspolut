@@ -62,10 +62,16 @@ const Data = () => {
     setE2ePaths(JSON.parse(getGraphData("E2E", selectedYear, selectedCourse, selectedGrade)))
   }
 
+  const handleNavigationSearch = (course) => {
+    setNormalPaths(JSON.parse(getGraphData("normal", selectedYear, course, selectedGrade)))
+    setE2ePaths(JSON.parse(getGraphData("E2E", selectedYear, course, selectedGrade)))
+  }
+
   const handleNavigation = () => {
     // this is still "one step behind" for some reason. Otherwise works
-    setSelectedCourse(event.point.id)
-    handleSearch()
+    const course = event.point.id
+    setSelectedCourse(course)
+    handleNavigationSearch(course)
   }
 
 

@@ -152,7 +152,7 @@ const studentPaths = (data, year, startCourse, grade) => {
         grade: dataOfYear[i].grade,
       })
       helper = dataOfYear[i].studentId
-      console.log(dataOfYear[i].grade)
+      //console.log(dataOfYear[i].grade)
       student = { studentNumber: dataOfYear[i].studentId, courses: [] }
     } else {
       courses.push({

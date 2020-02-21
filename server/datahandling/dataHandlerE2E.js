@@ -140,22 +140,17 @@ const filterByWeightsLater = (weightedArray, courses) => {
   let biggestCourses = courses.filter(course => courses.indexOf(course) <= 6)
   let smallerCourses = courses.filter(course => courses.indexOf(course) > 6)
   biggestCourses.forEach((course) => courseSet.set(course[0], course[1]))
-  //console.log(courseSet)
   let arrayWithOthers = []
   if (courses.length >= 7) {
     weightedArray.forEach((credit) => {
       
       if (courseSet.has(credit[1])) {
         arrayWithOthers = [...arrayWithOthers, [credit[0], credit[1], credit[2]]]
-        //console.log(credit[0])
-        //console.log(credit[1])
-        //console.log(credit[2])
       } else {
         arrayWithOthers = [...arrayWithOthers, [credit[0], "Muut ", credit[2]]]
       }
     })
   }
-  //console.log(arrayWithOthers)
   return arrayWithOthers
 }
 
