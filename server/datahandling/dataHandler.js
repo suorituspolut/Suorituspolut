@@ -1,180 +1,69 @@
-const dataByYear = (data, year) => {
-  return data.filter(credit => credit.date.getFullYear() === year)
-}
+const { checkGrade } = require('@root/server/datahandling/grades')
+const { toPeriod, isSamePeriod, nextPeriodOf } = require('@root/server/datahandling/periods')
+const { addWeights, separateOthersCategory } = require('@root/server/datahandling/weights')
 
-const toPeriod = (date) => {
-  let period = 0
-  const day = date.getDate()
-  const month = date.getMonth() + 1
-  let year = date.getFullYear()
-
-  if ((month > 9 && month < 11) || (month === 9 && day >= 23) || (month === 11 && day <= 17)) {
-    period = 1
-  } else if ((month === 12 || month === 1) || (month === 11 && day >= 18) || (month === 2 && day <= 9)) {
-    period = 2
-  } else if ((month > 2 && month < 4) || (month === 2 && day >= 20) || (month === 4 && day <= 5)) {
-    period = 3
-  } else if ((month === 4 && day >= 6) || month === 5) {
-    period = 4
-  } else {
-    period = 5
-  }
-
-  if (period === 2 && month <= 2) {
-    year -= 1
-  }
-
-  return { period, year }
-}
-
-const nextPeriodOf = (period) => {
-  const nextPeriod = { period: period.period, year: period.year }
-
-  if (period.period === 5) {
-    nextPeriod.period = 1
-  } else if (period.period === 2) {
-    nextPeriod.period = 3
-    nextPeriod.year += 1
-  } else {
-    nextPeriod.period += 1
-  }
-
-  return nextPeriod
-}
-
-const isSamePeriod = (period1, period2) => {
-  if (period1.year !== period2.year) return false
-  if (period1.period === period2.period) return true
-  return false
-}
-
-const addWeights = (arrayOfCredits, startingCourse) => {
-  
-  const courseSet = new Map()
-  let weightedArray = []
-
-  for (let i = 0; i < arrayOfCredits.length; i++) {
-    const startCourse = arrayOfCredits[i][0]
-    const finishCourse = arrayOfCredits[i][1]
-    const coursepair = `${startCourse}>${finishCourse}`
-    if (!courseSet.has(coursepair)) {
-      courseSet.set(coursepair, 1)
-    } else {
-      const weight = courseSet.get(coursepair) + 1
-      courseSet.set(coursepair, weight)
-    }
-  }
-
-  for (let [courses, weight] of courseSet.entries()) {
-    const coursepair = courses.split('>')
-    weightedArray = [...weightedArray, [coursepair[0], coursepair[1], weight]]
-  }
-  
-  // sorting the array of courses by weights
-  weightedArray.sort(byWeights)
-  return filterByWeights(weightedArray, startingCourse)
-}
-
-const byWeights = (array1, array2) => array2[2]-array1[2]
-
-const filterByWeights = (weightedArray, startingCourse) => {
-
-  //separating the biggest courses from the small courses 
-  let arrayWithOthers = weightedArray.filter(array => weightedArray.indexOf(array) < 9)
-  const others = weightedArray.filter(array => weightedArray.indexOf(array) >= 9)
-
-  //counting together the weights of smaller courses
-  if (weightedArray.length >= 7) {
-    const totalWeightsOfOthers = others.reduce((sum, course) => {
-      return sum + course[2]
-    }, 0)
-    arrayWithOthers = [...arrayWithOthers, [startingCourse, "Muut", totalWeightsOfOthers]] 
-  }
-  return arrayWithOthers
-}
-
-const highChartsObjects = (data, startingCourse) => {
-
-
-  let highChartsArrays = []
-
-  for (let i = 0; i < data.length; i++) {
-    let isStartingCourse = false
-    let periodOfStartingCourse = 0
-
-    for (let j = 0; j < data[i].courses.length; j++) {
-      if (data[i].courses[j].course === startingCourse) {
-        isStartingCourse = true
-        periodOfStartingCourse = toPeriod(data[i].courses[j].date)
-      }
-    }
-
-    if (isStartingCourse) {
-      const nextCourses = data[i].courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartingCourse)))
-      nextCourses.forEach(credit => highChartsArrays = [...highChartsArrays, [startingCourse, credit.course, 1]])
-    }
-    isStartingCourse = false
-  }
-
-  return addWeights(highChartsArrays, startingCourse)
-}
-
-const checkGrade = (wanted, actual) => {
-  if (wanted === "Läpäisseet" && actual !== "0" && actual !== "Hyl." && actual !== "Luop" && actual !== "Eisa") return true
-  if ((wanted === "Hylätyt" || wanted === "0") && (actual === "Hyl." || actual === "0")) return true
-  if (wanted !== actual) return false 
-  return true 
-}
-
+// What: ties it all together
+// Takes in: an array of course credits, start course, wanted year of the starting course and the wanted grade
 const studentPaths = (data, year, startCourse, grade) => {
+  const students = studentObjects(data)
+  const arrays = highChartsObjects(students, startCourse, year, grade)
+  const arraysWithSummedWeights = addWeights(arrays)
+  const arraysWithOtherCategory = separateOthersCategory(arraysWithSummedWeights, startCourse)
+  return arraysWithOtherCategory
+}
 
-  data.shift()
-  const stNumbers = [...new Set(data.map(x => x.studentId))]
+// What: creates an array of highchart-objects with a starting course, ending course in next period and a weight of 1
+// Takes in: an array of students with their corresponding courses, starting course, year of the starting course, and grade
+// Special: if year is null, returns data of all years, if grade is null, returns data of all grades
+const highChartsObjects = (data, startCourse, year, grade) => {
+  
+  let highChartsArrays = []
+  data.forEach((student) => {
+    let hasDoneStartCourse = false
+    let periodOfStartCourse = 0
+    student.courses.forEach((credit) => {
+      if (credit.course === startCourse 
+        && (!year || credit.date.getFullYear() === year)
+        && (!grade || checkGrade(grade, credit.grade))) {
+        hasDoneStartCourse = true
+        periodOfStartCourse = toPeriod(credit.date)
+      }
+    })
+
+    if (hasDoneStartCourse) {
+      const nextPeriodCourses = student.courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
+      nextPeriodCourses.forEach((credit) => {
+        highChartsArrays = [...highChartsArrays, [startCourse, credit.course, 1]]
+      })
+    }
+    hasDoneStartCourse = false
+  })
+  return highChartsArrays
+}
+
+// What: creates an array of student-objects with their corresponding courses in an array
+// Takes in: array of credits with studentIds, dates, courses, grades, module
+const studentObjects = (data) => {
   const students = []
   let courses = []
-  let helper = stNumbers[0]
-  let student = { studentNumber: stNumbers[0], courses: [] }
+  let helper = data[0].studentNumber
+  let student = { studentNumber: data[0].studentId, courses: [] }
 
-  const dataOfYear = dataByYear(data, year)
-
-  for (let i = 0; i < dataOfYear.length; i++) {
-
-    if (dataOfYear[i].studentId !== helper && checkGrade(grade, dataOfYear[i].grade)) {
-      courses.sort()
+  data.forEach((credit) => {
+    if (credit.studentId !== helper) {
       student.courses = courses
       students.push(student)
       courses = []
-      courses.push({
-        courseId: dataOfYear[i].courseId,
-        date: dataOfYear[i].date,
-        period: toPeriod(dataOfYear[i].date),
-        course: dataOfYear[i].course,
-        grade: dataOfYear[i].grade,
-      })
-      helper = dataOfYear[i].studentId
-      console.log(dataOfYear[i].grade)
-      student = { studentNumber: dataOfYear[i].studentId, courses: [] }
+      courses.push(credit)
+      helper = credit.studentId
+      student = { studentNumber: credit.studentId, courses: [] }
     } else {
-      courses.push({
-        courseId: dataOfYear[i].courseId,
-        date: dataOfYear[i].date,
-        period: toPeriod(dataOfYear[i].date),
-        course: dataOfYear[i].course,
-        grade: dataOfYear[i].grade,
-      })
+      courses.push(credit)
     }
-
-    if (i === dataOfYear.length - 1) {
-      courses.sort()
-
-      student.courses = courses
-      students.push(student)
-    }
-  }
-  return highChartsObjects(students, startCourse)
+  })
+  return students
 }
 
 module.exports = {
-  dataByYear,
   studentPaths,
 }
