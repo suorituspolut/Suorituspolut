@@ -2,6 +2,7 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
+
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
@@ -37,21 +38,6 @@ const Graph = ({ data }) => {
     title: {
       text: 'Suorituspolut',
     },
-    plotOptions: {
-      series: {
-          cursor: 'pointer',
-          point: {
-              events: {
-                  click: function (event) {
-                    if(!event.point.name.includes("highcharts")){
-                      alert(event.point.name)
-                      //TODO: this should update selectedCourse in ToggleGraph with event.point.name
-                    }
-                  }
-              }
-          }
-      }
-  },
     series: [{
       keys: ['from', 'to', 'weight'],
       turboThreshold: 4000,

@@ -4,8 +4,8 @@ const data = require('@controllers/csvController')
 const router = Router()
 
 router.get('/', (req, res) => res.send('welcome to root'))
-router.get('/data/normal/:year/:course', data.getAllNormal)
-router.get('/data/E2E/:year/:course', data.getAllE2E)
+router.get('/data/normal/:year/:course/:grade', data.getAllNormal)
+router.get('/data/E2E/:year/:course/:grade', data.getAllE2E)
 router.get('/courses', data.getCourses)
 router.get('/datahandler', data.test)
 

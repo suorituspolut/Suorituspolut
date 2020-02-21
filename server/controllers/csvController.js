@@ -12,11 +12,13 @@ const getAllNormal = async (req, res) => {
   let year = 2017
   let course = "Ohjelmoinnin perusteet"
   let type = "normal"
+  let grade = "Kaikki"
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
     course = req.params.course
     type = req.params.type
+    grade = req.params.grade
   }
 
   const parser = parse({delimiter: ';'}, (err, data) => {
@@ -32,9 +34,9 @@ const getAllNormal = async (req, res) => {
     array.push(newCourse)
     })
     if (type === "E2E") {
-      res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet"))
+      res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet", grade))
     } else {
-      res.send(studentPaths(array, year, course))      
+      res.send(studentPaths(array, year, course, grade))      
     }
   })
   await fs.createReadStream(file).pipe(parser)
@@ -47,11 +49,13 @@ const getAllE2E = async (req, res) => {
   let year = 2017
   let course = "Ohjelmoinnin perusteet"
   let type = "normal"
+  let grade = "Kaikki"
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
     course = req.params.course
     type = req.params.type
+    grade = req.params.grade
   }
 
   const parser = parse({delimiter: ';'}, (err, data) => {
@@ -67,7 +71,7 @@ const getAllE2E = async (req, res) => {
     array.push(newCourse)
     })
 
-    res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet"))
+    res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet", grade))
   })
   await fs.createReadStream(file).pipe(parser)
 }

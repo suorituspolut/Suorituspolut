@@ -119,8 +119,14 @@ const highChartsObjects = (data, startingCourse) => {
   return addWeights(highChartsArrays, startingCourse)
 }
 
+const checkGrade = (wanted, actual) => {
+  if (wanted === "Läpäisseet" && actual !== "0" && actual !== "Hyl." && actual !== "Luop" && actual !== "Eisa") return true
+  if ((wanted === "Hylätyt" || wanted === "0") && (actual === "Hyl." || actual === "0")) return true
+  if (wanted !== actual) return false 
+  return true 
+}
 
-const studentPaths = (data, year, startCourse) => {
+const studentPaths = (data, year, startCourse, grade) => {
 
   data.shift()
   const stNumbers = [...new Set(data.map(x => x.studentId))]
@@ -133,12 +139,11 @@ const studentPaths = (data, year, startCourse) => {
 
   for (let i = 0; i < dataOfYear.length; i++) {
 
-    if (dataOfYear[i].studentId !== helper) {
+    if (dataOfYear[i].studentId !== helper && checkGrade(grade, dataOfYear[i].grade)) {
       courses.sort()
       student.courses = courses
       students.push(student)
       courses = []
-
       courses.push({
         courseId: dataOfYear[i].courseId,
         date: dataOfYear[i].date,
@@ -147,7 +152,7 @@ const studentPaths = (data, year, startCourse) => {
         grade: dataOfYear[i].grade,
       })
       helper = dataOfYear[i].studentId
-
+      console.log(dataOfYear[i].grade)
       student = { studentNumber: dataOfYear[i].studentId, courses: [] }
     } else {
       courses.push({
