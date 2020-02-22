@@ -3,6 +3,7 @@ import Highcharts from 'highcharts'
 import { Button } from 'semantic-ui-react'
 import { createNumberOptions, createTextOptions, grades } from '../util/units'
 import Graph from './Graph'
+import GraphTestVenn from './GraphTestVenn'
 import NavGraph from './NavGraph'
 import Filter from './Filter'
 
@@ -31,7 +32,7 @@ const getCourseData = () => {
 }
 
 const Data = () => { 
-  const [graphToShow, setGraphToShow] = useState(true)
+  const [graphToShow, setGraphToShow] = useState(1)
   const [selectedCourse, setSelectedCourse] = useState("Ohjelmoinnin perusteet")
   const [selectedYear, setSelectedYear] = useState(2017)
   const [selectedGrade, setSelectedGrade] = useState("Läpäisseet")
@@ -108,14 +109,23 @@ const Data = () => {
         </tbody>
       </table>
 
-      {!graphToShow ? 
+      {graphToShow===0 ? 
         <Graph data={e2ePaths} /> :
-        <NavGraph data={normalPaths} onClick={handleNavigation}/>
+        <br></br>
+      }
+      {graphToShow===1 ? 
+        <NavGraph data={normalPaths} onClick={handleNavigation} /> :
+        <br></br>
+      }
+      {graphToShow===2 ? 
+        <GraphTestVenn data={normalPaths} onClick={handleNavigation} /> :
+        <br></br>
       }
       <div className="toggle-container">
         <div className="ui buttons">
-          <button type="submit" onClick={() => setGraphToShow(true)} className="ui button">Kurssi kerrallaan</button>
-          <button type="submit" onClick={() => setGraphToShow(false)} className="ui blue button">Polut kurssien välillä</button>
+          <button type="submit" onClick={() => setGraphToShow(1)} className="ui button">Kurssi kerrallaan</button>
+          <button type="submit" onClick={() => setGraphToShow(0)} className="ui blue button">Polut kurssien välillä</button>
+          <button type="submit" onClick={() => setGraphToShow(2)} className="ui brown button">Kurssivertailu</button>
         </div>
       </div>
     </div>
