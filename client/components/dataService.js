@@ -68,7 +68,6 @@ const Data = () => {
   }
 
   const handleNavigation = () => {
-    // this is still "one step behind" for some reason. Otherwise works
     const course = event.point.id
     setSelectedCourse(course)
     handleNavigationSearch(course)

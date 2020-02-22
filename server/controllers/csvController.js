@@ -1,7 +1,6 @@
 //const { ApplicationError } = require('@util/customErrors')
 const { listOfCourses } = require('@root/server/datahandling/courses')
-const { studentPathsE2E } = require('@root/server/datahandling/dataHandlerE2E')
-const { studentPaths } = require('@root/server/datahandling/dataHandler')
+const { studentPaths, studentPathsE2E } = require('@root/server/datahandling/dataHandler')
 const parse = require('csv-parse')
 const fs = require('fs')
 
@@ -34,7 +33,7 @@ const getAllNormal = async (req, res) => {
     array.push(newCourse)
     })
     if (type === "E2E") {
-      res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet", grade))
+      res.send(studentPathsE2E(array, year, course, grade))
     } else {
       res.send(studentPaths(array, year, course, grade))      
     }
@@ -71,7 +70,7 @@ const getAllE2E = async (req, res) => {
     array.push(newCourse)
     })
 
-    res.send(studentPathsE2E(array, year, course, "Tietokantojen perusteet", grade))
+    res.send(studentPathsE2E(array, year, course, grade))
   })
   await fs.createReadStream(file).pipe(parser)
 }

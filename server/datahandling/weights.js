@@ -29,10 +29,10 @@ const addWeights = (credits) => {
 const byWeights = (credit1, credit2) => credit2[2]-credit1[2]
 
 // What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
-// Takes in: an array of highchart-objects of a single period-level
-const separateOthersCategory = (weightedCredits, startingCourse) => {
-  let arrayWithOthers = weightedCredits.filter(array => weightedCredits.indexOf(array) < 9)
-  const others = weightedCredits.filter(array => weightedCredits.indexOf(array) >= 9)
+// Takes in: an array of highchart-objects of a single period-level, the orig. starting course, and amount of categories wanted in total
+const separateOthersCategory = (weightedCredits, startingCourse, amount) => {
+  let arrayWithOthers = weightedCredits.filter(array => weightedCredits.indexOf(array) < amount)
+  const others = weightedCredits.filter(array => weightedCredits.indexOf(array) >= amount)
 
   if (weightedCredits.length >= 7) {
     const totalWeightsOfOthers = others.reduce((sum, course) => {
@@ -43,7 +43,25 @@ const separateOthersCategory = (weightedCredits, startingCourse) => {
   return arrayWithOthers
 }
 
+// What: creates the "Other"-category for a second level courses
+// Takes in: an array of highcharts-objects of the second period, with the weights already summed up and an array of biggest courses for that level
+const separateOthersCategorySecond = (array, biggestCourses) => {
+  const highChartsArrays = []
+
+  array.forEach((credit) => {
+    if (biggestCourses.includes(credit[1])) {
+      highChartsArrays.push(credit)
+    } else {
+      highChartsArrays.push([credit[0], " Muut", credit[2]])
+    }
+  })
+
+  return highChartsArrays
+}
+
+
 module.exports = {
   separateOthersCategory,
+  separateOthersCategorySecond,
   addWeights,
 }
