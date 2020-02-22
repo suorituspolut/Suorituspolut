@@ -51,23 +51,28 @@ const studentPathsE2E = (data, year, startCourse, grade) => {
 // What: creates an array of student-objects with their corresponding courses in an array
 // Takes in: array of credits with studentIds, dates, courses, grades, module
 const studentObjects = (data) => {
-  const students = []
+  data.shift()
+  let students = []
   let courses = []
-  let helper = data[0].studentNumber
+  let helper = data[0].studentId
   let student = { studentNumber: data[0].studentId, courses: [] }
 
   data.forEach((credit) => {
     if (credit.studentId !== helper) {
       student.courses = courses
-      students.push(student)
+      students = [...students, student]
       courses = []
-      courses.push(credit)
+      courses = [...courses, credit]
       helper = credit.studentId
       student = { studentNumber: credit.studentId, courses: [] }
     } else {
-      courses.push(credit)
+      courses = [...courses, credit]
     }
   })
+
+  student.courses = courses
+  students = [...students, student]
+
   return students
 }
 
@@ -77,16 +82,21 @@ const studentObjects = (data) => {
 const highChartsObjects = (data, startCourse, year, grade) => {
 
   let highChartsArrays = []
+  //console.log('d: ', data)
   data.forEach((student) => {
     let hasDoneStartCourse = false
     let periodOfStartCourse = 0
+    //console.log(student.courses)
     student.courses.forEach((credit) => {
+      //console.log('c: ', credit.course)
+      //console.log('s: ', startCourse)
       if (credit.course === startCourse 
         && (!year || credit.date.getFullYear() === year)
         && (!grade || checkGrade(grade, credit.grade))) {
         hasDoneStartCourse = true
         periodOfStartCourse = toPeriod(credit.date)
       }
+      //console.log(hasDoneStartCourse)
     })
 
     if (hasDoneStartCourse) {

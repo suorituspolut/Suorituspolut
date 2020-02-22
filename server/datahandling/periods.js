@@ -1,6 +1,12 @@
 
 // What: Maps a date of a credit into a period-object, with a period number between 1-5 and the year 
 // Takes in: a date-object of the credit
+// boundaries at the moment (may need to be fixed later):
+// period 1: 23.9.-17.11.
+// period 2: 18.11.-19.2.
+// period 3: 20.2.-5.4.
+// period 4: 6.4.-31.5.
+// period 5: 1.6.-22.9.
 const toPeriod = (date) => {
   let period = 0
   const day = date.getDate()
@@ -9,7 +15,7 @@ const toPeriod = (date) => {
 
   if ((month > 9 && month < 11) || (month === 9 && day >= 23) || (month === 11 && day <= 17)) {
     period = 1
-  } else if ((month === 12 || month === 1) || (month === 11 && day >= 18) || (month === 2 && day <= 9)) {
+  } else if ((month === 12 || month === 1) || (month === 11 && day >= 18) || (month === 2 && day <= 19)) {
     period = 2
   } else if ((month > 2 && month < 4) || (month === 2 && day >= 20) || (month === 4 && day <= 5)) {
     period = 3
@@ -22,7 +28,6 @@ const toPeriod = (date) => {
   if (period === 2 && month <= 2) {
     year -= 1
   }
-
   return { period, year }
 }
 
@@ -39,7 +44,7 @@ const nextPeriodOf = (periodObject) => {
   } else {
     nextPeriod.period += 1
   }
-
+  
   return nextPeriod
 }
 

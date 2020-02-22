@@ -3,10 +3,10 @@ const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E } = require('@root/server/datahandling/dataHandler')
 const parse = require('csv-parse')
 const fs = require('fs')
+const file = (process.cwd() + '/server/data/anon_dataset.csv')
 
 const getAllNormal = async (req, res) => {
 
-  const file = (process.cwd() + '/server/data/anon_dataset.csv')
   const array = []
   let year = 2017
   let course = "Ohjelmoinnin perusteet"
@@ -19,6 +19,7 @@ const getAllNormal = async (req, res) => {
     type = req.params.type
     grade = req.params.grade
   }
+
 
   const parser = parse({delimiter: ';'}, (err, data) => {
     data.forEach(credit => {
@@ -43,7 +44,6 @@ const getAllNormal = async (req, res) => {
 
 const getAllE2E = async (req, res) => {
 
-  const file = (process.cwd() + '/server/data/anon_dataset.csv')
   const array = []
   let year = 2017
   let course = "Ohjelmoinnin perusteet"
@@ -77,7 +77,6 @@ const getAllE2E = async (req, res) => {
 
 
 const getCourses = async (req, res) => {
-  const file = (process.cwd() + '/server/data/anon_dataset.csv')
   const array = []
 
   const parser = parse({delimiter: ';'}, (err, data) => {
@@ -92,7 +91,6 @@ const getCourses = async (req, res) => {
       }
     array.push(newCourse)
     })
-
     res.send(listOfCourses(array))
   })
 
