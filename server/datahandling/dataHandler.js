@@ -79,34 +79,45 @@ const studentObjects = (data) => {
 // What: creates an array of highchart-objects with a starting course, ending course in next period and a weight of 1
 // Takes in: an array of students with their corresponding courses, starting course, year of the starting course, and grade
 // Special: if year is null, returns data of all years, if grade is null, returns data of all grades
+// täällä on nyt seassa tota mun pohdintaa, et millä vois pitää kirjaa siitä, et ketkä on ne opiskelijat, jotka on seuraavassa periodissa suorittanut sen klikattavan kurssin
+// pitää miettiä joku järkevämpi sijoitus sille myöhemmin
 const highChartsObjects = (data, startCourse, year, grade) => {
 
   let highChartsArrays = []
-  //console.log('d: ', data)
+  const studentsWhoHaveDoneCreditcourse = new Map()
+
   data.forEach((student) => {
     let hasDoneStartCourse = false
     let periodOfStartCourse = 0
-    //console.log(student.courses)
     student.courses.forEach((credit) => {
-      //console.log('c: ', credit.course)
-      //console.log('s: ', startCourse)
       if (credit.course === startCourse 
         && (!year || credit.date.getFullYear() === year)
         && (!grade || checkGrade(grade, credit.grade))) {
         hasDoneStartCourse = true
         periodOfStartCourse = toPeriod(credit.date)
       }
-      //console.log(hasDoneStartCourse)
     })
 
     if (hasDoneStartCourse) {
       const nextPeriodCourses = student.courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
       nextPeriodCourses.forEach((credit) => {
+
+        if(studentsWhoHaveDoneCreditcourse.has(credit.course)) {
+          let arrayOfStudentIds = []
+          arrayOfStudentIds = studentsWhoHaveDoneCreditcourse.get(credit.course)
+          arrayOfStudentIds = [...arrayOfStudentIds, credit.studentId]
+          studentsWhoHaveDoneCreditcourse.set(credit.course, arrayOfStudentIds)
+        } else {
+          studentsWhoHaveDoneCreditcourse.set(credit.course, [credit.studentId])
+        }
+
         highChartsArrays = [...highChartsArrays, [startCourse, credit.course, 1]]
       })
     }
     hasDoneStartCourse = false
   })
+
+  //console.log(studentsWhoHaveDoneCreditcourse)
   return highChartsArrays
 }
 
