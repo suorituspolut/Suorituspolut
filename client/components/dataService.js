@@ -6,6 +6,7 @@ import Graph from './Graph'
 import GraphTestVenn from './GraphTestVenn'
 import NavGraph from './NavGraph'
 import Filter from './Filter'
+import Stacked from './Stacked'
 
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
@@ -121,11 +122,16 @@ const Data = () => {
         <GraphTestVenn data={normalPaths} onClick={handleNavigation} /> :
         <br></br>
       }
+      {graphToShow===3 ? 
+        <Stacked data={normalPaths} onClick={handleNavigation} /> :
+        <br></br>
+      }
       <div className="toggle-container">
         <div className="ui buttons">
           <button type="submit" onClick={() => setGraphToShow(1)} className="ui button">Kurssi kerrallaan</button>
           <button type="submit" onClick={() => setGraphToShow(0)} className="ui blue button">Polut kurssien välillä</button>
           <button type="submit" onClick={() => setGraphToShow(2)} className="ui brown button">Kurssivertailu</button>
+          <button type="submit" onClick={() => setGraphToShow(3)} className="ui red button">Pullonkaulakurssit</button>
         </div>
       </div>
     </div>
