@@ -7,11 +7,10 @@ require("highcharts/modules/export-data")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
 
-//stacked column chart from highcharts representing bottleneck courses
+//"Stacked column chart" from "highcharts"-framework, representing bottleneck courses
 const Stacked = ({ data }) => {
 
   const options = {
-    //colors: ['#2980B9', '#3d979f', '#060045', '#E6F69D', '#1ABC9C', '#d8c09b', '#d8c09b', '#d8c09b', '#d8c09b'],
     credits: {
       text: ''
     },
@@ -37,40 +36,38 @@ const Stacked = ({ data }) => {
       },
     },
     chart: {
-        type: 'column'
+      type: 'column'
     },
     title: {
-        text: 'Pullonkaulakurssit'
+      text: 'Pullonkaulakurssit'
     },
     xAxis: {
-        categories: ['Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit']
+      categories: ['Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit', 'Käyttöjärjestelmät']
     },
     yAxis: {
-        min: 0,
-        title: {
-            text: 'Kaikkiaan opiskelijoita'
-        }
+      min: 0,
+      title: {
+        text: 'Kaikkiaan opiskelijoita(%)'
+      }
     },
     tooltip: {
-        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-        shared: true
+      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+      shared: true
     },
     plotOptions: {
-        column: {
-            stacking: 'percent'
-        }
+      column: {
+        stacking: 'percent'
+      }
     },
-    //'Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit'
+    //'Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit', 'Käyttöjärjestelmät'
     series: [{
-        name: 'Läpi',
-        data: [5, 3, 4]
+      name: 'Viimeinen suorituskerta',
+      data: [56, 39, 40,]
     }, {
-        name: 'Hylätty',
-        data: [4, 2, 3]
-    }, {
-        name: 'Vitonen',
-        data: [1, 1, 2]
-    }],
+      name: 'Käyty uudelleen',
+      data: [41, 15, 13]
+    }
+    ],
   }
 
 
@@ -81,7 +78,7 @@ const Stacked = ({ data }) => {
         constructorType={'chart'}
         options={options}
       />
-      <div><p><center> Tavoitteena on löytää kurssit, joita suoritetaan uudelleen useimmiten </center></p></div>
+      <div><p><center> Tavoitteena on löytää kurssit, joita suoritetaan uudelleen useammiten </center></p></div>
     </div>
   )
 }
