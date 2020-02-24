@@ -42,7 +42,7 @@ const Stacked = ({ data }) => {
       text: 'Pullonkaulakurssit'
     },
     xAxis: {
-      categories: ['Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit', 'Käyttöjärjestelmät']
+      categories: ['Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit', 'Käyttöjärjestelmät', 'Tietoliikenteen perusteet']
     },
     yAxis: {
       min: 0,
@@ -59,13 +59,13 @@ const Stacked = ({ data }) => {
         stacking: 'percent'
       }
     },
-    //'Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit', 'Käyttöjärjestelmät'
+    //'Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit', 'Käyttöjärjestelmät' , 'Tietoliikenteen perusteet'
     series: [{
       name: 'Viimeinen suorituskerta',
-      data: [56, 39, 40,]
+      data: [56, 39, 40, 57, 50]
     }, {
       name: 'Käyty uudelleen',
-      data: [41, 15, 13]
+      data: [41, 15, 13, 12, 5]
     }
     ],
   }
