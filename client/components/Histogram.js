@@ -8,7 +8,6 @@ require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
 
 const Hist = ({ data, course }) => {
-    console.log(data)
   const options = {
     chart: {
         type: 'column'
