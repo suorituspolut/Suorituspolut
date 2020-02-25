@@ -78,7 +78,6 @@ const Stacked = ({ data }) => {
         constructorType={'chart'}
         options={options}
       />
-      <div><p><center> Tavoitteena on löytää kurssit, joita suoritetaan uudelleen useammiten </center></p></div>
     </div>
   )
 }

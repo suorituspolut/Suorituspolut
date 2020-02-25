@@ -67,7 +67,6 @@ const GraphTestVenn = ({ data }) => {
         constructorType={'chart'}
         options={options}
       />
-      <div><p><center>Tässä siis olisi pointtina se, että voi valita kaksi kurssia, ja katsoa kumpaa on käyty enemmän ja kuinka moni suorittaa molemmat. </center></p></div>
     </div>
   )
 }
