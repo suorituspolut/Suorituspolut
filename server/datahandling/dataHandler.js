@@ -9,6 +9,7 @@ const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
 const studentPaths = (data, year, startCourse, grade) => {
   const students = studentObjects(data)
   const arrays = highChartsObjects(students, startCourse, year, grade)
+  firstCourses(students)
   const arraysWithSummedWeights = addWeights(arrays)
   const arraysWithOtherCategory = separateOthersCategory(arraysWithSummedWeights, startCourse, 9)
   return arraysWithOtherCategory
@@ -59,6 +60,7 @@ const studentObjects = (data) => {
 
   data.forEach((credit) => {
     if (credit.studentId !== helper) {
+      courses.sort((credit1, credit2) => credit1.date - credit2.date)
       student.courses = courses
       students = [...students, student]
       courses = []
@@ -70,6 +72,8 @@ const studentObjects = (data) => {
     }
   })
 
+  //sorts and adds the last student as well
+  courses.sort((credit1, credit2) => credit1.date - credit2.date)
   student.courses = courses
   students = [...students, student]
 
@@ -90,7 +94,7 @@ const highChartsObjects = (data, startCourse, year, grade) => {
     let hasDoneStartCourse = false
     let periodOfStartCourse = 0
     student.courses.forEach((credit) => {
-      if (credit.course === startCourse 
+      if (credit.course === startCourse
         && (!year || credit.date.getFullYear() === year)
         && (!grade || checkGrade(grade, credit.grade))) {
         hasDoneStartCourse = true
@@ -101,8 +105,7 @@ const highChartsObjects = (data, startCourse, year, grade) => {
     if (hasDoneStartCourse) {
       const nextPeriodCourses = student.courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
       nextPeriodCourses.forEach((credit) => {
-
-        if(studentsWhoHaveDoneCreditcourse.has(credit.course)) {
+        if (studentsWhoHaveDoneCreditcourse.has(credit.course)) {
           let arrayOfStudentIds = []
           arrayOfStudentIds = studentsWhoHaveDoneCreditcourse.get(credit.course)
           arrayOfStudentIds = [...arrayOfStudentIds, credit.studentId]
@@ -162,6 +165,18 @@ const highChartsObjectsSecond = (data, levelStartCourse, origStartCourse, listOf
   })
 
   return highChartsArrays
+}
+
+const firstCourses = (students) => {
+  let allFirstPeriodCourses = []
+  students.forEach((student) => {
+    const firstCourse = student.courses[0]
+    const periodOfFirstCourse = toPeriod(firstCourse.date)
+    const firstPeriodCourses = student.courses.filter(course => isSamePeriod(toPeriod(course.date), periodOfFirstCourse))
+    allFirstPeriodCourses = [...allFirstPeriodCourses, firstPeriodCourses]
+  })
+
+  console.log('all: ', allFirstPeriodCourses)
 }
 
 module.exports = {
