@@ -1,3 +1,5 @@
+//testing making pull requests
+
 //const { ApplicationError } = require('@util/customErrors')
 const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E } = require('@root/server/datahandling/dataHandler')
