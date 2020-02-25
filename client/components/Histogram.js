@@ -18,6 +18,9 @@ const Hist = ({ data, course }) => {
       subtitle: {
         text: course
       },
+      credits: {
+        text: '' 
+      },
       xAxis: {
         categories: [
           '1st period',
