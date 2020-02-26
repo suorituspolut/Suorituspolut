@@ -9,7 +9,6 @@ const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
 const studentPaths = (data, year, startCourse, grade) => {
   const students = studentObjects(data)
   const arrays = highChartsObjects(students, startCourse, year, grade)
-  firstCourses(students)
   const arraysWithSummedWeights = addWeights(arrays)
   const arraysWithOtherCategory = separateOthersCategory(arraysWithSummedWeights, startCourse, 9)
   return arraysWithOtherCategory
@@ -167,19 +166,59 @@ const highChartsObjectsSecond = (data, levelStartCourse, origStartCourse, listOf
   return highChartsArrays
 }
 
-const firstCourses = (students) => {
-  let allFirstPeriodCourses = []
+const firstCourses = (data, year) => {
+  const students = studentObjects(data)
+  let highChartsArrays = []
+  let fromCourses = []
+  let toCourses = []
+
   students.forEach((student) => {
     const firstCourse = student.courses[0]
-    const periodOfFirstCourse = toPeriod(firstCourse.date)
-    const firstPeriodCourses = student.courses.filter(course => isSamePeriod(toPeriod(course.date), periodOfFirstCourse))
-    allFirstPeriodCourses = [...allFirstPeriodCourses, firstPeriodCourses]
+    const startPeriod = toPeriod(firstCourse.date)
+    let fromPeriod = startPeriod
+    let nextPeriodWithCredit = nextPeriodOf(startPeriod)
+    let periodHasChanged = false
+
+    if ( year === startPeriod.year) {
+      student.courses.forEach((course) => {
+        const periodOfCourse = toPeriod(course.date)
+        if (isSamePeriod(periodOfCourse, fromPeriod)) {
+          fromCourses = [...fromCourses, course.course]
+        } else if (!periodHasChanged && !isSamePeriod(periodOfCourse, fromPeriod)) {
+          periodHasChanged = true
+          nextPeriodWithCredit = periodOfCourse
+          toCourses = [...toCourses, course.course]
+        } else if (isSamePeriod(periodOfCourse, nextPeriodWithCredit)) {
+          toCourses = [...toCourses, course.course]
+        } else {
+          fromCourses.forEach((from) => {
+            toCourses.forEach((to) => {
+              highChartsArrays = [...highChartsArrays, [from, to, 1]]
+            })
+          })
+          fromPeriod = nextPeriodWithCredit
+          nextPeriodWithCredit = periodOfCourse
+          fromCourses = toCourses
+          toCourses = [course.course]
+        }
+      })
+      fromCourses.forEach((from) => {
+        toCourses.forEach((to) => {
+          highChartsArrays = [...highChartsArrays, [from, to, 1]]
+        })
+      })
+      fromCourses = []
+      toCourses = []
+    }
+    // const firstPeriodCourses = student.courses.filter(course => isSamePeriod(toPeriod(course.date), startPeriod))
+    // fromCourses = [...fromCourses, firstPeriodCourses]
   })
 
-  console.log('all: ', allFirstPeriodCourses)
+  return addWeights(highChartsArrays)
 }
 
 module.exports = {
   studentPaths,
   studentPathsE2E,
+  firstCourses,
 }
