@@ -45,9 +45,9 @@ const getCourseData = () => {
 }
 
 const Data = () => { 
-  const [graphToShow, setGraphToShow] = useState(1)
+  const [graphToShow, setGraphToShow] = useState(5)
   const [selectedCourse, setSelectedCourse] = useState("Ohjelmoinnin perusteet")
-  const [selectedYear, setSelectedYear] = useState(2017)
+  const [selectedYear, setSelectedYear] = useState(2018)
   const [selectedGrade, setSelectedGrade] = useState("Läpäisseet")
   const [normalPaths, setNormalPaths] = useState([])
   const [e2ePaths, setE2ePaths] = useState([])
@@ -146,10 +146,10 @@ const Data = () => {
         ? <Histogram course="Tietorakenteet ja algoritmit" data={normalPaths} onClick={handleNavigation} />
         : <br />
       }
-      {/* {graphToShow === 5
+      {graphToShow === 5
         ? <Graph data={firstsPath} />
         : <br />
-      } */}
+      }
       <div className="toggle-container">
         <div className="ui buttons">
           <button type="submit" onClick={() => setGraphToShow(1)} className="ui button">Kurssi kerrallaan</button>
