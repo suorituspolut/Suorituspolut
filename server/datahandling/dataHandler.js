@@ -196,7 +196,8 @@ const firstCourses = (data, year) => {
         } else {
           fromCourses.forEach((from) => {
             toCourses.forEach((to) => {
-              highChartsArrays = [...highChartsArrays, [from, to, 1]]
+              const w = 1 / toCourses.length
+              highChartsArrays = [...highChartsArrays, [from, to, w]]
             })
           })
           fromPeriod = nextPeriodWithCredit
@@ -207,7 +208,8 @@ const firstCourses = (data, year) => {
       })
       fromCourses.forEach((from) => {
         toCourses.forEach((to) => {
-          highChartsArrays = [...highChartsArrays, [from, to, 1]]
+          const w = 1 / toCourses.length
+          highChartsArrays = [...highChartsArrays, [from, to, w]]
         })
       })
       fromCourses = []
