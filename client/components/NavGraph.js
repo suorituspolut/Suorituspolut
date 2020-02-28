@@ -45,6 +45,7 @@ const NavGraph = ({ data, onClick }) => {
           events: {
             click: function (event) {
               if (!event.point.name.includes("highcharts")) {
+                console.log(event.point)
                 onClick(event.point.name)
               }
             },

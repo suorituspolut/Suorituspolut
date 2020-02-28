@@ -196,7 +196,7 @@ const firstCourses = (data, year) => {
         } else {
           fromCourses.forEach((from) => {
             toCourses.forEach((to) => {
-              const w = 1 / toCourses.length
+              const w = 1 / Math.max(toCourses.length, fromCourses.length)
               highChartsArrays = [...highChartsArrays, [from, to, w]]
             })
           })
@@ -208,7 +208,7 @@ const firstCourses = (data, year) => {
       })
       fromCourses.forEach((from) => {
         toCourses.forEach((to) => {
-          const w = 1 / toCourses.length
+          const w = 1 / Math.max(toCourses.length, fromCourses.length)
           highChartsArrays = [...highChartsArrays, [from, to, w]]
         })
       })
