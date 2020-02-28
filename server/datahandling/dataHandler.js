@@ -174,6 +174,7 @@ const firstCourses = (data, year) => {
   let highChartsArrays = []
   let fromCourses = []
   let toCourses = []
+  let level = 1
 
   students.forEach((student) => {
     const firstCourse = student.courses[0]
@@ -186,13 +187,14 @@ const firstCourses = (data, year) => {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
         if (isSamePeriod(periodOfCourse, fromPeriod)) {
-          fromCourses = [...fromCourses, course.course]
+          fromCourses = [...fromCourses, `${level}: ${course.course}`]
         } else if (!periodHasChanged && !isSamePeriod(periodOfCourse, fromPeriod)) {
           periodHasChanged = true
+          level++
           nextPeriodWithCredit = periodOfCourse
-          toCourses = [...toCourses, course.course]
+          toCourses = [...toCourses, `${level}: ${course.course}`]
         } else if (isSamePeriod(periodOfCourse, nextPeriodWithCredit)) {
-          toCourses = [...toCourses, course.course]
+          toCourses = [...toCourses, `${level}: ${course.course}`]
         } else {
           fromCourses.forEach((from) => {
             toCourses.forEach((to) => {
@@ -200,10 +202,11 @@ const firstCourses = (data, year) => {
               highChartsArrays = [...highChartsArrays, [from, to, w]]
             })
           })
+          level++
           fromPeriod = nextPeriodWithCredit
           nextPeriodWithCredit = periodOfCourse
           fromCourses = toCourses
-          toCourses = [course.course]
+          toCourses = [`${level}: ${course.course}`]
         }
       })
       fromCourses.forEach((from) => {
