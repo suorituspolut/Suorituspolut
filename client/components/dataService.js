@@ -45,9 +45,9 @@ const getCourseData = () => {
 }
 
 const Data = () => { 
-  const [graphToShow, setGraphToShow] = useState(5)
+  const [graphToShow, setGraphToShow] = useState(1)
   const [selectedCourse, setSelectedCourse] = useState("Ohjelmoinnin perusteet")
-  const [selectedYear, setSelectedYear] = useState(2018)
+  const [selectedYear, setSelectedYear] = useState(2017)
   const [selectedGrade, setSelectedGrade] = useState("Läpäisseet")
   const [normalPaths, setNormalPaths] = useState([])
   const [e2ePaths, setE2ePaths] = useState([])
@@ -146,18 +146,18 @@ const Data = () => {
         ? <Histogram course="Tietorakenteet ja algoritmit" data={normalPaths} onClick={handleNavigation} />
         : <br />
       }
-      {graphToShow === 5
+      {graphToShow === 6
         ? <Graph data={firstsPath} />
         : <br />
       }
       <div className="toggle-container">
         <div className="ui buttons">
           <button type="submit" onClick={() => setGraphToShow(1)} className="ui button">Kurssi kerrallaan</button>
-          <button type="submit" onClick={() => setGraphToShow(0)} className="ui blue button">Polut kurssien välillä</button>
-          <button type="submit" onClick={() => setGraphToShow(2)} className="ui brown button">Kurssivertailu</button>
-          <button type="submit" onClick={() => setGraphToShow(3)} className="ui red button">Pullonkaulakurssit</button>
-          <button type="submit" onClick={() => setGraphToShow(4)} className="ui green button">Histogrammi</button>
-          <button type="submit" onClick={() => setGraphToShow(5)} className="ui button">Kaikki ekat kurssit mukana</button>
+          <button type="submit" onClick={() => setGraphToShow(0)} className="ui grey button">Polut kurssien välillä</button>
+          <button type="submit" onClick={() => setGraphToShow(2)} className="ui button">Kurssivertailu</button>
+          <button type="submit" onClick={() => setGraphToShow(3)} className="ui grey button">Pullonkaulakurssit</button>
+          <button type="submit" onClick={() => setGraphToShow(4)} className="ui button">Histogrammi</button>
+          <button type="submit" onClick={() => setGraphToShow(6)} className="ui grey button">Kaikki ekat kurssit mukana</button>
         </div>
       </div>
     </div>
