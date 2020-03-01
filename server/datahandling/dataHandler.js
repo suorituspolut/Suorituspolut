@@ -59,6 +59,7 @@ const studentObjects = (data) => {
 
   data.forEach((credit) => {
     if (credit.studentId !== helper) {
+      courses.sort((credit1, credit2) => credit1.date - credit2.date)
       student.courses = courses
       students = [...students, student]
       courses = []
@@ -70,6 +71,8 @@ const studentObjects = (data) => {
     }
   })
 
+  //sorts and adds the last student as well
+  courses.sort((credit1, credit2) => credit1.date - credit2.date)
   student.courses = courses
   students = [...students, student]
 
@@ -90,7 +93,7 @@ const highChartsObjects = (data, startCourse, year, grade) => {
     let hasDoneStartCourse = false
     let periodOfStartCourse = 0
     student.courses.forEach((credit) => {
-      if (credit.course === startCourse 
+      if (credit.course === startCourse
         && (!year || credit.date.getFullYear() === year)
         && (!grade || checkGrade(grade, credit.grade))) {
         hasDoneStartCourse = true
@@ -101,8 +104,7 @@ const highChartsObjects = (data, startCourse, year, grade) => {
     if (hasDoneStartCourse) {
       const nextPeriodCourses = student.courses.filter(credit => isSamePeriod(toPeriod(credit.date), nextPeriodOf(periodOfStartCourse)))
       nextPeriodCourses.forEach((credit) => {
-
-        if(studentsWhoHaveDoneCreditcourse.has(credit.course)) {
+        if (studentsWhoHaveDoneCreditcourse.has(credit.course)) {
           let arrayOfStudentIds = []
           arrayOfStudentIds = studentsWhoHaveDoneCreditcourse.get(credit.course)
           arrayOfStudentIds = [...arrayOfStudentIds, credit.studentId]
@@ -164,7 +166,74 @@ const highChartsObjectsSecond = (data, levelStartCourse, origStartCourse, listOf
   return highChartsArrays
 }
 
+const isCsStudent = (firstCourse) => {
+  let isCsStudent = false
+  if (firstCourse === 'Ohjelmoinnin perusteet' ||
+    firstCourse === 'Ohjelmoinnin jatkokurssi' ||
+    firstCourse === 'Tietokone työvälineenä') {
+    isCsStudent = true
+  }
+
+  return isCsStudent
+}
+// Creates a highcharts-array of the studentpaths taking into account all credits in each students starting period
+// Takes in: an array of credits and starting year
+const firstCourses = (data, year, levels) => {
+  const students = studentObjects(data)
+  let highChartsArrays = []
+  let fromCourses = []
+  let toCourses = []
+
+  students.forEach((student) => {
+    let level = 1
+    const firstCourse = student.courses[0]
+    const startPeriod = toPeriod(firstCourse.date)
+    let fromPeriod = startPeriod
+    let nextPeriodWithCredit = 0
+    let periodHasChanged = false
+
+    if ( year === startPeriod.year && isCsStudent(firstCourse.course)) {
+      student.courses.forEach((course) => {
+        const periodOfCourse = toPeriod(course.date)
+        if (level >= levels) {
+        
+        } else if (isSamePeriod(periodOfCourse, fromPeriod)) {
+          fromCourses = [...fromCourses, `${level}: ${course.course}`]
+        } else if (!periodHasChanged && !isSamePeriod(periodOfCourse, fromPeriod)) {
+          periodHasChanged = true
+          level++
+          nextPeriodWithCredit = periodOfCourse
+          toCourses = [...toCourses, `${level}: ${course.course}`]
+        } else if (isSamePeriod(periodOfCourse, nextPeriodWithCredit)) {
+          toCourses = [...toCourses, `${level}: ${course.course}`]
+        } else {
+          fromCourses.forEach((from) => {
+            toCourses.forEach((to) => {
+              highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
+            })
+          })
+          level++
+          fromPeriod = nextPeriodWithCredit
+          nextPeriodWithCredit = periodOfCourse
+          fromCourses = toCourses
+          toCourses = [`${level}: ${course.course}`]
+        }
+      })
+      fromCourses.forEach((from) => {
+        toCourses.forEach((to) => {
+          highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
+        })
+      })
+      fromCourses = []
+      toCourses = []
+    }
+  })
+
+  return addWeights(highChartsArrays)
+}
+
 module.exports = {
   studentPaths,
   studentPathsE2E,
+  firstCourses,
 }

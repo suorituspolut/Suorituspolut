@@ -47,6 +47,35 @@ const Graph = ({ data }) => {
       type: 'sankey',
       name: 'Suoritusten määrä',
     }],
+    tooltip: {
+      nodeFormat: '{point.name}',
+      // nodeFormatter: function() {
+      //   let result = this.linksFrom[0].from + ': '
+      //   let sum = 0
+      //   console.log(this.linksTo)
+      //   Highcharts.each(this.linksFrom, function(el) {
+      //       sum += el.weight
+      //   });
+
+      //   result += (sum/ this.linksFrom.length)
+
+      //   return result;
+      // },
+    },
+    plotOptions: {
+      series: {
+        cursor: 'pointer',
+        point: {
+          events: {
+            click: function (event) {
+              if (!event.point.name.includes("highcharts")) {
+                onClick(event.point.name)
+              }
+            },
+          },
+        },
+      },
+    },
   }
 
 
