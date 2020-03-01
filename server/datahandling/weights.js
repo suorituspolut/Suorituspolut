@@ -23,7 +23,7 @@ const addWeights = (credits) => {
     weightedCredits = [...weightedCredits, [coursepair[0], coursepair[1], weight]]
   })
 
-  weightedCredits.sort(byWeights)
+  //weightedCredits.sort(byWeights)
   return weightedCredits
 }
 

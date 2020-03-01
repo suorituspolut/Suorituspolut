@@ -174,9 +174,9 @@ const firstCourses = (data, year) => {
   let highChartsArrays = []
   let fromCourses = []
   let toCourses = []
-  let level = 1
 
   students.forEach((student) => {
+    let level = 1
     const firstCourse = student.courses[0]
     const startPeriod = toPeriod(firstCourse.date)
     let fromPeriod = startPeriod
