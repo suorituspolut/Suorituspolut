@@ -8,6 +8,7 @@ import NavGraph from './NavGraph'
 import Filter from './Filter'
 import Stacked from './Stacked'
 import Histogram from './Histogram'
+import Bubbles from './Bubbles'
 
 require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
@@ -64,7 +65,7 @@ const Data = () => {
   const handleYearChange = (e, { value }) => {
     setSelectedYear(value)
   }
-
+  
   const handleCourseChange = (e, { value }) => {
     setSelectedCourse(value)
   }
@@ -150,6 +151,10 @@ const Data = () => {
         ? <Graph data={firstsPath} />
         : <br />
       }
+      {graphToShow===5 ? 
+        <Bubbles data={normalPaths} onClick={handleNavigation}/> :
+        <br></br>
+      }
       <div className="toggle-container">
         <div className="ui buttons">
           <button type="submit" onClick={() => setGraphToShow(1)} className="ui button">Kurssi kerrallaan</button>
@@ -157,6 +162,7 @@ const Data = () => {
           <button type="submit" onClick={() => setGraphToShow(2)} className="ui button">Kurssivertailu</button>
           <button type="submit" onClick={() => setGraphToShow(3)} className="ui grey button">Pullonkaulakurssit</button>
           <button type="submit" onClick={() => setGraphToShow(4)} className="ui button">Histogrammi</button>
+          <button type="submit" onClick={() => setGraphToShow(5)} className="ui button">Kurssit periodeittain</button>
           <button type="submit" onClick={() => setGraphToShow(6)} className="ui button">Kaikki ekat kurssit mukana</button>
         </div>
       </div>
