@@ -157,7 +157,7 @@ const Data = () => {
           <button type="submit" onClick={() => setGraphToShow(2)} className="ui button">Kurssivertailu</button>
           <button type="submit" onClick={() => setGraphToShow(3)} className="ui grey button">Pullonkaulakurssit</button>
           <button type="submit" onClick={() => setGraphToShow(4)} className="ui button">Histogrammi</button>
-          <button type="submit" onClick={() => setGraphToShow(6)} className="ui grey button">Kaikki ekat kurssit mukana</button>
+          <button type="submit" onClick={() => setGraphToShow(6)} className="ui button">Kaikki ekat kurssit mukana</button>
         </div>
       </div>
     </div>
