@@ -39,7 +39,7 @@ const Graph = ({ data }) => {
       text: 'Suorituspolut',
     },
     series: [{
-      keys: ['from', 'to', 'weight'],
+      keys: ['from', 'to', 'weight', 'tooltip'],
       turboThreshold: 4000,
       data: data ? data : [
         ['Ohjelmoinnin perusteet', 'Ohjelmoinnin jatkokurssi', 70],
@@ -48,7 +48,19 @@ const Graph = ({ data }) => {
       name: 'Suoritusten määrä',
     }],
     tooltip: {
-      nodeFormat: '{series.name}: <b> {point.sum:.0f}</b>'
+      nodeFormat: '{point.name}',
+      // nodeFormatter: function() {
+      //   let result = this.linksFrom[0].from + ': '
+      //   let sum = 0
+      //   console.log(this.linksTo)
+      //   Highcharts.each(this.linksFrom, function(el) {
+      //       sum += el.weight
+      //   });
+
+      //   result += (sum/ this.linksFrom.length)
+
+      //   return result;
+      // },
     },
     plotOptions: {
       series: {
@@ -57,7 +69,6 @@ const Graph = ({ data }) => {
           events: {
             click: function (event) {
               if (!event.point.name.includes("highcharts")) {
-                console.log(event.point)
                 onClick(event.point.name)
               }
             },

@@ -166,10 +166,19 @@ const highChartsObjectsSecond = (data, levelStartCourse, origStartCourse, listOf
   return highChartsArrays
 }
 
+const isCsStudent = (firstCourse) => {
+  let isCsStudent = false
+  if (firstCourse === 'Ohjelmoinnin perusteet' ||
+    firstCourse === 'Ohjelmoinnin jatkokurssi' ||
+    firstCourse === 'Tietokone työvälineenä') {
+    isCsStudent = true
+  }
 
+  return isCsStudent
+}
 // Creates a highcharts-array of the studentpaths taking into account all credits in each students starting period
 // Takes in: an array of credits and starting year
-const firstCourses = (data, year) => {
+const firstCourses = (data, year, levels) => {
   const students = studentObjects(data)
   let highChartsArrays = []
   let fromCourses = []
@@ -183,10 +192,12 @@ const firstCourses = (data, year) => {
     let nextPeriodWithCredit = 0
     let periodHasChanged = false
 
-    if ( year === startPeriod.year) {
+    if ( year === startPeriod.year && isCsStudent(firstCourse.course)) {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
-        if (isSamePeriod(periodOfCourse, fromPeriod)) {
+        if (level >= levels) {
+        
+        } else if (isSamePeriod(periodOfCourse, fromPeriod)) {
           fromCourses = [...fromCourses, `${level}: ${course.course}`]
         } else if (!periodHasChanged && !isSamePeriod(periodOfCourse, fromPeriod)) {
           periodHasChanged = true
@@ -198,8 +209,7 @@ const firstCourses = (data, year) => {
         } else {
           fromCourses.forEach((from) => {
             toCourses.forEach((to) => {
-              const w = 1 / Math.max(toCourses.length, fromCourses.length)
-              highChartsArrays = [...highChartsArrays, [from, to, w]]
+              highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
             })
           })
           level++
@@ -211,8 +221,7 @@ const firstCourses = (data, year) => {
       })
       fromCourses.forEach((from) => {
         toCourses.forEach((to) => {
-          const w = 1 / Math.max(toCourses.length, fromCourses.length)
-          highChartsArrays = [...highChartsArrays, [from, to, w]]
+          highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
         })
       })
       fromCourses = []

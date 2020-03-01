@@ -3,7 +3,7 @@ const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/dataHandler')
 const parse = require('csv-parse')
 const fs = require('fs')
-const file = (process.cwd() + '/data/anon_dataset4.csv')
+const file = (process.cwd() + '/data/anon_dataset.csv')
 
 const getAllNormal = async (req, res) => {
 
@@ -92,7 +92,7 @@ const getAllFirsts = async (req, res) => {
       }
     array.push(newCourse)
     })
-      res.send(firstCourses(array, year))     
+      res.send(firstCourses(array, year, 5))     
   })
   await fs.createReadStream(file).pipe(parser)
 }
