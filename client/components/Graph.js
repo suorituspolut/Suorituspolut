@@ -39,7 +39,7 @@ const Graph = ({ data }) => {
       text: 'Suorituspolut',
     },
     series: [{
-      keys: ['from', 'to', 'weight', 'tooltip'],
+      keys: ['from', 'to', 'weight'],
       turboThreshold: 4000,
       data: data ? data : [
         ['Ohjelmoinnin perusteet', 'Ohjelmoinnin jatkokurssi', 70],
