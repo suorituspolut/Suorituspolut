@@ -1,4 +1,3 @@
-
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
@@ -7,7 +6,7 @@ require("highcharts/modules/histogram-bellcurve")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
 
-const Hist = ({ data, course }) => {
+const Hist = ({ course }) => {
   const options = {
     chart: {
         type: 'column'
@@ -23,18 +22,18 @@ const Hist = ({ data, course }) => {
       },
       xAxis: {
         categories: [
-          '1st period',
-          '2nd period',
-          '3rd period',
-          '4th period',
-          '5th period',
-          '6th period',
-          '7th period',
-          '8th period',
-          '9th period',
-          '10th period',
-          '11th period',
-          '12th period'
+          '1. periodi / 1.vuosi',
+          '2. periodi / 1.vuosi',
+          '3. periodi / 1.vuosi',
+          '4. periodi / 1.vuosi',
+          '5. periodi / 1.vuosi',
+          '1. periodi / 2.vuosi',
+          '2. periodi / 2.vuosi',
+          '3. periodi / 2.vuosi',
+          '4. periodi / 2.vuosi',
+          '5. periodi / 2.vuosi',
+          '1. periodi / 3.vuosi',
+          '2. periodi / 3.vuosi',
         ],
         crosshair: true
       },
