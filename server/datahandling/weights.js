@@ -96,4 +96,5 @@ module.exports = {
   separateOthersCategory,
   separateOthersCategorySecond,
   addWeights,
+  addWeightsByPeriod,
 }
