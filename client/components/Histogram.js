@@ -8,12 +8,17 @@ require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
 
 const Hist = ({ data, course }) => {
+  console.log(data)
+  console.log(course)
   const options = {
     chart: {
         type: 'column'
       },
       title: {
         text: 'Missä vaiheessa opintoja kurssi on suoritettu'
+      },
+      credits: {
+        text: ""
       },
       subtitle: {
         text: course

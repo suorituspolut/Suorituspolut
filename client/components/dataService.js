@@ -31,6 +31,15 @@ const getGraphData = (type, year, course, grade) => {
   return xmlHttp.responseText
 }
 
+const getHistogramData = (course) => {
+  if (process.env.NODE_ENV !== 'production') {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( "GET", `http://localhost:8000/api/histogram/${course}/`, false ) 
+    xmlHttp.send( null )
+    return xmlHttp.responseText
+  }
+}
+
 const getCourseData = () => {
   if (process.env.NODE_ENV !== 'production') {
     var xmlHttp = new XMLHttpRequest()
@@ -139,10 +148,10 @@ const Data = () => {
         <br></br>
       }
       {graphToShow===4 ? 
-        <Histogram course= 'Tietorakenteet ja algoritmit' data={normalPaths} onClick={handleNavigation}/> :
+        <Histogram course= {selectedCourse} data={getHistogramData(selectedCourse)} onClick={handleNavigation}/> :
         <br></br>
       }
-      <div className="toggle-container">
+      <div className="toggle-container navbuttons">
         <div className="ui buttons">
           <button type="submit" onClick={() => setGraphToShow(1)} className="ui button">Kurssi kerrallaan</button>
           <button type="submit" onClick={() => setGraphToShow(0)} className="ui blue button">Polut kurssien välillä</button>

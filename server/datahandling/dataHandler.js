@@ -70,6 +70,8 @@ const studentObjects = (data) => {
     }
   })
 
+  
+
   student.courses = courses
   students = [...students, student]
 
@@ -164,7 +166,26 @@ const highChartsObjectsSecond = (data, levelStartCourse, origStartCourse, listOf
   return highChartsArrays
 }
 
+const histogramObjects = (data, year) => {
+  const students = studentObjects(data)
+  let highChartsArrays = []
+  let fromCourses = []
+  let toCourses = []
+  let level = 1
+
+  students.forEach((student) => {
+    const firstCourse = student.courses[0]
+    const startPeriod = toPeriod(firstCourse.date)
+    let fromPeriod = startPeriod
+    let nextPeriodWithCredit = 0
+    let periodHasChanged = false
+    
+  })
+  return "";
+}
+
 module.exports = {
   studentPaths,
   studentPathsE2E,
+  histogramObjects
 }

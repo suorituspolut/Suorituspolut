@@ -8,5 +8,6 @@ router.get('/data/normal/:year/:course/:grade', data.getAllNormal)
 router.get('/data/E2E/:year/:course/:grade', data.getAllE2E)
 router.get('/courses', data.getCourses)
 router.get('/datahandler', data.test)
+router.get('/histogram/:course', data.getHistogramData)
 
 module.exports = router
