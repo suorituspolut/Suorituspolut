@@ -4,7 +4,7 @@ import { createNumberOptions, createTextOptions, grades } from '../util/units'
 import Filter from './Filter'
 
 
-const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearch, handleYearChange, selectedCourse, selectedGrade, selectedYear }) => {
+const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearch, handleYearChange, handleLevelChange, selectedCourse, selectedGrade, selectedYear, selectedLevels }) => {
 
   return (
     <table className="ui table">
@@ -32,6 +32,14 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
             value={selectedGrade}
             options={grades}
             placeholder="Läpäisseet"
+          /> : null}
+          {selectedLevels ? 
+          <Filter
+            label="Näytettävien tasojen määrä"
+            handleChange={handleLevelChange}
+            value={selectedLevels}
+            options={createNumberOptions(1, 10)}
+            placeholder="5"
           /> : null}
           <td>
             <p>   </p>
