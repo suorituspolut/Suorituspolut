@@ -11,6 +11,7 @@ const NavBar = ({ onChange, value }) => {
     { key: 4, value: 4, text: 'Pullonkaulakurssit' },
     { key: 5, value: 5, text: 'Venn-diagrammi' },
     { key: 6, value: 6, text: 'Kaikki ekat kurssit' },
+    { key: 7, value: 7, text: 'Kurssit periodeittain' },
   ]
 
   return (
