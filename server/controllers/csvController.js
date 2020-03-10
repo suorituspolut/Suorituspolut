@@ -74,9 +74,14 @@ const getAllE2E = async (req, res) => {
 const getAllFirsts = async (req, res) => {
   const array = []
   let year = 2017
+  let levels = 4
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
+  }
+
+  if (req.params.levels !== null && typeof(req.params.levels === String)) {
+    levels = Number(req.params.levels)
   }
 
   const parser = parse({delimiter: ';'}, (err, data) => {
@@ -92,7 +97,7 @@ const getAllFirsts = async (req, res) => {
       }
     array.push(newCourse)
     })
-      res.send(firstCourses(array, year, 5))     
+      res.send(firstCourses(array, year, levels))     
   })
   await fs.createReadStream(file).pipe(parser)
 }
