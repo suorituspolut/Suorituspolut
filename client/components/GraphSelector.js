@@ -78,13 +78,9 @@ const GraphSelector = ({ graphToShow }) => {
             <FilterBar 
               courses={courses}
               handleCourseChange={handleCourseChange} 
-              handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
-              handleYearChange={handleYearChange}
               selectedCourse={selectedCourse}
-              selectedGrade={selectedGrade}
-              selectedYear={selectedYear} />
-            <Graph data={e2ePaths} />
+            /><Graph data={e2ePaths} />
           </>
         ) 
       case 3:

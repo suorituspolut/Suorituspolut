@@ -10,27 +10,29 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
     <table className="ui table">
       <tbody>
         <tr>
+          {selectedYear ? 
           <Filter
             label="Suoritusvuosi"
             handleChange={handleYearChange}
             value={selectedYear}
             options={createNumberOptions(2013, 2020).reverse()}
             placeholder="2019"
-          />
+          /> : null}
+          {selectedCourse ? 
           <Filter
             label="Aloituskurssi"
             handleChange={handleCourseChange}
             value={selectedCourse}
             options={createTextOptions(courses)}
             placeholder="Aloituskurssi"
-          />
-          <Filter
+          /> : null}
+          {selectedGrade ? <Filter
             label="Arvosana"
             handleChange={handleGradeChange}
             value={selectedGrade}
             options={grades}
             placeholder="Läpäisseet"
-          />
+          /> : null}
           <td>
             <p>   </p>
             <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
