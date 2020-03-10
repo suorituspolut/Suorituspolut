@@ -1,36 +1,31 @@
-import callBuilder from '../apiConnection'
+export const getGraphData = (type, year, course, grade) => {
 
-export const getMessagesAction = () => {
-  const route = '/messages'
-  const prefix = 'GET_MESSAGES'
-  return callBuilder(route, prefix)
-}
+  let urlEnd = type
 
-export const postMessageAction = (message) => {
-  const route = '/messages'
-  const prefix = 'CREATE_MESSAGE'
-  return callBuilder(route, prefix, 'post', message)
-}
-
-// Reducer
-// You can include more app wide actions such as "selected: []" into the state
-export default (state = { data: [] }, action) => {
-  switch (action.type) {
-    case 'CREATE_MESSAGE_SUCCESS':
-      return {
-        ...state,
-        data: [...state.data.filter(item => item.id !== action.response.id), action.response],
-        pending: false,
-        error: false,
-      }
-    case 'GET_MESSAGES_SUCCESS':
-      return {
-        ...state,
-        data: action.response,
-        pending: false,
-        error: false,
-      }
-    default:
-      return state
+  if (type === 'normal' || type === 'E2E' || type === 'firsts') {
+    urlEnd = `${type}/${year}/${course}/${grade}`
   }
+  if (process.env.NODE_ENV !== 'production') {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( "GET", `http://localhost:8000/api/data/${urlEnd}`, false ) 
+    xmlHttp.send( null )
+    return xmlHttp.responseText
+  }
+  var xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/data/${urlEnd}`, false ) 
+  xmlHttp.send( null )
+  return xmlHttp.responseText
+}
+
+export const getCourseData = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( "GET", `http://localhost:8000/api/courses`, false ) 
+    xmlHttp.send( null )
+    return xmlHttp.responseText
+  }
+  var xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/courses`, false ) 
+  xmlHttp.send( null )
+  return xmlHttp.responseText
 }
