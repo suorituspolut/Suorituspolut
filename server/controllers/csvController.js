@@ -118,6 +118,41 @@ const getCourses = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
+const getAllPeriods = async (req, res) => {
+
+  //replace/modify these
+
+  const array = []
+  let year = 2017
+  let course = 'Ohjelmoinnin perusteet'
+  let grade = 'Kaikki'
+
+  if (req.params.year !== null) {
+    year = Number(req.params.year)
+    course = req.params.course
+    type = req.params.type
+    grade = req.params.grade
+  }
+
+
+  const parser = parse({delimiter: ';'}, (err, data) => {
+    if (!data) return 
+    data.forEach(credit => {
+      let newCourse = {
+      studentId : credit[0],
+      courseId: credit[1],
+      course: credit[2],
+      isModule: credit[3],
+      date: new Date(credit[4]),
+      grade: credit[5],  
+      }
+    array.push(newCourse)
+    })
+      res.send(studentPaths(array, year, course, grade))      
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
 const test = async (req, res) => {
   res.send(datahandler)
 }
@@ -128,4 +163,5 @@ module.exports = {
   getAllFirsts,
   getCourses,
   test,
+  getAllPeriods,
 }

@@ -1,5 +1,5 @@
 const { checkGrade } = require('@root/server/datahandling/grades')
-const { toPeriod, isSamePeriod, nextPeriodOf } = require('@root/server/datahandling/periods')
+const { toPeriod, isSamePeriod, nextPeriodOf, dataByYear } = require('@root/server/datahandling/periods')
 const { addWeights, separateOthersCategory, separateOthersCategorySecond } = require('@root/server/datahandling/weights')
 const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
 
@@ -77,6 +77,66 @@ const studentObjects = (data) => {
   students = [...students, student]
 
   return students
+}
+
+const bubbleData = (data, year) => {
+  //filtteröi vuoden perusteella
+  const dataByYear = dataByYear(data, year)
+
+  //luo tyhjä data template
+  const chartData = [
+  {
+    name: '1. periodi',
+    data: []
+  },
+  {
+    name: '2. periodi',
+    data: []
+  },
+  {
+    name: '3. periodi',
+    data: []
+  },
+  {
+    name: '4. periodi',
+    data: []
+  },
+  {
+    name: '5. periodi',
+    data: []
+  },
+  ]
+
+  //jaa periodeittain
+  dataByYear.forEach((credit) => {
+    switch(toPeriod(credit.date).period){
+      case 1:
+        chartData[0] = [...chartData[0], credit]
+        break       
+      case 2:
+        chartData[1] = [...chartData[1], credit]
+        break
+      case 3:
+        chartData[2] = [...chartData[2], credit]
+        break
+      case 4:
+        chartData[3] = [...chartData[3], credit]
+        break
+      case 5:
+        chartData[4] = [...chartData[4], credit]
+        break
+      default:
+        break
+    }
+
+  })
+
+  //laske painot yhteen
+  
+  // jätä jäljelle vain tietty määrä suurimpia kursseja per periodi
+
+
+  return chartData
 }
 
 // What: creates an array of highchart-objects with a starting course, ending course in next period and a weight of 1
@@ -236,4 +296,5 @@ module.exports = {
   studentPaths,
   studentPathsE2E,
   firstCourses,
+  bubbleData,
 }

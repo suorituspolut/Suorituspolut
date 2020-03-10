@@ -27,6 +27,37 @@ const addWeights = (credits) => {
   return weightedCredits
 }
 
+// What: returns an array of highchart-objects where the weights of courses in same period have been counted together
+// Takes in: an array of highchart-objects with a weight of 1
+const addWeightsByPeriod = (credits) => {
+
+  //currently just copied from above one
+
+  const courseSet = new Map()
+  let weightedCredits = []
+
+  credits.forEach((credit) => {
+    const startCourse = credit[0]
+    const finishCourse = credit[1]
+    let weight = credit[2]
+    const coursepair = `${startCourse}>${finishCourse}`
+    if (!courseSet.has(coursepair)) {
+      courseSet.set(coursepair, weight)
+    } else {
+      weight = courseSet.get(coursepair) + weight
+      courseSet.set(coursepair, weight)
+    }
+  })
+
+  courseSet.forEach((weight, courses) => {
+    const coursepair = courses.split('>')
+    weightedCredits = [...weightedCredits, [coursepair[0], coursepair[1], weight]]
+  })
+
+  weightedCredits.sort(byWeights)
+  return weightedCredits
+}
+
 const byWeights = (credit1, credit2) => credit2[2]-credit1[2]
 
 // What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
