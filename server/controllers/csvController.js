@@ -1,6 +1,6 @@
 //const { ApplicationError } = require('@util/customErrors')
 const { listOfCourses } = require('@root/server/datahandling/courses')
-const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/dataHandler')
+const { studentPaths, studentPathsE2E, firstCourses, bubbleData } = require('@root/server/datahandling/dataHandler')
 const parse = require('csv-parse')
 const fs = require('fs')
 const file = (process.cwd() + '/data/anon_dataset.csv')
@@ -120,7 +120,7 @@ const getCourses = async (req, res) => {
 
 const getAllPeriods = async (req, res) => {
 
-  //replace/modify these
+  //modify these
 
   const array = []
   let year = 2017
@@ -141,14 +141,14 @@ const getAllPeriods = async (req, res) => {
       let newCourse = {
       studentId : credit[0],
       courseId: credit[1],
-      course: credit[2],
+      //course: credit[2],
       isModule: credit[3],
       date: new Date(credit[4]),
-      grade: credit[5],  
+      //grade: credit[5],  
       }
     array.push(newCourse)
     })
-      res.send(studentPaths(array, year, course, grade))      
+      res.send(bubbleData(array, year))      
   })
   await fs.createReadStream(file).pipe(parser)
 }
