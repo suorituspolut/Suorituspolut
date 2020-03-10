@@ -6,6 +6,7 @@ import NavGraph from './NavGraph'
 import Stacked from './Stacked'
 import Histogram from './Histogram'
 import FilterBar from './FilterBar'
+import Bubbles from './Bubbles'
 
 
 const GraphSelector = ({ graphToShow }) => { 
@@ -94,6 +95,8 @@ const GraphSelector = ({ graphToShow }) => {
         return <GraphTestVenn data={normalPaths} onClick={handleNavigation} />
       case 6:
         return <Graph data={firstsPath} />
+        case 7:
+          return <Bubbles/>
       default:
         return (
           <>
