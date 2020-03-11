@@ -81,7 +81,6 @@ const getAllFirsts = async (req, res) => {
   if (req.params.levels !== null && typeof(req.params.levels === String)) {
     levels = Number(req.params.levels)
   }
-
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
     data.forEach((credit) => {

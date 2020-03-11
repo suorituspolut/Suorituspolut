@@ -50,6 +50,7 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
           <p></p>
           <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
         </td>
+
         </tr>
 
       </tbody>

@@ -24,6 +24,7 @@ const GraphSelector = ({ graphToShow }) => {
     setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
     setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
     setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+
   }, [])
 
   const courses = JSON.parse(getCourseData())
@@ -77,7 +78,8 @@ const GraphSelector = ({ graphToShow }) => {
               handleYearChange={handleYearChange}
               selectedCourse={selectedCourse}
               selectedGrade={selectedGrade}
-              selectedYear={selectedYear} />
+              selectedYear={selectedYear} 
+            />
             <NavGraph data={normalPaths} onClick={handleNavigation} />
           </>
         )
@@ -89,10 +91,8 @@ const GraphSelector = ({ graphToShow }) => {
               handleCourseChange={handleCourseChange}
               handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
-              handleYearChange={handleYearChange}
               selectedCourse={selectedCourse}
-              selectedGrade={selectedGrade}
-              selectedYear={selectedYear} />
+            />
             <Graph data={e2ePaths} />
           </>
         ) 
