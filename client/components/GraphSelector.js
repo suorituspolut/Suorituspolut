@@ -13,16 +13,17 @@ const GraphSelector = ({ graphToShow }) => {
   const [selectedCourse, setSelectedCourse] = useState('Ohjelmoinnin perusteet')
   const [selectedYear, setSelectedYear] = useState(2017)
   const [selectedGrade, setSelectedGrade] = useState('Läpäisseet')
+  const [selectedLevels, setSelectedLevels] = useState(5)
   const [normalPaths, setNormalPaths] = useState([])
   const [e2ePaths, setE2ePaths] = useState([])
   const [firstsPath, setFirstsPath] = useState([])
   const [bubbleData, setBubbleData] = useState([])
 
   useEffect(() => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade)))
-    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade)))
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
   }, [])
 
   const courses = JSON.parse(getCourseData())
@@ -39,18 +40,22 @@ const GraphSelector = ({ graphToShow }) => {
     setSelectedGrade(value)
   }
 
+  const handleLevelChange = (e, { value }) => {
+    setSelectedLevels(value)
+  }
+
   const handleSearch = () => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade)))
-    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade)))
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
   }
 
   const handleNavigationSearch = (course) => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade)))
-    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade)))
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade, selectedLevels)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade, selectedLevels)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade, selectedLevels)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
   }
 
   const handleNavigation = () => {
@@ -98,7 +103,18 @@ const GraphSelector = ({ graphToShow }) => {
       case 5:
         return <GraphTestVenn data={normalPaths} onClick={handleNavigation} />
       case 6:
-        return <Graph data={firstsPath} />
+        return (
+          <>
+            <FilterBar
+              handleSearch={handleSearch}
+              handleYearChange={handleYearChange}
+              selectedYear={selectedYear}
+              selectedLevels={selectedLevels}
+              handleLevelChange={handleLevelChange}
+            />
+            <Graph data={firstsPath} />
+          </>
+        )
       case 7:
         return (
           <>

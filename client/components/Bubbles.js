@@ -14,7 +14,7 @@ const Bubbles = ({ data }) => {
   const options = {
     chart: {
       type: 'packedbubble',
-      height: '65%',
+      height: '60%',
     },
     colors: ['#2980B9', '#3d979f', '#060045', '#E6F69D', '#1ABC9C', '#d8c09b', '#d8c09b', '#d8c09b', '#d8c09b'],
     credits: {
