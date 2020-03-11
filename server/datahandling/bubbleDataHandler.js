@@ -3,7 +3,7 @@ const { creditArraysBubble, addWeightsBubble, separateOthersCategoryBubble } = r
 const { checkGrade } = require('@root/server/datahandling/grades')
 
 
-const bubbleData = (data, year, grade) => {
+const bubbleData = (data, year, grade, bubbles) => {
 
   const chartData = [
     {
@@ -56,7 +56,7 @@ const bubbleData = (data, year, grade) => {
   chartData.forEach((period) => {
     const arraysWithWeights = creditArraysBubble(period.data)
     const arraysWithSummedWeights = addWeightsBubble(arraysWithWeights)
-    const withOthers = separateOthersCategoryBubble(arraysWithSummedWeights, 7)
+    const withOthers = separateOthersCategoryBubble(arraysWithSummedWeights, bubbles)
     returningData = [...returningData, { name: period.name, data: withOthers }]
   })
   return returningData

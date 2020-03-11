@@ -4,7 +4,7 @@ import { createNumberOptions, createTextOptions, grades } from '../util/units'
 import Filter from './Filter'
 
 
-const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearch, handleYearChange, handleLevelChange, selectedCourse, selectedGrade, selectedYear, selectedLevels }) => {
+const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearch, handleYearChange, handleLevelChange, handleBubblesChange, selectedCourse, selectedGrade, selectedYear, selectedLevels, selectedBubbles }) => {
 
   return (
     <table className="ui four very basic table filter-container">
@@ -44,6 +44,15 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
               value={selectedLevels}
               options={createNumberOptions(1, 10)}
               placeholder="5"
+            />
+          ) : null}
+          {selectedBubbles ? (
+            <Filter
+              label="Näytettävien kurssien määrä per periodi"
+              handleChange={handleBubblesChange}
+              value={selectedBubbles}
+              options={createNumberOptions(1, 50)}
+              placeholder="10"
             />
           ) : null}
         <td>
