@@ -44,6 +44,9 @@ const Bubbles = ({ data }) => {
     title: {
       text: 'Suosituimmat kurssit periodin mukaan',
     },
+    legend: {
+      verticalAlign: 'top',
+    },
     tooltip: {
       useHTML: true,
       pointFormat: '<b>{point.name}:</b> {point.value} suoritusta'
