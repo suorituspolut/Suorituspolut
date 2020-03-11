@@ -1,5 +1,18 @@
-.sankey-container { 
-  margin: 3em;
+.graph-container {
+  padding-left: 30px;
+  padding-right: 30px;
+  max-width: 1500px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+}
+
+.filter-container {
+  padding: 0.5em 0em 3em 0em;
+  justify-content: center;
+  text-align: left;
+  display: flex;
 }
 
 .toggle-container {

@@ -17,11 +17,14 @@ const GraphSelector = ({ graphToShow }) => {
   const [normalPaths, setNormalPaths] = useState([])
   const [e2ePaths, setE2ePaths] = useState([])
   const [firstsPath, setFirstsPath] = useState([])
+  const [bubbleData, setBubbleData] = useState([])
 
   useEffect(() => {
     setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
     setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
     setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+
   }, [])
 
   const courses = JSON.parse(getCourseData())
@@ -46,12 +49,14 @@ const GraphSelector = ({ graphToShow }) => {
     setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
     setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
     setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
   }
 
   const handleNavigationSearch = (course) => {
     setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade, selectedLevels)))
     setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade, selectedLevels)))
     setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade, selectedLevels)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
   }
 
   const handleNavigation = () => {
@@ -83,7 +88,8 @@ const GraphSelector = ({ graphToShow }) => {
           <>
             <FilterBar 
               courses={courses}
-              handleCourseChange={handleCourseChange} 
+              handleCourseChange={handleCourseChange}
+              handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
               selectedCourse={selectedCourse}
             />
@@ -110,7 +116,18 @@ const GraphSelector = ({ graphToShow }) => {
           </>
         )
       case 7:
-        return <Bubbles/>
+        return (
+          <>
+            <FilterBar 
+              selectedYear={selectedYear}
+              handleYearChange={handleYearChange}
+              selectedGrade={selectedGrade}
+              handleGradeChange={handleGradeChange}
+              handleSearch={handleSearch}
+            />
+            <Bubbles data={bubbleData} />
+          </>
+        )
       default:
         return (
           <>
@@ -131,7 +148,7 @@ const GraphSelector = ({ graphToShow }) => {
 
 
   return (
-    <div>
+    <div className="graph-container">
       {whichGraph(graphToShow)}
     </div>
   )

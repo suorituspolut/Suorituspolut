@@ -72,7 +72,7 @@ const Stacked = ({ data }) => {
 
 
   return (
-    <div className="test">
+    <div>
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'chart'}

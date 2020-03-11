@@ -3,16 +3,16 @@ import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 
-require("highcharts/modules/sankey")(Highcharts)
-require("highcharts/modules/exporting")(Highcharts)
-require("highcharts/modules/boost")(Highcharts)
+require('highcharts/modules/sankey')(Highcharts)
+require('highcharts/modules/exporting')(Highcharts)
+require('highcharts/modules/boost')(Highcharts)
 
 const Graph = ({ data }) => {
 
   const options = {
     colors: ['#2980B9', '#3d979f', '#060045', '#E6F69D', '#1ABC9C', '#d8c09b', '#d8c09b', '#d8c09b', '#d8c09b'],
     credits: {
-      text: ''
+      text: '',
     },
     exporting: {
       menuItemDefinitions: {
@@ -80,7 +80,7 @@ const Graph = ({ data }) => {
 
 
   return (
-    <div className="sankey-container">
+    <div>
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'chart'}

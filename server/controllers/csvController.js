@@ -1,12 +1,14 @@
 //const { ApplicationError } = require('@util/customErrors')
 const { listOfCourses } = require('@root/server/datahandling/courses')
-const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/dataHandler')
+const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
+const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
+
 const parse = require('csv-parse')
 const fs = require('fs')
+
 const file = (process.cwd() + '/data/anon_dataset.csv')
 
 const getAllNormal = async (req, res) => {
-
   const array = []
   let year = 2017
   let course = 'Ohjelmoinnin perusteet'
@@ -15,55 +17,51 @@ const getAllNormal = async (req, res) => {
   if (req.params.year !== null) {
     year = Number(req.params.year)
     course = req.params.course
-    type = req.params.type
     grade = req.params.grade
   }
 
 
-  const parser = parse({delimiter: ';'}, (err, data) => {
+  const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return 
-    data.forEach(credit => {
-      let newCourse = {
-      studentId : credit[0],
-      courseId: credit[1],
-      course: credit[2],
-      isModule: credit[3],
-      date: new Date(credit[4]),
-      grade: credit[5],  
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
       }
-    array.push(newCourse)
+      array.push(newCourse)
     })
-      res.send(studentPaths(array, year, course, grade))      
+    res.send(studentPaths(array, year, course, grade))
   })
   await fs.createReadStream(file).pipe(parser)
 }
 
 const getAllE2E = async (req, res) => {
-
   const array = []
   let year = 2017
-  let course = "Ohjelmoinnin perusteet"
-  let type = "normal"
-  let grade = "Kaikki"
+  let course = 'Ohjelmoinnin perusteet'
+  let grade = 'Kaikki'
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
     course = req.params.course
-    type = req.params.type
     grade = req.params.grade
   }
 
   const parser = parse({delimiter: ';'}, (err, data) => {
-    data.forEach(credit => {
-      let newCourse = {
-      studentId : credit[0],
-      courseId: credit[1],
-      course: credit[2],
-      isModule: credit[3],
-      date: new Date(credit[4]),
-      grade: credit[5],  
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
       }
-    array.push(newCourse)
+      array.push(newCourse)
     })
 
     res.send(studentPathsE2E(array, year, course, grade))
@@ -83,21 +81,20 @@ const getAllFirsts = async (req, res) => {
   if (req.params.levels !== null && typeof(req.params.levels === String)) {
     levels = Number(req.params.levels)
   }
-
-  const parser = parse({delimiter: ';'}, (err, data) => {
-    if (!data) return 
-    data.forEach(credit => {
-      let newCourse = {
-      studentId : credit[0],
-      courseId: credit[1],
-      course: credit[2],
-      isModule: credit[3],
-      date: new Date(credit[4]),
-      grade: credit[5],  
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    if (!data) return
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
       }
-    array.push(newCourse)
+      array.push(newCourse)
     })
-      res.send(firstCourses(array, year, levels))     
+    res.send(firstCourses(array, year, levels))
   })
   await fs.createReadStream(file).pipe(parser)
 }
@@ -105,17 +102,17 @@ const getAllFirsts = async (req, res) => {
 const getCourses = async (req, res) => {
   const array = []
 
-  const parser = parse({delimiter: ';'}, (err, data) => {
-    data.forEach(credit => {
-      let newCourse = {
-      studentId : credit[0],
-      courseId: credit[1],
-      course: credit[2],
-      isModule: credit[3],
-      date: new Date(credit[4]),
-      grade: credit[5],  
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],  
       }
-    array.push(newCourse)
+      array.push(newCourse)
     })
     res.send(listOfCourses(array))
   })
@@ -123,8 +120,32 @@ const getCourses = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
-const test = async (req, res) => {
-  res.send(datahandler)
+const getBubbleData = async (req, res) => {
+  const array = []
+  let year = 2017
+  let grade = null
+
+  if (req.params.year !== null) {
+    year = Number(req.params.year)
+    grade = req.params.grade
+  }
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    if (!data) return
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
+      }
+      array.push(newCourse)
+    })
+    res.send(bubbleData(array, year, grade))
+  })
+  await fs.createReadStream(file).pipe(parser)
 }
 
 module.exports = {
@@ -132,5 +153,5 @@ module.exports = {
   getAllE2E,
   getAllFirsts,
   getCourses,
-  test,
+  getBubbleData,
 }
