@@ -81,7 +81,7 @@ const GraphSelector = ({ graphToShow }) => {
           <>
             <FilterBar 
               courses={courses}
-              handleCourseChange={handleCourseChange} 
+              handleCourseChange={handleCourseChange}
               handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
               handleYearChange={handleYearChange}
@@ -105,6 +105,8 @@ const GraphSelector = ({ graphToShow }) => {
             <FilterBar 
               selectedYear={selectedYear}
               handleYearChange={handleYearChange}
+              selectedGrade={selectedGrade}
+              handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
             />
             <Bubbles data={bubbleData} />
@@ -130,7 +132,7 @@ const GraphSelector = ({ graphToShow }) => {
 
 
   return (
-    <div>
+    <div className="graph-container">
       {whichGraph(graphToShow)}
     </div>
   )

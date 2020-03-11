@@ -91,10 +91,61 @@ const separateOthersCategorySecond = (array, biggestCourses) => {
   return highChartsArrays
 }
 
+// What: creates the basic highchart-objects for the bubblechart
+// Takes in: an array of credits of a period
+const creditArraysBubble = (credits) => {
+  const highChartArrays = credits.map(credit => [credit.course, 1])
+  return highChartArrays
+}
+
+
+// What: returns an array of highchart-objects where the weights of same courses in the period have been counted together
+// Takes in: an array of highchart-objects with a weight of 1
+const addWeightsBubble = (credits) => {
+  const courseSet = new Map()
+  let weightedCredits = []
+
+  credits.forEach((credit) => {
+    const course = credit[0]
+    let weight = credit[1]
+    if (!courseSet.has(course)) {
+      courseSet.set(course, weight)
+    } else {
+      weight = courseSet.get(course) + weight
+      courseSet.set(course, weight)
+    }
+  })
+
+  courseSet.forEach((weight, course) => {
+    weightedCredits = [...weightedCredits, [course, weight]]
+  })
+  weightedCredits.sort((credit1, credit2) => credit2[1] - credit1[1])
+
+  return weightedCredits
+}
+
+// What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
+// Takes in: an array of highchart-objects of a course with a weight of 1, and amount of categories wanted in total
+const separateOthersCategoryBubble = (weightedCredits, amount) => {
+  let arrayWithOthers = weightedCredits.filter(array => weightedCredits.indexOf(array) < amount)
+  const others = weightedCredits.filter(array => weightedCredits.indexOf(array) >= amount)
+
+  if (weightedCredits.length >= 7) {
+    const totalWeightsOfOthers = others.reduce((sum, course) => {
+      return sum + course[1]
+    }, 0)
+    arrayWithOthers = [...arrayWithOthers, ['Muut', totalWeightsOfOthers]]
+  }
+  return arrayWithOthers
+}
+
 
 module.exports = {
   separateOthersCategory,
   separateOthersCategorySecond,
   addWeights,
   addWeightsByPeriod,
+  creditArraysBubble,
+  addWeightsBubble,
+  separateOthersCategoryBubble,
 }

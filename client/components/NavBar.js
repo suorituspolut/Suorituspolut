@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dropdown, Menu } from 'semantic-ui-react'
-
+import Logo from '../assets/logo.png'
 
 const NavBar = ({ onChange, value }) => {
 
@@ -17,10 +17,12 @@ const NavBar = ({ onChange, value }) => {
   return (
     <Menu pointing secondary>
       <Menu.Item>
-        <Dropdown
-         text='Kurssigraafit' value={value} options={options} onChange={onChange} />
+        <img className="navbar-logo" src={Logo} />
       </Menu.Item>
-      <Menu.Item>Suosituskurssit</Menu.Item>
+      <Menu.Item className="navbar-item">
+        <Dropdown text='Kurssigraafit' value={value} options={options} onChange={onChange} />
+      </Menu.Item>
+      <Menu.Item className="navbar-item">Suosituskurssit</Menu.Item>
     </Menu>
   )
 }

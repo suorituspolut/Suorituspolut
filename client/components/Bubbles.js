@@ -72,7 +72,7 @@ const Bubbles = ({ data }) => {
   }
 
   return (
-    <div className="bubble">
+    <div>
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'chart'}

@@ -7,7 +7,7 @@ import Filter from './Filter'
 const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearch, handleYearChange, handleLevelChange, selectedCourse, selectedGrade, selectedYear, selectedLevels }) => {
 
   return (
-    <table className="ui table">
+    <table className="ui four very basic table filter-container">
       <tbody>
         <tr>
           {selectedYear ? (
@@ -46,11 +46,12 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
               placeholder="5"
             />
           ) : null}
-          <td>
-            <p>   </p>
-            <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
-          </td>
+        <td>
+          <p></p>
+          <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
+        </td>
         </tr>
+
       </tbody>
     </table>
   )

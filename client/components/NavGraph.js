@@ -65,7 +65,7 @@ const NavGraph = ({ data, onClick }) => {
 
 
   return (
-    <div className="sankey-container">
+    <div>
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'chart'}
