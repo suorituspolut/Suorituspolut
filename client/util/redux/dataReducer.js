@@ -2,7 +2,7 @@ export const getGraphData = (type, year, course, grade) => {
 
   let urlEnd = type
 
-  if (type === 'normal' || type === 'E2E' || type === 'firsts') {
+  if (type === 'normal' || type === 'E2E' || type === 'firsts' || type === 'bubble') {
     urlEnd = `${type}/${year}/${course}/${grade}`
   }
   if (process.env.NODE_ENV !== 'production') {

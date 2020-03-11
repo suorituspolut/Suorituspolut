@@ -16,11 +16,13 @@ const GraphSelector = ({ graphToShow }) => {
   const [normalPaths, setNormalPaths] = useState([])
   const [e2ePaths, setE2ePaths] = useState([])
   const [firstsPath, setFirstsPath] = useState([])
+  const [bubbleData, setBubbleData] = useState([])
 
   useEffect(() => {
     setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade)))
     setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade)))
     setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade)))
   }, [])
 
   const courses = JSON.parse(getCourseData())
@@ -41,12 +43,14 @@ const GraphSelector = ({ graphToShow }) => {
     setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade)))
     setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade)))
     setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade)))
   }
 
   const handleNavigationSearch = (course) => {
     setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade)))
     setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade)))
     setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade)))
   }
 
   const handleNavigation = () => {
@@ -95,8 +99,17 @@ const GraphSelector = ({ graphToShow }) => {
         return <GraphTestVenn data={normalPaths} onClick={handleNavigation} />
       case 6:
         return <Graph data={firstsPath} />
-        case 7:
-          return <Bubbles/>
+      case 7:
+        return (
+          <>
+            <FilterBar 
+              selectedYear={selectedYear}
+              handleYearChange={handleYearChange}
+              handleSearch={handleSearch}
+            />
+            <Bubbles data={bubbleData} />
+          </>
+        )
       default:
         return (
           <>
