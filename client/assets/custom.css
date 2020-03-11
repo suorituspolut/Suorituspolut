@@ -4,7 +4,6 @@
 
 
 .navbar {
-  height: 5em;
   background-color: whitesmoke;
 }
 
@@ -35,5 +34,11 @@
   overflow: hidden;
 }
 
+:root {
+  height: 100%;
+}
 
+.highcharts-background {
+  min-height: 800px;
+}
 
