@@ -82,7 +82,8 @@ const GraphSelector = ({ graphToShow }) => {
               handleYearChange={handleYearChange}
               selectedCourse={selectedCourse}
               selectedGrade={selectedGrade}
-              selectedYear={selectedYear} />
+              selectedYear={selectedYear} 
+            />
             <NavGraph data={normalPaths} onClick={handleNavigation} />
           </>
         )
@@ -94,10 +95,8 @@ const GraphSelector = ({ graphToShow }) => {
               handleCourseChange={handleCourseChange}
               handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
-              handleYearChange={handleYearChange}
               selectedCourse={selectedCourse}
-              selectedGrade={selectedGrade}
-              selectedYear={selectedYear} />
+            />
             <Graph data={e2ePaths} />
           </>
         ) 
