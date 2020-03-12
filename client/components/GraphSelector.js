@@ -14,17 +14,17 @@ const GraphSelector = ({ graphToShow }) => {
   const [selectedYear, setSelectedYear] = useState(2017)
   const [selectedGrade, setSelectedGrade] = useState('Läpäisseet')
   const [selectedLevels, setSelectedLevels] = useState(5)
+  const [selectedBubbles, setSelectedBubbles] = useState(10)
   const [normalPaths, setNormalPaths] = useState([])
   const [e2ePaths, setE2ePaths] = useState([])
   const [firstsPath, setFirstsPath] = useState([])
   const [bubbleData, setBubbleData] = useState([])
 
   useEffect(() => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
-    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
-
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
   }, [])
 
   const courses = JSON.parse(getCourseData())
@@ -45,18 +45,22 @@ const GraphSelector = ({ graphToShow }) => {
     setSelectedLevels(value)
   }
 
+  const handleBubblesChange = (e, { value }) => {
+    setSelectedBubbles(value)
+  }
+
   const handleSearch = () => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
-    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
   }
 
   const handleNavigationSearch = (course) => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade, selectedLevels)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade, selectedLevels)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade, selectedLevels)))
-    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels)))
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade, selectedLevels,selectedBubbles)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade, selectedLevels,selectedBubbles)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade, selectedLevels,selectedBubbles)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels,selectedBubbles)))
   }
 
   const handleNavigation = () => {
@@ -124,6 +128,8 @@ const GraphSelector = ({ graphToShow }) => {
               selectedGrade={selectedGrade}
               handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
+              selectedBubbles={selectedBubbles}
+              handleBubblesChange={handleBubblesChange}
             />
             <Bubbles data={bubbleData} />
           </>

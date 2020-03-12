@@ -124,10 +124,15 @@ const getBubbleData = async (req, res) => {
   const array = []
   let year = 2017
   let grade = null
+  let bubbles = 10
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
     grade = req.params.grade
+  }
+
+  if (req.params.bubbles !== null && typeof(req.params.bubbles === String)) {
+    bubbles = Number(req.params.bubbles)
   }
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
@@ -143,7 +148,7 @@ const getBubbleData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(bubbleData(array, year, grade))
+    res.send(bubbleData(array, year, grade, bubbles))
   })
   await fs.createReadStream(file).pipe(parser)
 }

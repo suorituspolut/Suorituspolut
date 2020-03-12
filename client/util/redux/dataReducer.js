@@ -1,9 +1,9 @@
-export const getGraphData = (type, year, course, grade, levels) => {
+export const getGraphData = (type, year, course, grade, levels, bubbles) => {
 
   let urlEnd = type
 
   if (type === 'normal' || type === 'E2E' || type === 'firsts' || type === 'bubble') {
-    urlEnd = `${type}/${year}/${course}/${grade}/${levels}`
+    urlEnd = `${type}/${year}/${course}/${grade}/${levels}/${bubbles}`
   }
   if (process.env.NODE_ENV !== 'production') {
     var xmlHttp = new XMLHttpRequest()

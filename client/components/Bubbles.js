@@ -16,7 +16,7 @@ const Bubbles = ({ data }) => {
       type: 'packedbubble',
       height: '60%',
     },
-    colors: ['#2980B9', '#3d979f', '#060045', '#E6F69D', '#1ABC9C', '#d8c09b', '#d8c09b', '#d8c09b', '#d8c09b'],
+    colors: [ '#ff6666', '#ff9966', '#ffcc66', '#ffff66', '#ccff33'],
     credits: {
       text: '',
     },
@@ -54,9 +54,9 @@ const Bubbles = ({ data }) => {
     plotOptions: {
       packedbubble: {
         minSize: '40%',
-        maxSize: '300%',
+        maxSize: '140%',
         zMin: 0,
-        zMax: 3000,
+        zMax: 100,
         layoutAlgorithm: {
           splitSeries: false,
           gravitationalConstant: 0.02
