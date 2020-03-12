@@ -31,6 +31,27 @@ const toPeriod = (date) => {
   return { period, year }
 }
 
+const timeBetween = (startDate, endDate) => {
+  let start = toPeriod(startDate)
+  let end = toPeriod(endDate)
+  if (start.year === end.year) {
+    return end.period
+  } else if (start.year + 1 === end.year){
+    return 5 + end.period
+  } else if (start.year + 2 === end.year){
+    return 10 + end.period
+  } else if (start.year + 3 === end.year){
+    return 15 + end.period
+  } else if (start.year + 4 === end.year){
+    return 20 + end.period
+  } else if (start.year + 5 === end.year){
+    return 25 + end.period
+  } else if (start.year + 6 === end.year){
+    return 30 + end.period
+  } 
+  return 49
+}
+
 // What: finds out the next period for another period-object, works year-around, returns an object
 // Takes in: an period-object with properties of period (number between 1-5) and a year
 const nextPeriodOf = (periodObject) => {
@@ -58,9 +79,12 @@ const dataByYear = (data, year) => {
   return data.filter(credit => credit.date.getFullYear() === year)
 }
 
+
+
 module.exports = {
   isSamePeriod,
   toPeriod,
   nextPeriodOf,
   dataByYear,
+  timeBetween
 }

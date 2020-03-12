@@ -1,4 +1,3 @@
-
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
@@ -8,8 +7,8 @@ require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
 
 const Hist = ({ data, course }) => {
-  console.log(data)
-  console.log(course)
+  let array = new Array()
+  array = JSON.parse(data)
   const options = {
     chart: {
         type: 'column'
@@ -23,20 +22,66 @@ const Hist = ({ data, course }) => {
       subtitle: {
         text: course
       },
+      credits: {
+        text: '' 
+      },
       xAxis: {
         categories: [
-          '1st period',
-          '2nd period',
-          '3rd period',
-          '4th period',
-          '5th period',
-          '6th period',
-          '7th period',
-          '8th period',
-          '9th period',
-          '10th period',
-          '11th period',
-          '12th period'
+          '1. periodi / 1.vuosi',
+          '2. periodi / 1.vuosi',
+          '3. periodi / 1.vuosi',
+          '4. periodi / 1.vuosi',
+          '5. periodi / 1.vuosi',
+          '1. periodi / 2.vuosi',
+          '2. periodi / 2.vuosi',
+          '3. periodi / 2.vuosi',
+          '4. periodi / 2.vuosi',
+          '5. periodi / 2.vuosi',
+          '1. periodi / 3.vuosi',
+          '2. periodi / 3.vuosi',
+          '3. periodi / 3.vuosi',
+          '4. periodi / 3.vuosi',
+          '5. periodi / 3.vuosi',
+          '1. periodi / 4.vuosi',
+          '2. periodi / 4.vuosi',
+          '3. periodi / 4.vuosi',
+          '4. periodi / 4.vuosi',
+          '5. periodi / 4.vuosi',
+          '1. periodi / 5.vuosi',
+          '2. periodi / 5.vuosi',
+          '3. periodi / 5.vuosi',
+          '4. periodi / 5.vuosi',
+          '5. periodi / 5.vuosi',
+          '1. periodi / 6.vuosi',
+          '2. periodi / 6.vuosi',
+          '3. periodi / 6.vuosi',
+          '4. periodi / 6.vuosi',
+          '5. periodi / 6.vuosi',
+          '1. periodi / 7.vuosi',
+          '2. periodi / 7.vuosi',
+          '3. periodi / 7.vuosi',
+          '4. periodi / 7.vuosi',
+          '5. periodi / 7.vuosi',
+          '1. periodi / 8.vuosi',
+          '2. periodi / 8.vuosi',
+          '3. periodi / 8.vuosi',
+          '4. periodi / 8.vuosi',
+          '5. periodi / 8.vuosi',
+          '1. periodi / 9.vuosi',
+          '2. periodi / 9.vuosi',
+          '3. periodi / 9.vuosi',
+          '4. periodi / 9.vuosi',
+          '5. periodi / 9.vuosi',
+          '1. periodi / 10.vuosi',
+          '2. periodi / 10.vuosi',
+          '3. periodi / 10.vuosi',
+          '4. periodi / 10.vuosi',
+          '5. periodi / 10.vuosi',
+          '1. periodi / 11.vuosi',
+          '2. periodi / 11.vuosi',
+          '3. periodi / 11.vuosi',
+          '4. periodi / 11.vuosi',
+          '5. periodi / 11.vuosi'
         ],
         crosshair: true
       },
@@ -64,7 +109,7 @@ const Hist = ({ data, course }) => {
       },
       series: [{
         name: 'Data',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 124.1, 95.6, 54.4]
+        data: array
       }]
     }
 

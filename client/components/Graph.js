@@ -47,6 +47,23 @@ const Graph = ({ data }) => {
       type: 'sankey',
       name: 'Suoritusten määrä',
     }],
+    tooltip: {
+      nodeFormat: '{series.name}: <b> {point.sum:.0f}</b>'
+    },
+    plotOptions: {
+      series: {
+        cursor: 'pointer',
+        point: {
+          events: {
+            click: function (event) {
+              if (!event.point.name.includes("highcharts")) {
+                onClick(event.point.name)
+              }
+            },
+          },
+        },
+      },
+    },
   }
 
 

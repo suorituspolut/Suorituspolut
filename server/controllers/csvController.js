@@ -1,6 +1,6 @@
 //const { ApplicationError } = require('@util/customErrors')
 const { listOfCourses } = require('@root/server/datahandling/courses')
-const { studentPaths, studentPathsE2E, histogramObjects } = require('@root/server/datahandling/dataHandler')
+const { studentPaths, studentPathsE2E, histogramObjects, firstCourses } = require('@root/server/datahandling/dataHandler')
 const parse = require('csv-parse')
 const fs = require('fs')
 const file = (process.cwd() + '/data/anon_dataset.csv')
@@ -71,6 +71,31 @@ const getAllE2E = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
+const getAllFirsts = async (req, res) => {
+  const array = []
+  let year = 2017
+
+  if (req.params.year !== null) {
+    year = Number(req.params.year)
+  }
+
+  const parser = parse({delimiter: ';'}, (err, data) => {
+    if (!data) return 
+    data.forEach(credit => {
+      let newCourse = {
+      studentId : credit[0],
+      courseId: credit[1],
+      course: credit[2],
+      isModule: credit[3],
+      date: new Date(credit[4]),
+      grade: credit[5],  
+      }
+    array.push(newCourse)
+    })
+      res.send(firstCourses(array, year))     
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
 
 const getCourses = async (req, res) => {
   const array = []
@@ -95,10 +120,10 @@ const getCourses = async (req, res) => {
 
 const getHistogramData = async (req, res) => {
   const array = []
-  let year = 2017
-
-  if (req.params.year !== null) {
-    year = Number(req.params.year)
+  let course = "Ohjelmoinnin perusteet"
+  
+  if (req.params.course !== null) {
+    course = req.params.course
   }
 
   const parser = parse({delimiter: ';'}, (err, data) => {
@@ -114,7 +139,7 @@ const getHistogramData = async (req, res) => {
       }
     array.push(newCourse)
     })
-      res.send(histogramObjects(array, year))     
+      res.send(histogramObjects(array, course))    
   })
   await fs.createReadStream(file).pipe(parser)
 }
@@ -126,6 +151,7 @@ const test = async (req, res) => {
 module.exports = {
   getAllNormal,
   getAllE2E,
+  getAllFirsts,
   getCourses,
   test,
   getHistogramData

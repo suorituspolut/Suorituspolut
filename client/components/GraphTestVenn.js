@@ -1,4 +1,3 @@
-
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
@@ -8,7 +7,7 @@ require("highcharts/modules/sankey")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
 require("highcharts/modules/boost")(Highcharts)
 
-const GraphTestVenn = ({ data }) => {
+const GraphTestVenn = () => {
 
   const options = {
     //colors: ['#2980B9', '#3d979f', '#060045', '#E6F69D', '#1ABC9C', '#d8c09b', '#d8c09b', '#d8c09b', '#d8c09b'],

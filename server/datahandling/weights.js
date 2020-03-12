@@ -1,6 +1,7 @@
 // What: returns an array of highchart-objects where the weights of similar paths have been counted together
 // Takes in: an array of highchart-objects with a weight of 1
 const addWeights = (credits) => {
+  //console.log('credits: ', credits)
   const courseSet = new Map()
   let weightedCredits = []
 
@@ -22,7 +23,7 @@ const addWeights = (credits) => {
     weightedCredits = [...weightedCredits, [coursepair[0], coursepair[1], weight]]
   })
 
-  weightedCredits.sort(byWeights)
+  //weightedCredits.sort(byWeights)
   return weightedCredits
 }
 

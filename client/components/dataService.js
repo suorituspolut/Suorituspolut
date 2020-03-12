@@ -38,6 +38,10 @@ const getHistogramData = (course) => {
     xmlHttp.send( null )
     return xmlHttp.responseText
   }
+  var xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/api/histogram/${course}/`, false ) 
+  xmlHttp.send( null )
+  return xmlHttp.responseText
 }
 
 const getCourseData = () => {
