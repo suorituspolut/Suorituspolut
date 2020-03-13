@@ -2,6 +2,9 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
+import { Icon, Message, Popup , Button} from 'semantic-ui-react'
+
+
 
 require("highcharts/modules/export-data")(Highcharts)
 require("highcharts/modules/exporting")(Highcharts)
@@ -47,7 +50,7 @@ const Stacked = ({ data }) => {
     yAxis: {
       min: 0,
       title: {
-        text: 'Kaikkiaan opiskelijoita(%)'
+        text: 'Opiskelijoita(%)'
       }
     },
     tooltip: {
@@ -61,7 +64,7 @@ const Stacked = ({ data }) => {
     },
     //'Tietorakenteet ja Algoritmit', 'Todennäköisyyslaskenta I', 'Laskennan mallit', 'Käyttöjärjestelmät' , 'Tietoliikenteen perusteet'
     series: [{
-      name: 'Viimeinen suorituskerta',
+      name: 'Viimeinen tai ensimmäinen suorituskerta',
       data: [56, 39, 40, 57, 50]
     }, {
       name: 'Käyty uudelleen',
@@ -72,13 +75,21 @@ const Stacked = ({ data }) => {
 
 
   return (
+    <>
     <div>
+     <Popup content=
+     "Tässä graafissa on kursseja, joita käydään uudestaan useammiten. Taroituksena on näyttää, mihin kurssiin kannattaa varata enemmän aikaa ja vaikka lukea materiaalit ennen luentoa."
+      position="bottom left" on='click'
+      pinned trigger={<Icon name='question circle outline icon' size='large'/>} wide/></div>
+      <div>
+      
+
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'chart'}
         options={options}
       />
-    </div>
+    </div></>
   )
 }
 
