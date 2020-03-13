@@ -15,6 +15,7 @@ const GraphSelector = ({ graphToShow }) => {
   const [normalPaths, setNormalPaths] = useState([])
   const [e2ePaths, setE2ePaths] = useState([])
   const [firstsPath, setFirstsPath] = useState([])
+  const [selectedMaxYear, setSelectedMaxYear] = useState(5)
 
   useEffect(() => {
     setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade)))
@@ -94,7 +95,7 @@ const GraphSelector = ({ graphToShow }) => {
           handleCourseChange={handleCourseChange} 
           handleSearch={handleSearch}
           selectedCourse={selectedCourse} />
-          <Histogram data={getHistogramData(selectedCourse)} onClick={handleNavigation} />
+          <Histogram maxYear={selectedMaxYear} course={selectedCourse} data={getHistogramData(selectedCourse)} onClick={handleNavigation} />
           </>
         )
         case 4:

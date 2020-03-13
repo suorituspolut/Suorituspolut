@@ -1,5 +1,5 @@
 const { checkGrade } = require('@root/server/datahandling/grades')
-const { toPeriod, isSamePeriod, nextPeriodOf, timeBetween, periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
+const { toPeriod, isSamePeriod, nextPeriodOf, periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { addWeights, separateOthersCategory, separateOthersCategorySecond } = require('@root/server/datahandling/weights')
 const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
 
@@ -181,7 +181,7 @@ const histogramObjects = (data, course) => {
         histogramArray[0]++
       } else if (credit.course === course) {
         const time = periodsBetweenTwoDates(firstCourse.date, credit.date)
-        if (time <= 40) {
+        if (time <= 37) {
           histogramArray[time]++
         }
       }
