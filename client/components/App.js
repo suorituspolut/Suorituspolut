@@ -4,7 +4,7 @@ import NavBar from 'Components/NavBar'
 import GraphSelector from 'Components/GraphSelector'
 
 const App = () => {
-  const [graphToShow, setGraphToShow] = useState(0)
+  const [graphToShow, setGraphToShow] = useState(3)
 
   const handleGraphChange = (e, { value }) => {
     setGraphToShow(value)

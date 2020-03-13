@@ -52,6 +52,13 @@ const timeBetween = (startDate, endDate) => {
   return 49
 }
 
+const periodsBetweenTwoDates = (date1, date2) => {
+  const start = toPeriod(date1)
+  const end = toPeriod(date2)
+
+  return (end.period - start.period) + ((end.year - start.year) * 5)
+}
+
 // What: finds out the next period for another period-object, works year-around, returns an object
 // Takes in: an period-object with properties of period (number between 1-5) and a year
 const nextPeriodOf = (periodObject) => {
@@ -80,11 +87,11 @@ const dataByYear = (data, year) => {
 }
 
 
-
 module.exports = {
   isSamePeriod,
   toPeriod,
   nextPeriodOf,
   dataByYear,
-  timeBetween
+  timeBetween,
+  periodsBetweenTwoDates,
 }
