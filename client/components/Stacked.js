@@ -3,7 +3,7 @@ import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import { Icon, Message, Popup , Button} from 'semantic-ui-react'
-
+import Info from "Components/Info"
 
 
 require("highcharts/modules/export-data")(Highcharts)
@@ -76,20 +76,16 @@ const Stacked = ({ data }) => {
 
   return (
     <>
-    <div>
-     <Popup content=
-     "Tässä graafissa on kursseja, joita käydään uudestaan useammiten. Taroituksena on näyttää, mihin kurssiin kannattaa varata enemmän aikaa ja vaikka lukea materiaalit ennen luentoa."
-      position="bottom left" on='click'
-      pinned trigger={<Icon name='question circle outline icon' size='large'/>} wide/></div>
-      <div>
-      
+    <Info content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/>
+      <div>     
 
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'chart'}
         options={options}
       />
-    </div></>
+    </div>
+    </>
   )
 }
 
