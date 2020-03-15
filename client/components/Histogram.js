@@ -8,7 +8,9 @@ require("highcharts/modules/boost")(Highcharts)
 
 const Hist = ({ data, course, maxYear }) => {
   let helper = new Array()
-  helper = JSON.parse(data)
+  if (data.length > 1) {
+    helper = JSON.parse(data)
+  }
   let array = new Array()
   for (let i = 0; i < maxYear * 5; i++) {
     array[i] = helper[i]
