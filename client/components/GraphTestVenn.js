@@ -63,7 +63,7 @@ const GraphTestVenn = () => {
     <div className="test">
       <HighchartsReact
         highcharts={Highcharts}
-        constructorType={'chart'}
+        constructorType="chart"
         options={options}
       />
     </div>

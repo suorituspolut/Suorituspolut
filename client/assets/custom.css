@@ -16,8 +16,10 @@
   margin-bottom: 3em;
 }
 
-.navbuttons {
-  margin-bottom: 6em;
+.headline {
+  margin: 2em;
+  font-weight: 300;
+  text-align: center;
 }
 
 .footer {
