@@ -29,3 +29,12 @@ export const getCourseData = () => {
   xmlHttp.send( null )
   return xmlHttp.responseText
 }
+
+export const getHistogramData = (course) => {
+  if (process.env.NODE_ENV !== 'production') {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( "GET", `http://localhost:8000/api/histogram/${course}/`, false ) 
+    xmlHttp.send( null )
+    return xmlHttp.responseText
+  }
+}

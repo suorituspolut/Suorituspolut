@@ -2,6 +2,7 @@ const { checkGrade } = require('@root/server/datahandling/grades')
 const { toPeriod, isSamePeriod, nextPeriodOf } = require('@root/server/datahandling/periods')
 const { addWeights, separateOthersCategory, separateOthersCategorySecond } = require('@root/server/datahandling/weights')
 const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
+const { studentObjects } = require('@root/server/datahandling/students')
 
 
 // What: ties it all together for a normal graph
@@ -48,36 +49,7 @@ const studentPathsE2E = (data, year, startCourse, grade) => {
   return arraysWithOtherCategory
 }
 
-// What: creates an array of student-objects with their corresponding courses in an array
-// Takes in: array of credits with studentIds, dates, courses, grades, module
-const studentObjects = (data) => {
-  data.shift()
-  let students = []
-  let courses = []
-  let helper = data[0].studentId
-  let student = { studentNumber: data[0].studentId, courses: [] }
 
-  data.forEach((credit) => {
-    if (credit.studentId !== helper) {
-      courses.sort((credit1, credit2) => credit1.date - credit2.date)
-      student.courses = courses
-      students = [...students, student]
-      courses = []
-      courses = [...courses, credit]
-      helper = credit.studentId
-      student = { studentNumber: credit.studentId, courses: [] }
-    } else {
-      courses = [...courses, credit]
-    }
-  })
-
-  //sorts and adds the last student as well
-  courses.sort((credit1, credit2) => credit1.date - credit2.date)
-  student.courses = courses
-  students = [...students, student]
-
-  return students
-}
 
 // What: creates an array of highchart-objects with a starting course, ending course in next period and a weight of 1
 // Takes in: an array of students with their corresponding courses, starting course, year of the starting course, and grade
@@ -196,7 +168,6 @@ const firstCourses = (data, year, levels) => {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
         if (level >= levels) {
-        
         } else if (isSamePeriod(periodOfCourse, fromPeriod)) {
           fromCourses = [...fromCourses, `${level}: ${course.course}`]
         } else if (!periodHasChanged && !isSamePeriod(periodOfCourse, fromPeriod)) {

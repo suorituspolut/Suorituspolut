@@ -1,6 +1,6 @@
-//const { ApplicationError } = require('@util/customErrors')
 const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
+const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
 const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
 
 const parse = require('csv-parse')
@@ -120,6 +120,33 @@ const getCourses = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
+const getHistogramData = async (req, res) => {
+  const array = []
+  let course = 'Ohjelmoinnin perusteet'
+
+  if (req.params.course !== null) {
+    course = req.params.course
+  }
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    if (!data) return
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
+      }
+      array.push(newCourse)
+    })
+    res.send(histogramObjects(array, course))    
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
+
 const getBubbleData = async (req, res) => {
   const array = []
   let year = 2017
@@ -158,5 +185,6 @@ module.exports = {
   getAllE2E,
   getAllFirsts,
   getCourses,
+  getHistogramData,
   getBubbleData,
 }

@@ -21,6 +21,13 @@
   min-height: calc(100vh - 5em);
   display: flex;
   flex-direction: column;
+  margin-bottom: 3em;
+}
+
+.headline {
+  margin: 2em;
+  font-weight: 300;
+  text-align: center;
 }
 
 .footer {
