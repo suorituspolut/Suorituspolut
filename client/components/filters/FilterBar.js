@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
-import { createNumberOptions, createTextOptions, grades } from '../util/units'
+import { createNumberOptions, createTextOptions, grades } from '../../util/units'
 import Filter from './Filter'
 
 
