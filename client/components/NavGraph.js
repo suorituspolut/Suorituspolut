@@ -45,7 +45,6 @@ const NavGraph = ({ data, onClick }) => {
           events: {
             click: function (event) {
               if (!event.point.name.includes("highcharts")) {
-                console.log(event.point)
                 onClick(event.point.name)
               }
             },
@@ -66,7 +65,7 @@ const NavGraph = ({ data, onClick }) => {
 
 
   return (
-    <div className="sankey-container">
+    <div>
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'chart'}

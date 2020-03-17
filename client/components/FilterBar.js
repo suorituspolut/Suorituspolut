@@ -64,10 +64,10 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
               placeholder="5"
             />
           ) : null}
-        <td>
-          <p></p>
-          <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
-        </td>
+          <td>
+            <p />
+            <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
+          </td>
 
         </tr>
 

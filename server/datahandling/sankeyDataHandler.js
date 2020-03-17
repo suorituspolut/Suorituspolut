@@ -1,7 +1,8 @@
 const { checkGrade } = require('@root/server/datahandling/grades')
-const { toPeriod, isSamePeriod, nextPeriodOf, periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
+const { toPeriod, isSamePeriod, nextPeriodOf } = require('@root/server/datahandling/periods')
 const { addWeights, separateOthersCategory, separateOthersCategorySecond } = require('@root/server/datahandling/weights')
 const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
+const { studentObjects } = require('@root/server/datahandling/students')
 
 
 // What: ties it all together for a normal graph
@@ -48,36 +49,7 @@ const studentPathsE2E = (data, year, startCourse, grade) => {
   return arraysWithOtherCategory
 }
 
-// What: creates an array of student-objects with their corresponding courses in an array
-// Takes in: array of credits with studentIds, dates, courses, grades, module
-const studentObjects = (data) => {
-  data.shift()
-  let students = []
-  let courses = []
-  let helper = data[0].studentId
-  let student = { studentNumber: data[0].studentId, courses: [] }
 
-  data.forEach((credit) => {
-    if (credit.studentId !== helper) {
-      courses.sort((credit1, credit2) => credit1.date - credit2.date)
-      student.courses = courses
-      students = [...students, student]
-      courses = []
-      courses = [...courses, credit]
-      helper = credit.studentId
-      student = { studentNumber: credit.studentId, courses: [] }
-    } else {
-      courses = [...courses, credit]
-    }
-  })
-
-  //sorts and adds the last student as well
-  courses.sort((credit1, credit2) => credit1.date - credit2.date)
-  student.courses = courses
-  students = [...students, student]
-
-  return students
-}
 
 // What: creates an array of highchart-objects with a starting course, ending course in next period and a weight of 1
 // Takes in: an array of students with their corresponding courses, starting course, year of the starting course, and grade
@@ -166,33 +138,19 @@ const highChartsObjectsSecond = (data, levelStartCourse, origStartCourse, listOf
   return highChartsArrays
 }
 
-const histogramObjects = (data, course) => {
-  const students = studentObjects(data)
-  let histogramArray = new Array(36)
-  for (let i = 0; i < histogramArray.length; i++) {
-    histogramArray[i] = 0
+const isCsStudent = (firstCourse) => {
+  let isCsStudent = false
+  if (firstCourse === 'Ohjelmoinnin perusteet' ||
+    firstCourse === 'Ohjelmoinnin jatkokurssi' ||
+    firstCourse === 'Tietokone työvälineenä') {
+    isCsStudent = true
   }
-  
-  students.forEach((student) =>  {
-    const firstCourse = student.courses[0]
-    const startPeriod = toPeriod(firstCourse.date)
-    student.courses.forEach((credit) => {
-      if (firstCourse.course === course) {
-        histogramArray[0]++
-      } else if (credit.course === course) {
-        const time = periodsBetweenTwoDates(firstCourse.date, credit.date)
-        if (time <= 37) {
-          histogramArray[time]++
-        }
-      }
-    })
-  })
-  return histogramArray
-}
 
+  return isCsStudent
+}
 // Creates a highcharts-array of the studentpaths taking into account all credits in each students starting period
 // Takes in: an array of credits and starting year
-const firstCourses = (data, year) => {
+const firstCourses = (data, year, levels) => {
   const students = studentObjects(data)
   let highChartsArrays = []
   let fromCourses = []
@@ -206,10 +164,11 @@ const firstCourses = (data, year) => {
     let nextPeriodWithCredit = 0
     let periodHasChanged = false
 
-    if ( year === startPeriod.year) {
+    if ( year === startPeriod.year && isCsStudent(firstCourse.course)) {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
-        if (isSamePeriod(periodOfCourse, fromPeriod)) {
+        if (level >= levels) {
+        } else if (isSamePeriod(periodOfCourse, fromPeriod)) {
           fromCourses = [...fromCourses, `${level}: ${course.course}`]
         } else if (!periodHasChanged && !isSamePeriod(periodOfCourse, fromPeriod)) {
           periodHasChanged = true
@@ -221,8 +180,7 @@ const firstCourses = (data, year) => {
         } else {
           fromCourses.forEach((from) => {
             toCourses.forEach((to) => {
-              const w = 1 / Math.max(toCourses.length, fromCourses.length)
-              highChartsArrays = [...highChartsArrays, [from, to, w]]
+              highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
             })
           })
           level++
@@ -234,8 +192,7 @@ const firstCourses = (data, year) => {
       })
       fromCourses.forEach((from) => {
         toCourses.forEach((to) => {
-          const w = 1 / Math.max(toCourses.length, fromCourses.length)
-          highChartsArrays = [...highChartsArrays, [from, to, w]]
+          highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
         })
       })
       fromCourses = []
@@ -250,5 +207,4 @@ module.exports = {
   studentPaths,
   studentPathsE2E,
   firstCourses,
-  histogramObjects
 }

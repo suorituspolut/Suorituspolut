@@ -8,9 +8,12 @@ import NavGraph from './NavGraph'
 import Stacked from './Stacked'
 import Histogram from './Histogram'
 import FilterBar from './FilterBar'
+import Bubbles from './Bubbles'
 
 
 const GraphSelector = ({ graphToShow }) => { 
+  const [selectedLevels, setSelectedLevels] = useState(5)
+  const [selectedBubbles, setSelectedBubbles] = useState(10)
   const [selectedCourse, setSelectedCourse] = useState('Ohjelmoinnin perusteet')
   const [selectedYear, setSelectedYear] = useState(2017)
   const [selectedGrade, setSelectedGrade] = useState('Läpäisseet')
@@ -21,13 +24,14 @@ const GraphSelector = ({ graphToShow }) => {
   const [e2ePaths, setE2ePaths] = useState([])
   const [firstsPath, setFirstsPath] = useState([])
   const [histogramData, setHistogramData] = useState([])
-
+  const [bubbleData, setBubbleData] = useState([])
 
   useEffect(() => {
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
     setHistogramData(getHistogramData(selectedCourse))
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade)))
   }, [])
 
   const courses = JSON.parse(getCourseData()).sort()
@@ -44,21 +48,31 @@ const GraphSelector = ({ graphToShow }) => {
     setSelectedGrade(value)
   }
 
+  const handleLevelChange = (e, { value }) => {
+    setSelectedLevels(value)
+  }
+
+  const handleBubblesChange = (e, { value }) => {
+    setSelectedBubbles(value)
+  }
+
   const handleMaxYearChange = (e, { value }) => {
     setSelectedMaxYear(value)
   }
 
   const handleSearch = () => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade)))
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
     setHistogramData(getHistogramData(selectedCourse))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, selectedCourse, selectedGrade)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
   }
 
   const handleNavigationSearch = (course) => {
-    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade)))
-    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade)))
-    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade)))
+    setNormalPaths(JSON.parse(getGraphData('normal', selectedYear, course, selectedGrade, selectedLevels, selectedBubbles)))
+    setE2ePaths(JSON.parse(getGraphData('E2E', selectedYear, course, selectedGrade, selectedLevels, selectedBubbles)))
+    setFirstsPath(JSON.parse(getGraphData('firsts', selectedYear, course, selectedGrade, selectedLevels, selectedBubbles)))
+    setBubbleData(JSON.parse(getGraphData('bubble', selectedYear, selectedCourse, selectedGrade, selectedLevels, selectedBubbles)))
   }
 
   const handleNavigation = () => {
@@ -104,19 +118,30 @@ const GraphSelector = ({ graphToShow }) => {
       case 2:
         return (
           <>
-            <FilterBar 
+            <FilterBar
               courses={courses}
-              handleCourseChange={handleCourseChange} 
+              handleCourseChange={handleCourseChange}
               handleGradeChange={handleGradeChange}
               handleSearch={handleSearch}
-              handleYearChange={handleYearChange}
               selectedCourse={selectedCourse}
-              selectedGrade={selectedGrade}
-              selectedYear={selectedYear} />
+            />
             <Graph data={e2ePaths} />
           </>
         )
       case 3:
+        return (
+          <>
+            <FilterBar
+              handleSearch={handleSearch}
+              handleYearChange={handleYearChange}
+              selectedYear={selectedYear}
+              selectedLevels={selectedLevels}
+              handleLevelChange={handleLevelChange}
+            />
+            <Graph data={firstsPath} />
+          </>
+        )
+      case 4:
         return (
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
@@ -131,7 +156,7 @@ const GraphSelector = ({ graphToShow }) => {
             <Histogram maxYear={selectedMaxYear} course={selectedCourse} data={histogramData} onClick={handleNavigation} />
           </>
         )
-      case 4:
+      case 5:
         return (
           <>
             <div>
@@ -148,13 +173,25 @@ const GraphSelector = ({ graphToShow }) => {
             </div>
           </>
         )
-      case 5:
-        return <Stacked data={normalPaths} onClick={handleNavigation} />
       case 6:
-        return <GraphTestVenn data={normalPaths} onClick={handleNavigation} />
+        return (
+          <>
+            <FilterBar
+              selectedYear={selectedYear}
+              handleYearChange={handleYearChange}
+              selectedGrade={selectedGrade}
+              handleGradeChange={handleGradeChange}
+              handleSearch={handleSearch}
+              selectedBubbles={selectedBubbles}
+              handleBubblesChange={handleBubblesChange}
+            />
+            <Bubbles data={bubbleData} />
+          </>
+        )
       case 7:
-        return <Graph data={firstsPath} />
-
+        return <Stacked data={normalPaths} onClick={handleNavigation} />
+      case 8:
+        return <GraphTestVenn data={normalPaths} onClick={handleNavigation} />
       default:
         return (
           <>
@@ -176,7 +213,7 @@ const GraphSelector = ({ graphToShow }) => {
 
 
   return (
-    <div>
+    <div className="graph-container">
       {whichGraph(graphToShow)}
     </div>
   )
