@@ -37,4 +37,8 @@ export const getHistogramData = (course) => {
     xmlHttp.send( null )
     return xmlHttp.responseText
   }
+  var xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/histogram/${course}/`, false ) 
+  xmlHttp.send( null )
+  return xmlHttp.responseText
 }
