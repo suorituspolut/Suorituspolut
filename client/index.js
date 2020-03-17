@@ -9,7 +9,7 @@ import 'Assets/custom.css'
 import store from 'Utilities/store'
 import { basePath } from 'Utilities/common'
 import App from 'Components/App'
-import ErrorBoundary from 'Components/ErrorBoundary'
+import ErrorBoundary from 'Components/notifications/ErrorBoundary'
 
 const refresh = () => render(
   <Provider store={store}>

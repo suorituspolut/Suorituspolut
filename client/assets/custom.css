@@ -26,6 +26,7 @@
 
 .headline {
   margin: 2em;
+  padding: 1em;
   font-weight: 300;
   text-align: center;
 }
@@ -41,11 +42,10 @@
   overflow: hidden;
 }
 
-:root {
-  height: 100%;
-}
-
 .highcharts-background {
   min-height: 800px;
 }
 
+.info-box {
+  max-height: 250px;
+}

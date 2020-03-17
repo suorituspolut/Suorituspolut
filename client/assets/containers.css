@@ -1,6 +1,7 @@
 .graph-container {
   padding-left: 30px;
   padding-right: 30px;
+  padding-bottom: 30px;
   max-width: 1500px;
   margin: auto;
   justify-content: center;
@@ -15,7 +16,6 @@
   display: flex;
 }
 
-
 .toggle-container {
   display: flex;
   justify-content: center;
@@ -25,4 +25,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2em 2em 3em 2em;
 }

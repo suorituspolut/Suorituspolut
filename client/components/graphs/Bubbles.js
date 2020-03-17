@@ -1,16 +1,46 @@
-
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import HC_more from 'highcharts/highcharts-more'
+import FilterBar from '../filters/FilterBar'
+import { getGraphData } from '../../util/redux/dataReducer'
+
+
 HC_more(Highcharts)
 
-//require("highcharts/modules/packedbubble")(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
 
-const Bubbles = ({ data }) => {
+const Bubbles = () => {
+  const [year, setYear] = useState(2017)
+  const [bubbleAmount, setBubbleAmount] = useState(10)
+  const [grade, setGrade] = useState('Läpäisseet')
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    setData(JSON.parse(getGraphData('bubble', year, null, grade, 0, bubbleAmount)))
+  }, [])
+
+
+  const handleYearChange = (e, { value }) => {
+    setYear(value)
+  }
+
+  const handleGradeChange = (e, { value }) => {
+    setGrade(value)
+  }
+
+  const handleBubblesChange = (e, { value }) => {
+    setBubbleAmount(value)
+  }
+
+
+  const handleSearch = () => {
+    setData(JSON.parse(getGraphData('bubble', year, null, grade, 0, bubbleAmount)))
+  }
+
+
   const options = {
     chart: {
       type: 'packedbubble',
@@ -77,9 +107,18 @@ const Bubbles = ({ data }) => {
 
   return (
     <div>
+      <FilterBar
+        selectedYear={year}
+        selectedGrade={grade}
+        selectedBubbles={bubbleAmount}
+        handleGradeChange={handleGradeChange}
+        handleYearChange={handleYearChange}
+        handleBubblesChange={handleBubblesChange}
+        handleSearch={handleSearch}
+      />
       <HighchartsReact
         highcharts={Highcharts}
-        constructorType={'chart'}
+        constructorType="chart"
         options={options}
       />
     </div>

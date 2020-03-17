@@ -1,4 +1,3 @@
-
 export const createNumberOptions = (start, end) => {
   const array = new Array(end - start)
   for (let i = 0; i < array.length; i++) {
