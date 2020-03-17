@@ -55,7 +55,11 @@ const Histograms = ({ courses, howMany }) => {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    setData(dataWithColors(JSON.parse(getHistogramData(course)), maxYear))
+    try {
+      setData(dataWithColors(JSON.parse(getHistogramData(course)), maxYear))
+    } catch (err) {
+      console.log(err)
+    }
     setCategories(countCategories(maxYear))
   }, [])
 
@@ -69,7 +73,11 @@ const Histograms = ({ courses, howMany }) => {
   }
 
   const handleSearch = () => {
+    try {
     setData(dataWithColors(JSON.parse(getHistogramData(course)), maxYear))
+    } catch (err) {
+      console.log(err)
+    }
     setCategories(countCategories(maxYear))
   }
 
