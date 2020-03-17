@@ -10,9 +10,8 @@ require("highcharts/modules/boost")(Highcharts)
 const GraphTestVenn = () => {
 
   const options = {
-    //colors: ['#2980B9', '#3d979f', '#060045', '#E6F69D', '#1ABC9C', '#d8c09b', '#d8c09b', '#d8c09b', '#d8c09b'],
     credits: {
-      text: ''
+      text: '',
     },
     exporting: {
       menuItemDefinitions: {
@@ -45,22 +44,22 @@ const GraphTestVenn = () => {
       data: [{
         name: 'Ohjelmoinnin perusteet',
         sets: ['A'],
-        value: 2033
+        value: 2033,
       }, {
         name: 'Tietorakenteet ja algoritmit',
         sets: ['B'],
-        value: 1502
+        value: 1502,
       }, {
         name: ' ',
         sets: ['A', 'B'],
-        value: 1277
+        value: 1277,
       }],
     }],
   }
 
 
   return (
-    <div className="test">
+    <div className="graph-container">
       <HighchartsReact
         highcharts={Highcharts}
         constructorType="chart"
