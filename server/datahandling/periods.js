@@ -52,11 +52,29 @@ const timeBetween = (startDate, endDate) => {
   return 49
 }
 
+const periodToYearEnd = (period) => {
+  const p = period.period
+  if(p === 2) return 0
+  if(p === 1) return 1
+  if(p === 5) return 2
+  if(p === 4) return 3
+  return 4 
+}
+
 const periodsBetweenTwoDates = (date1, date2) => {
   const start = toPeriod(date1)
   const end = toPeriod(date2)
 
-  return (end.period - start.period) + ((end.year - start.year) * 5)
+  if(isSamePeriod(start, end)) return 0
+
+  if(end.year - start.year === 0) {
+    if(end.period > start.period) return end.period - start.period
+    return (5 - start.period) + end.period
+  } else {
+    return periodToYearEnd(start) + ((end.year - start.year - 1) * 5) + (5 - periodToYearEnd(end))
+  }
+  
+  return 100
 }
 
 // What: finds out the next period for another period-object, works year-around, returns an object
