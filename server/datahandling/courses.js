@@ -1,6 +1,9 @@
+const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
+
 const listOfCourses = (data) => {
   const allCourses = data.map(credit => credit.course)
   allCourses.shift()
+
   return [...new Set(allCourses)]
 }
 
@@ -27,7 +30,16 @@ const countTheBiggestCourses = (array, amount) => {
   return biggestCourses
 }
 
+const orderedListOfCourses = (data) => {
+  const courses = listOfCourses(data)
+
+  
+
+  return courses
+}
+
 module.exports = {
   listOfCourses,
   countTheBiggestCourses,
+  orderedListOfCourses,
 }

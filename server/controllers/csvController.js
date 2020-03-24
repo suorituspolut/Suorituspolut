@@ -1,4 +1,4 @@
-const { listOfCourses } = require('@root/server/datahandling/courses')
+const { listOfCourses, orderedListOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
 const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
@@ -114,7 +114,7 @@ const getCourses = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(listOfCourses(array))
+    res.send(orderedListOfCourses(array))
   })
 
   await fs.createReadStream(file).pipe(parser)

@@ -27,7 +27,7 @@ const countCategories = (maxYear) => {
 }
 
 const dataWithColors = (data, maxYear) => {
-  const addingColors = data.map((dataPoint, index) => {
+  const addingColors = data.histogramArray.map((dataPoint, index) => {
     if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
     if (index >= 5 && index < 10) return ({ y: dataPoint, color: blueColors[1] })
     if (index >= 10 && index < 15) return ({ y: dataPoint, color: blueColors[2] })
