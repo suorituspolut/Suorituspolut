@@ -3,7 +3,7 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import { Pagination } from 'semantic-ui-react'
 import { blueColors } from '../../util/units'
-import { getHistogramData } from '../../util/redux/dataReducer'
+import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 
@@ -27,7 +27,9 @@ const countCategories = (maxYear) => {
 }
 
 const dataWithColors = (data, maxYear) => {
-  const addingColors = data.histogramArray.map((dataPoint, index) => {
+
+  console.log('data in colors: ', data)
+  const addingColors = data.map((dataPoint, index) => {
     if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
     if (index >= 5 && index < 10) return ({ y: dataPoint, color: blueColors[1] })
     if (index >= 10 && index < 15) return ({ y: dataPoint, color: blueColors[2] })
@@ -55,10 +57,8 @@ const Histograms = ({ courses, howMany }) => {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    try {
-      setData(dataWithColors(JSON.parse(getHistogramData(course)), maxYear))
-    } catch (err) {
-      console.log(err)
+    if (howMany === 1) {
+      setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
     }
     setCategories(countCategories(maxYear))
   }, [])
@@ -74,7 +74,7 @@ const Histograms = ({ courses, howMany }) => {
 
   const handleSearch = () => {
     try {
-    setData(dataWithColors(JSON.parse(getHistogramData(course)), maxYear))
+      setData(dataWithColors(JSON.parse(getHistogramData(course)), maxYear))
     } catch (err) {
       console.log(err)
     }
@@ -88,11 +88,12 @@ const Histograms = ({ courses, howMany }) => {
   }
 
   const printOutFiveHistograms = (index) => {
+    const datamany = JSON.parse(getHistoDataMany())
     if (courses.length > 0) {
-      const coursesOnAPage = [courses[index], courses[index + 1], courses[index + 2], courses[index + 3], courses[index + 4]]
+      const coursesOnAPage = [datamany[index], datamany[index + 1], datamany[index + 2], datamany[index + 3], datamany[index + 4]]
       return (
         <div>
-          {coursesOnAPage.map(course => <Histogram key={course} data={dataWithColors(JSON.parse(getHistogramData(course)), maxYear)} course={course} categories={categories} />)}
+          {coursesOnAPage.map(course => <Histogram key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} />)}
         </div>
       )
     }
@@ -106,7 +107,7 @@ const Histograms = ({ courses, howMany }) => {
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(courses.length / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={5} />
             </div>
             <FilterBar
               handleSearch={handleSearch}
@@ -117,7 +118,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(pageToShow)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(courses.length / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={5} />
             </div>
           </>
         )
@@ -200,4 +201,6 @@ const Histogram = ({ data, course, categories }) => {
   )
 }
 
+
+//courses.length > 0 ? Math.ceil(courses.length / 5) : 1
 export default Histograms

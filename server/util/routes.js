@@ -9,5 +9,6 @@ router.get('/data/firsts/:year/:course/:grade/:levels/:bubbles', data.getAllFirs
 router.get('/data/bubble/:year/:course/:grade/:levels/:bubbles', data.getBubbleData)
 router.get('/courses', data.getCourses)
 router.get('/histogram/:course', data.getHistogramData)
+router.get('/histomany', data.getHistogramDataMany)
 
 module.exports = router

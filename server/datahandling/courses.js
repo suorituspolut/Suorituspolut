@@ -30,16 +30,15 @@ const countTheBiggestCourses = (array, amount) => {
   return biggestCourses
 }
 
-const orderedListOfCourses = (data) => {
-  const courses = listOfCourses(data)
+// const orderedListOfCourses = (data) => {
+//   const courses = listOfCourses(data)
 
   
 
-  return courses
-}
+//   return courses
+// }
 
 module.exports = {
   listOfCourses,
   countTheBiggestCourses,
-  orderedListOfCourses,
 }

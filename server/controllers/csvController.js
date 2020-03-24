@@ -1,4 +1,4 @@
-const { listOfCourses, orderedListOfCourses } = require('@root/server/datahandling/courses')
+const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
 const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
@@ -114,7 +114,7 @@ const getCourses = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(orderedListOfCourses(array))
+    res.send(listOfCourses(array))
   })
 
   await fs.createReadStream(file).pipe(parser)
@@ -142,6 +142,28 @@ const getHistogramData = async (req, res) => {
       array.push(newCourse)
     })
     res.send(histogramObjects(array, course))    
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
+const getHistogramDataMany = async (req, res) => {
+  const array = []
+
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    if (!data) return
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
+      }
+      array.push(newCourse)
+    })
+    res.send(histogramObjects(array))    
   })
   await fs.createReadStream(file).pipe(parser)
 }
@@ -187,4 +209,5 @@ module.exports = {
   getCourses,
   getHistogramData,
   getBubbleData,
+  getHistogramDataMany,
 }
