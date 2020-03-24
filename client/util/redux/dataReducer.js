@@ -42,3 +42,16 @@ export const getHistogramData = (course) => {
   xmlHttp.send( null )
   return xmlHttp.responseText
 }
+
+export const getHistoDataMany = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    var xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( "GET", `http://localhost:8000/api/histomany/`, false ) 
+    xmlHttp.send( null )
+    return xmlHttp.responseText
+  }
+  var xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/histomany/`, false ) 
+  xmlHttp.send( null )
+  return xmlHttp.responseText
+}

@@ -146,6 +146,28 @@ const getHistogramData = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
+const getHistogramDataMany = async (req, res) => {
+  const array = []
+
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    if (!data) return
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
+      }
+      array.push(newCourse)
+    })
+    res.send(histogramObjects(array))    
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
 
 const getBubbleData = async (req, res) => {
   const array = []
@@ -187,4 +209,5 @@ module.exports = {
   getCourses,
   getHistogramData,
   getBubbleData,
+  getHistogramDataMany,
 }
