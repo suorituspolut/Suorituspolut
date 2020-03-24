@@ -34,17 +34,13 @@ const histogramObjects = (data, course) => {
   let histogramList = []
   let courselist = data.map(credit => credit.course)
   courselist.shift()
-
   courselist = new Set(courselist)
 
-  console.log(courselist)
   courselist.forEach((course) => {
     histogramList = [...histogramList, courseHistoArray(students, course)]
   })
 
-  const sortedlist = sortByMode(histogramList)
-
-  return sortedlist
+  return sortByMode(histogramList)
 }
 
 const sortByMode = (histogramList) => {

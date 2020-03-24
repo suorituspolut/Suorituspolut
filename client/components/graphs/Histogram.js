@@ -28,7 +28,6 @@ const countCategories = (maxYear) => {
 
 const dataWithColors = (data, maxYear) => {
 
-  console.log('data in colors: ', data)
   const addingColors = data.map((dataPoint, index) => {
     if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
     if (index >= 5 && index < 10) return ({ y: dataPoint, color: blueColors[1] })
@@ -107,7 +106,7 @@ const Histograms = ({ courses, howMany }) => {
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={5} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(courses.length / 5) : 1} />
             </div>
             <FilterBar
               handleSearch={handleSearch}
@@ -118,7 +117,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(pageToShow)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={5} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(courses.length / 5) : 1} />
             </div>
           </>
         )
@@ -202,5 +201,4 @@ const Histogram = ({ data, course, categories }) => {
 }
 
 
-//courses.length > 0 ? Math.ceil(courses.length / 5) : 1
 export default Histograms
