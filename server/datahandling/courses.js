@@ -3,8 +3,9 @@ const { histogramObjects } = require('@root/server/datahandling/histogramDataHan
 const listOfCourses = (data) => {
   const allCourses = data.map(credit => credit.course)
   allCourses.shift()
-
-  return [...new Set(allCourses)]
+  const courses = [...new Set(allCourses)].slice(0, 50)
+  
+  return courses
 }
 
 const countTheBiggestCourses = (array, amount) => {
@@ -30,13 +31,6 @@ const countTheBiggestCourses = (array, amount) => {
   return biggestCourses
 }
 
-// const orderedListOfCourses = (data) => {
-//   const courses = listOfCourses(data)
-
-  
-
-//   return courses
-// }
 
 module.exports = {
   listOfCourses,
