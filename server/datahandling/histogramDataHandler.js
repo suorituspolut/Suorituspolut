@@ -48,7 +48,7 @@ const sortByMode = (histogramList) => {
     histoObject.biggestIndex = histoObject.histogramArray.indexOf(Math.max(...histoObject.histogramArray))
   })
 
-  return histogramList.sort((histoObject1, histoObject2) => histoObject1.biggestIndex - histoObject2.biggestIndex)
+  return histogramList //.sort((histoObject1, histoObject2) => histoObject1.biggestIndex - histoObject2.biggestIndex)
 }
 
 
