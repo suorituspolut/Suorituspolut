@@ -50,6 +50,7 @@ const dataWithColors = (data, maxYear) => {
 
 const Histograms = ({ courses, howMany }) => {
   const [data, setData] = useState([])
+  const [datamany, setDataMany] = useState([])
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [maxYear, setMaxYear] = useState(5)
   const [pageToShow, setPageToShow] = useState(1)
@@ -58,6 +59,8 @@ const Histograms = ({ courses, howMany }) => {
   useEffect(() => {
     if (howMany === 1) {
       setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
+    } else {
+      setDataMany(JSON.parse(getHistoDataMany()))
     }
     setCategories(countCategories(maxYear))
   }, [])
@@ -87,8 +90,8 @@ const Histograms = ({ courses, howMany }) => {
   }
 
   const printOutFiveHistograms = (index) => {
-    const datamany = JSON.parse(getHistoDataMany())
-    if (courses.length > 0) {
+
+    if (courses.length > 0 && datamany.length > 0) {
       const coursesOnAPage = [datamany[index], datamany[index + 1], datamany[index + 2], datamany[index + 3], datamany[index + 4]]
       return (
         <div>
