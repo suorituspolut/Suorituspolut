@@ -10,7 +10,7 @@ const Info = ({ content }) => (
       on="click"
       positionFixed="false"
       offset="50"
-      trigger={<Icon name="question circle outline icon" size="large" />}
+      trigger={<Icon className="question circle outline" size="large" />}
       pinned
       wide
     />

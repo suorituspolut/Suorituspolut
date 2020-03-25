@@ -1,3 +1,4 @@
+
 const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
@@ -7,6 +8,7 @@ const parse = require('csv-parse')
 const fs = require('fs')
 
 const file = (process.cwd() + '/data/anon_dataset.csv')
+
 
 const getAllNormal = async (req, res) => {
   const array = []
@@ -34,6 +36,7 @@ const getAllNormal = async (req, res) => {
       }
       array.push(newCourse)
     })
+
     res.send(studentPaths(array, year, course, grade))
   })
   await fs.createReadStream(file).pipe(parser)
@@ -110,7 +113,7 @@ const getCourses = async (req, res) => {
         course: credit[2],
         isModule: credit[3],
         date: new Date(credit[4]),
-        grade: credit[5],  
+        grade: credit[5],
       }
       array.push(newCourse)
     })
@@ -141,7 +144,7 @@ const getHistogramData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(histogramObjects(array, course))    
+    res.send(histogramObjects(array, course))
   })
   await fs.createReadStream(file).pipe(parser)
 }
@@ -163,7 +166,7 @@ const getHistogramDataMany = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(histogramObjects(array))    
+    res.send(histogramObjects(array))
   })
   await fs.createReadStream(file).pipe(parser)
 }

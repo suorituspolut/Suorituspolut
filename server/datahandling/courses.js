@@ -1,10 +1,8 @@
-const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
-
 const listOfCourses = (data) => {
   const allCourses = data.map(credit => credit.course)
   allCourses.shift()
   const courses = [...new Set(allCourses)].slice(0, 50)
-  
+
   return courses
 }
 

@@ -34,8 +34,7 @@ const histogramObjects = (data, course) => {
   let histogramList = []
   let courselist = data.map(credit => credit.course)
   courselist.shift()
-  courselist = new Set(courselist)
-
+  courselist = [...new Set(courselist)].slice(0, 50)
 
   courselist.forEach((course) => {
     histogramList = [...histogramList, courseHistoArray(students, course)]
@@ -49,7 +48,7 @@ const sortByMode = (histogramList) => {
     histoObject.biggestIndex = histoObject.histogramArray.indexOf(Math.max(...histoObject.histogramArray))
   })
 
-  return histogramList //.sort((histoObject1, histoObject2) => histoObject1.biggestIndex - histoObject2.biggestIndex)
+  return histogramList.sort((histoObject1, histoObject2) => histoObject1.biggestIndex - histoObject2.biggestIndex)
 }
 
 
