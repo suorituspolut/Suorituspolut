@@ -36,6 +36,7 @@ const histogramObjects = (data, course) => {
   courselist.shift()
   courselist = new Set(courselist)
 
+
   courselist.forEach((course) => {
     histogramList = [...histogramList, courseHistoArray(students, course)]
   })
