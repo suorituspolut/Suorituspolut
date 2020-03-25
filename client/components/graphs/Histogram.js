@@ -57,9 +57,9 @@ const Histograms = ({ courses, howMany }) => {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-      setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
-      setDataMany(JSON.parse(getHistoDataMany()))
-      setCategories(countCategories(maxYear))
+    setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
+    setDataMany(JSON.parse(getHistoDataMany()))
+    setCategories(countCategories(maxYear))
   }, [])
 
 
