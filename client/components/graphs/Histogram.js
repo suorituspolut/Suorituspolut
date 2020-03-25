@@ -106,7 +106,7 @@ const Histograms = ({ courses, howMany }) => {
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(courses.length / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(50 / 5) : 1} />
             </div>
             <FilterBar
               handleSearch={handleSearch}
@@ -117,7 +117,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(pageToShow)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(courses.length / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(50 / 5) : 1} />
             </div>
           </>
         )
