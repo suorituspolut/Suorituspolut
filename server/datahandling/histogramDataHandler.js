@@ -1,6 +1,7 @@
 const { toPeriod, periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { studentObjects } = require('@root/server/datahandling/students')
 const { listOfCourses } = require('@root/server/datahandling/courses')
+const { roadToSuccessObjects } = require('@root/server/datahandling/roadToSuccess')
 
 const courseHistoArray = (students, course) => {
   const histogramArray = new Array(36)
