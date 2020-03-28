@@ -6,6 +6,8 @@ import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
+import Info from '../notifications/Info'
+
 
 require('highcharts/modules/exporting')(Highcharts)
 
@@ -73,7 +75,7 @@ const Histograms = ({ courses, howMany }) => {
 
   const handleSearch = () => {
     try {
-      setData(dataWithColors(JSON.parse(getHistogramData(course)), maxYear))
+      setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
     } catch (err) {
       console.log(err)
     }
@@ -104,6 +106,7 @@ const Histograms = ({ courses, howMany }) => {
       {howMany !== 1
       ? (
           <>
+            <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata."/>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="pagination-container">
               <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(25 / 5) : 1} />
@@ -124,6 +127,7 @@ const Histograms = ({ courses, howMany }) => {
         :
         (
           <>
+            <Info content="Tässä on histogrammi jokaisen kurssin suoritusten jakautumiselle opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata." />
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <FilterBar
               courses={courses}

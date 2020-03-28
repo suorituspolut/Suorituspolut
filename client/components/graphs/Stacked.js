@@ -1,7 +1,7 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import Info from 'Components/notifications/Info'
+import Info from '../notifications/Info'
 
 
 require('highcharts/modules/export-data')(Highcharts)
@@ -70,7 +70,8 @@ const Stacked = () => {
 
 
   return (
-    
+    <>
+      <Info content="Tämä graafin on tarkoitus näyttää, mitä kursseja on suoritettu useampaan kertaan uudelleen. Eli missä kurssissa suoritusmäärällä ja suorittaneiden määrällä on suurimmat erot."/>
         <div className="graph-container">
           <HighchartsReact
             highcharts={Highcharts}
@@ -78,7 +79,7 @@ const Stacked = () => {
             options={options}
           />
         </div>
-    
+    </>
   )
 }
 
