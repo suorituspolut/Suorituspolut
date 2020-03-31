@@ -1,11 +1,13 @@
 import React from 'react'
-import { Icon, Popup } from 'semantic-ui-react'
+import { Icon, Popup,Container } from 'semantic-ui-react'
 
 const Info = ({ content }) => (
-  <div>
+  
     <Popup
       className="info-box"
-      content={content}
+      
+      content={<Container text>{content}</Container>}
+       
       position="bottom left"
       on="click"
       positionFixed="false"
@@ -13,8 +15,9 @@ const Info = ({ content }) => (
       trigger={<Icon className="question circle outline" size="large" />}
       pinned
       wide
+      
     />
-  </div>
+ 
 )
 
 

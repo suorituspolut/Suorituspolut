@@ -47,5 +47,6 @@
 }
 
 .info-box {
-  max-height: 250px;
+  height: auto;
+  max-width: 250px;
 }
