@@ -6,6 +6,31 @@ const listOfCourses = (data) => {
   return courses
 }
 
+const mandatoryCourses =
+  [
+    'Johdatus tietojenkäsittelytieteeseen',
+    'Ohjelmoinnin perusteet',
+    'Ohjelmoinnin jatkokurssi',
+    'Tietokantojen perusteet',
+    'Tietokoneen toiminta',
+    'Tietoliikenteen perusteet',
+    'Ohjelmistotekniikka',
+    'Ohjelmistotekniikan menetelmät',
+    'Käyttöjärjestelmät',
+    'Tietorakenteet ja algoritmit',
+    'Laskennan mallit',
+    'Ohjelmistotuotanto',
+    'Ohjelmistotuotantoprojekti',
+    'Kandidaatin tutkielma',
+    'Kypsyysnäyte LuK',
+    'Tietoturvan perusteet',
+    'Johdatus tekoälyyn',
+    'Aineopintojen harjoitustyö: Tietokantasovellus',
+    'Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit',
+    'Aineopintojen harjoitustyö: Tietoliikenne',
+  ]
+
+
 const countTheBiggestCourses = (array, amount) => {
 
   const courseSet = new Map()
@@ -32,5 +57,6 @@ const countTheBiggestCourses = (array, amount) => {
 
 module.exports = {
   listOfCourses,
+  mandatoryCourses,
   countTheBiggestCourses,
 }

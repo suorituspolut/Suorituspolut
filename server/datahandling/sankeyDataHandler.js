@@ -4,7 +4,6 @@ const { addWeights, separateOthersCategory, separateOthersCategorySecond } = req
 const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
 const { studentObjects } = require('@root/server/datahandling/students')
 
-
 // What: ties it all together for a normal graph
 // Takes in: an array of course credits, start course, wanted year of the starting course and the wanted grade
 const studentPaths = (data, year, startCourse, grade) => {

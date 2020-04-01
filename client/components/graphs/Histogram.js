@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Pagination } from 'semantic-ui-react'
+import { Button, Pagination } from 'semantic-ui-react'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
@@ -51,6 +51,7 @@ const dataWithColors = (data, maxYear) => {
 
 
 const Histograms = ({ courses, howMany }) => {
+  const [sorting, setSorting] = useState('startHeavy')
   const [data, setData] = useState([])
   const [datamany, setDataMany] = useState([])
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
@@ -60,7 +61,7 @@ const Histograms = ({ courses, howMany }) => {
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
-    setDataMany(JSON.parse(getHistoDataMany()))
+    setDataMany(JSON.parse(getHistoDataMany(sorting)))
     setCategories(countCategories(maxYear))
   }, [])
 
@@ -71,6 +72,12 @@ const Histograms = ({ courses, howMany }) => {
 
   const handleMaxYearChange = (e, { value }) => {
     setMaxYear(value)
+  }
+
+  //this should be changed to include other sorting methods
+  const handleSortingChange = (e, { value }) => {
+    setSorting('mandatoryCourses')
+    setDataMany(JSON.parse(getHistoDataMany('mandatoryCourses')))
   }
 
   const handleSearch = () => {
@@ -108,9 +115,12 @@ const Histograms = ({ courses, howMany }) => {
           <>
             <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata."/>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
+            <Button className="blue" onClick={handleSortingChange}>Näytä vain pakolliset kurssit</Button>
+
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(25 / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(30 / 5) : 1} />
             </div>
+
             <FilterBar
               handleSearch={handleSearch}
               handleMaxYearChange={handleMaxYearChange}
@@ -120,7 +130,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(pageToShow)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(25 / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(30 / 5) : 1} />
             </div>
           </>
         )

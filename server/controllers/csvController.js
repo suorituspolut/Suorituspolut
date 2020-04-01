@@ -1,5 +1,5 @@
 const { listOfCourses } = require('@root/server/datahandling/courses')
-const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
+const { studentPaths, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
 const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
 const { roadToSuccessObjects } = require('@root/server/datahandling/roadToSuccess')
@@ -31,7 +31,8 @@ const test = async () => {
 test()
 */
 
-const getAllNormal = async (req, res) => {
+const getSankeyNormal = async (req, res) => {
+
   const array = []
   let year = 2017
   let course = 'Ohjelmoinnin perusteet'
@@ -57,44 +58,13 @@ const getAllNormal = async (req, res) => {
       }
       array.push(newCourse)
     })
-    
     res.send(studentPaths(array, year, course, grade))
   })
 
   await fs.createReadStream(file).pipe(parser)
 }
 
-const getAllE2E = async (req, res) => {
-  const array = []
-  let year = 2017
-  let course = 'Ohjelmoinnin perusteet'
-  let grade = 'Kaikki'
-
-  if (req.params.year !== null) {
-    year = Number(req.params.year)
-    course = req.params.course
-    grade = req.params.grade
-  }
-
-  const parser = parse({delimiter: ';'}, (err, data) => {
-    data.forEach((credit) => {
-      const newCourse = {
-        studentId: credit[0],
-        courseId: credit[1],
-        course: credit[2],
-        isModule: credit[3],
-        date: new Date(credit[4]),
-        grade: credit[5],
-      }
-      array.push(newCourse)
-    })
-
-    res.send(studentPathsE2E(array, year, course, grade))
-  })
-  await fs.createReadStream(file).pipe(parser)
-}
-
-const getAllFirsts = async (req, res) => {
+const getSankeyFirsts = async (req, res) => {
   const array = []
   let year = 2017
   let levels = 4
@@ -103,9 +73,10 @@ const getAllFirsts = async (req, res) => {
     year = Number(req.params.year)
   }
 
-  if (req.params.levels !== null && typeof(req.params.levels === String)) {
+  if (req.params.levels !== null) {
     levels = Number(req.params.levels)
   }
+
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
     data.forEach((credit) => {
@@ -149,9 +120,11 @@ const getHistogramData = async (req, res) => {
   const array = []
   let course = 'Ohjelmoinnin perusteet'
 
+
   if (req.params.course !== null) {
     course = req.params.course
   }
+
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
@@ -174,6 +147,11 @@ const getHistogramData = async (req, res) => {
 const getHistogramDataMany = async (req, res) => {
   const array = []
 
+  let sorting = 'startHeavy'
+
+  if (req.params.sorting !== null) {
+    sorting = req.params.sorting
+  }
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
@@ -188,7 +166,7 @@ const getHistogramDataMany = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(histogramObjects(array))
+    res.send(histogramObjects(array, null, sorting))
   })
   await fs.createReadStream(file).pipe(parser)
 }
@@ -205,7 +183,7 @@ const getBubbleData = async (req, res) => {
     grade = req.params.grade
   }
 
-  if (req.params.bubbles !== null && typeof(req.params.bubbles === String)) {
+  if (req.params.bubbles !== null) {
     bubbles = Number(req.params.bubbles)
   }
 
@@ -230,9 +208,11 @@ const getBubbleData = async (req, res) => {
 const getRoadToSuccessData = async (req, res) => {
   const array = []
   let course = 'Ohjelmoinnin perusteet'
+  let uniqueness = 'all'
 
   if (req.params.course !== null) {
     course = req.params.course
+    uniqueness = req.params.uniqueness
   }
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
@@ -248,15 +228,14 @@ const getRoadToSuccessData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(roadToSuccessObjects(array, course))
+    res.send(roadToSuccessObjects(array, course, uniqueness))
   })
   await fs.createReadStream(file).pipe(parser)
 }
 
 module.exports = {
-  getAllNormal,
-  getAllE2E,
-  getAllFirsts,
+  getSankeyNormal,
+  getSankeyFirsts,
   getCourses,
   getHistogramData,
   getBubbleData,

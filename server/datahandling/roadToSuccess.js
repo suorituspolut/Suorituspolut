@@ -1,16 +1,37 @@
-const { isBefore } = require('@root/server/datahandling/periods')
 const { studentObjects } = require('@root/server/datahandling/students')
+const { whichHasBetterGrade } = require('@root/server/datahandling/grades')
 
-
-const roadToSuccessObjects = (data, startCourse) => {
+const roadToSuccessObjects = (data, startCourse, uniqueness) => {
   const students = studentObjects(data)
-  const byGrades = coursesByGrades(students, startCourse)
+  const byGrades = coursesByGrades(students, startCourse, uniqueness)
   const percentagesForGrades = percentagesForCourses(byGrades)
   return percentagesForGrades
 }
 
-const coursesByGrades = (data, startCourse) => {
+const getUniqueEarlierCourses = (credits, startCourseDate) => {
+  const earlierCourses = new Map()
+  const unique = []
 
+  credits.forEach((credit) => {
+    let creditToAdd = {}
+    if (credit.date < startCourseDate) {
+      if (!earlierCourses.has(credit.course)) {
+        earlierCourses.set(credit.course, credit)
+      } else if (earlierCourses.has(credit.course)) {
+        creditToAdd = whichHasBetterGrade(earlierCourses.get(credit.course), credit)
+        earlierCourses.delete(credit.course)
+        earlierCourses.set(credit.course, creditToAdd)
+      }
+    }
+  })
+
+  earlierCourses.forEach((credit, course) => {
+    unique.push(credit)
+  })
+  return unique
+}
+
+const coursesByGrades = (data, startCourse, uniqueness) => {
   const earlierCoursesByGrades = [
     {
       grade: 'Hylätty',
@@ -88,9 +109,16 @@ const coursesByGrades = (data, startCourse) => {
     })
 
     if (hasDoneStartCourse) {
-      const earlierCourses = student.courses.filter(credit => isBefore(credit.date, startCourseDate))
+      let earlierCourses = []
+      if (uniqueness === 'all') {
+        earlierCourses = student.courses.filter(credit => credit.date < startCourseDate)
+      }
+      if (uniqueness === 'unique') {
+        earlierCourses = getUniqueEarlierCourses(student.courses, startCourseDate)
+      }
 
       earlierCourses.forEach((credit) => {
+
         switch (gradeOfStartCourse) {
           case 'Hyl.' || '0':
             earlierCoursesByGrades[0].courses = [...earlierCoursesByGrades[0].courses, credit.course]
@@ -117,6 +145,9 @@ const coursesByGrades = (data, startCourse) => {
             break
         }
       })
+      hasDoneStartCourse = false
+      startCourseDate = 0
+      gradeOfStartCourse = 0
     }
   })
   return earlierCoursesByGrades
