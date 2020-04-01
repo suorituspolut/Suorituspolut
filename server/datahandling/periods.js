@@ -100,12 +100,21 @@ const isSamePeriod = (period1, period2) => {
   return false
 }
 
+const isBefore = (date1, date2) => {
+  const period1 = toPeriod(date1)
+  const period2 = toPeriod(date2)
+  if (period1.year < period2.year) return true
+  if (period1.year === period2.year && period1.period < period2.period) return true
+  return false
+}
+
 const dataByYear = (data, year) => {
   return data.filter(credit => credit.date.getFullYear() === year)
 }
 
 
 module.exports = {
+  isBefore,
   isSamePeriod,
   toPeriod,
   nextPeriodOf,

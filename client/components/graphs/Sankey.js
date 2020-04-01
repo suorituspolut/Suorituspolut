@@ -5,12 +5,13 @@ import Highcharts from 'highcharts'
 import { getGraphData } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
+import Info from '../notifications/Info'
 
 require('highcharts/modules/sankey')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
-const Sankeys = ({ type, courses, headline }) => {
+const Sankeys = ({ type, courses }) => {
   const [year, setYear] = useState(2017)
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [grade, setGrade] = useState('Läpäisseet')
@@ -51,6 +52,7 @@ const Sankeys = ({ type, courses, headline }) => {
         ?
         (
         <>
+          <Info content="Tämä Sankey-diagrammi antaa valita kurssin, ja näyttää, mitä kursseja kyseisen kurssin käyneet ovat suorittaneet seuraavassa periodissa. Kurssin lisäksi voi valita aloitusvuoden, ja rajata hakua suoritusten arvosanan perusteella."/>
           <Headline text="Mitä kursseja on suoritettu seuraavassa periodissa" />
           <FilterBar
             selectedCourse={course}
@@ -68,6 +70,7 @@ const Sankeys = ({ type, courses, headline }) => {
         :
         (
         <>
+          <Info content="Tämä Sankey-diagrammi näyttää opintojen etenemisen periodeittain koulutusohjelman ensimmäisistä kursseista lähtien. Suoritusvuoden ja näytettävien periodien määrän voi valita, ja suoritusten arvosanan perusteella voi rajata hakua."/>
           <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
           <FilterBar
             selectedYear={year}

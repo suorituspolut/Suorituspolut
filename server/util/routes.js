@@ -11,5 +11,7 @@ router.get('/data/firsts/:year/:course/:grade/:levels/:bubbles', data.getAllFirs
 router.get('/data/bubble/:year/:course/:grade/:levels/:bubbles', data.getBubbleData)
 router.get('/histogram/:course', data.getHistogramData)
 router.get('/histomany', data.getHistogramDataMany)
+router.get('/rts/:course', data.getRoadToSuccessData)
+
 
 module.exports = router

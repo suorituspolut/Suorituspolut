@@ -1,14 +1,35 @@
-
 const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, studentPathsE2E, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
 const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
+const { roadToSuccessObjects } = require('@root/server/datahandling/roadToSuccess')
+
 
 const parse = require('csv-parse')
 const fs = require('fs')
 
+
 const file = (process.cwd() + '/data/anon_dataset.csv')
 
+/* const Papa = require('papaparse')
+const readCSV = async (filePath) => {
+  const csvFile = fs.readFileSync(filePath)
+  const csvData = csvFile.toString()
+  return new Promise(resolve => {
+    Papa.parse(csvData, {
+      header: true,
+      complete: results => {
+        resolve(results.data);
+      }
+    });
+  });
+};
+let parsedData;
+const test = async () => {
+  parsedData = await readCSV(file); 
+}
+test()
+*/
 
 const getAllNormal = async (req, res) => {
   const array = []
@@ -36,9 +57,10 @@ const getAllNormal = async (req, res) => {
       }
       array.push(newCourse)
     })
-
+    
     res.send(studentPaths(array, year, course, grade))
   })
+
   await fs.createReadStream(file).pipe(parser)
 }
 
@@ -205,6 +227,32 @@ const getBubbleData = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
+const getRoadToSuccessData = async (req, res) => {
+  const array = []
+  let course = 'Ohjelmoinnin perusteet'
+
+  if (req.params.course !== null) {
+    course = req.params.course
+  }
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    if (!data) return
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
+      }
+      array.push(newCourse)
+    })
+    res.send(roadToSuccessObjects(array, course))
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
 module.exports = {
   getAllNormal,
   getAllE2E,
@@ -213,4 +261,5 @@ module.exports = {
   getHistogramData,
   getBubbleData,
   getHistogramDataMany,
+  getRoadToSuccessData,
 }
