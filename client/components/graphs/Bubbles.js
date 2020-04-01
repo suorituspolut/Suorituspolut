@@ -3,11 +3,12 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import HC_more from 'highcharts/highcharts-more'
 import FilterBar from '../filters/FilterBar'
-import { getGraphData } from '../../util/redux/dataReducer'
+import { getBubbleData } from '../../util/redux/dataReducer'
 import Info from '../notifications/Info'
 
 HC_more(Highcharts)
 
+require('highcharts/modules/map')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
@@ -19,7 +20,7 @@ const Bubbles = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    setData(JSON.parse(getGraphData('bubble', year, null, grade, 0, bubbleAmount)))
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
   }, [])
 
 
@@ -37,7 +38,7 @@ const Bubbles = () => {
 
 
   const handleSearch = () => {
-    setData(JSON.parse(getGraphData('bubble', year, null, grade, 0, bubbleAmount)))
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
   }
 
 
@@ -46,7 +47,7 @@ const Bubbles = () => {
       type: 'packedbubble',
       height: '60%',
     },
-    colors: [ '#ff6666', '#ff9966', '#ffcc66', '#ffff66', '#ccff33'],
+    colors: ['#ff6666', '#ff9966', '#ffcc66', '#ffff66', '#ccff33'],
     credits: {
       text: '',
     },

@@ -1,70 +1,84 @@
-export const getGraphData = (type, year, course, grade, levels, bubbles) => {
 
-  let urlEnd = type
+export const getSankeyData = (type, year, course, grade, levels) => {
 
-  if (type === 'normal' || type === 'E2E' || type === 'firsts' || type === 'bubble') {
-    urlEnd = `${type}/${year}/${course}/${grade}/${levels}/${bubbles}`
-  }
+  const urlEnd = `${type}/${year}/${course}/${grade}/${levels}`
+
   if (process.env.NODE_ENV !== 'production') {
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( "GET", `http://localhost:8000/api/data/${urlEnd}`, false ) 
-    xmlHttp.send( null )
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( 'GET', `http://localhost:8000/api/sankey/${urlEnd}`, false)
+    xmlHttp.send(null)
     return xmlHttp.responseText
   }
-  var xmlHttp = new XMLHttpRequest()
-  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/data/${urlEnd}`, false ) 
-  xmlHttp.send( null )
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/sankey/${urlEnd}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getBubbleData = (year, grade, bubbles) => {
+
+  const urlEnd = `${year}/${grade}/${bubbles}`
+
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( 'GET', `http://localhost:8000/api/bubbles/${urlEnd}`, false) 
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/bubbles/${urlEnd}`, false)
+  xmlHttp.send(null)
   return xmlHttp.responseText
 }
 
 export const getCourseData = () => {
   if (process.env.NODE_ENV !== 'production') {
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( "GET", `http://localhost:8000/api/courses`, false ) 
-    xmlHttp.send( null )
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( 'GET', `http://localhost:8000/api/courses`, false)
+    xmlHttp.send(null)
     return xmlHttp.responseText
   }
-  var xmlHttp = new XMLHttpRequest()
-  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/courses`, false ) 
-  xmlHttp.send( null )
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/courses`, false)
+  xmlHttp.send(null)
   return xmlHttp.responseText
 }
 
 export const getHistogramData = (course) => {
   if (process.env.NODE_ENV !== 'production') {
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( "GET", `http://localhost:8000/api/histogram/${course}/`, false ) 
-    xmlHttp.send( null )
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( 'GET', `http://localhost:8000/api/histogram/${course}/`, false)
+    xmlHttp.send(null)
     return xmlHttp.responseText
   }
-  var xmlHttp = new XMLHttpRequest()
-  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/histogram/${course}/`, false ) 
-  xmlHttp.send( null )
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histogram/${course}/`, false)
+  xmlHttp.send(null)
   return xmlHttp.responseText
 }
 
-export const getHistoDataMany = () => {
+export const getHistoDataMany = (sorting) => {
   if (process.env.NODE_ENV !== 'production') {
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( "GET", `http://localhost:8000/api/histomany/`, false ) 
-    xmlHttp.send( null )
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( 'GET', `http://localhost:8000/api/histomany/${sorting}`, false)
+    xmlHttp.send(null)
     return xmlHttp.responseText
   }
-  var xmlHttp = new XMLHttpRequest()
-  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/histomany/`, false ) 
-  xmlHttp.send( null )
+  const xmlHttp = new XMLHttpRequest(sorting)
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histomany/${sorting}`, false)
+  xmlHttp.send(null)
   return xmlHttp.responseText
 }
 
-export const getRoadToSuccess = (course) => {
+export const getRoadToSuccess = (course, uniqueness) => {
   if (process.env.NODE_ENV !== 'production') {
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( "GET", `http://localhost:8000/api/rts/${course}/`, false ) 
-    xmlHttp.send( null )
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( 'GET', `http://localhost:8000/api/rts/${course}/${uniqueness}`, false)
+    xmlHttp.send(null)
     return xmlHttp.responseText
   }
-  var xmlHttp = new XMLHttpRequest()
-  xmlHttp.open( "GET", `https://toska.cs.helsinki.fi/suorituspolut/api/rts/${course}/`, false ) 
-  xmlHttp.send( null )
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/rts/${course}/${uniqueness}`, false)
+  xmlHttp.send(null)
   return xmlHttp.responseText
 }

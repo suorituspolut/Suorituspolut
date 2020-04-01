@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 
-import { getGraphData } from '../../util/redux/dataReducer'
+import { getSankeyData } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import Info from '../notifications/Info'
@@ -20,13 +20,13 @@ const Sankeys = ({ type, courses }) => {
   const [normalData, setNormalData] = useState([])
 
   useEffect(() => {
-    setFirstsData(JSON.parse(getGraphData('firsts', year, course, grade, levels, 5)))
-    setNormalData(JSON.parse(getGraphData('normal', year, course, grade, levels, 5)))
+    setFirstsData(JSON.parse(getSankeyData('firsts', year, course, grade, levels)))
+    setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
   }, [])
 
   const handleSearch = () => {
-    if (type === 'firsts') setFirstsData(JSON.parse(getGraphData('firsts', year, course, grade, levels, 5)))
-    else setNormalData(JSON.parse(getGraphData('normal', year, course, grade, levels, 5)))
+    if (type === 'firsts') setFirstsData(JSON.parse(getSankeyData('firsts', year, course, grade, levels)))
+    else setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
   }
 
   const handleYearChange = (e, { value }) => {
@@ -47,7 +47,7 @@ const Sankeys = ({ type, courses }) => {
 
   return (
     <>
-     
+
       {type === 'normal'
         ?
         (
