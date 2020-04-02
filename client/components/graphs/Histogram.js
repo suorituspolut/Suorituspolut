@@ -12,10 +12,12 @@ import Info from '../notifications/Info'
 require('highcharts/modules/exporting')(Highcharts)
 
 
+
 const countCategories = (maxYear) => {
   const categories = []
   let currentYear = 1
   let currentPeriod = 1
+  maxYear = 9
 
   for (let i = 1; i < maxYear * 5 + 1; i++) {
     categories[i - 1] = `${currentYear} .vuosi /  ${currentPeriod} .periodi`
@@ -25,22 +27,27 @@ const countCategories = (maxYear) => {
       currentPeriod = 1
     }
   }
+
   return categories
 }
 
+const categories = countCategories(9)
+
 const dataWithColors = (data, maxYear) => {
+
+  //maxYear = 9
 
   const addingColors = data.map((dataPoint, index) => {
     if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
     if (index >= 5 && index < 10) return ({ y: dataPoint, color: blueColors[1] })
     if (index >= 10 && index < 15) return ({ y: dataPoint, color: blueColors[2] })
     if (index >= 15 && index < 20) return ({ y: dataPoint, color: blueColors[3] })
-    if (index >= 20 && index < 25) return ({ y: dataPoint, color: blueColors[4] })
-    if (index >= 25 && index < 30) return ({ y: dataPoint, color: blueColors[5] })
-    if (index >= 30 && index < 35) return ({ y: dataPoint, color: blueColors[6] })
-    if (index >= 35 && index < 40) return ({ y: dataPoint, color: blueColors[7] })
-    if (index >= 40 && index < 45) return ({ y: dataPoint, color: blueColors[8] })
-    if (index >= 45 && index < 50) return ({ y: dataPoint, color: blueColors[9] })
+    if (index >= 20 && index < 25) return ({ y: dataPoint, color: blueColors[0] })
+    if (index >= 25 && index < 30) return ({ y: dataPoint, color: blueColors[1] })
+    if (index >= 30 && index < 35) return ({ y: dataPoint, color: blueColors[2] })
+    if (index >= 35 && index < 40) return ({ y: dataPoint, color: blueColors[3] })
+    if (index >= 40 && index < 45) return ({ y: dataPoint, color: blueColors[0] })
+    if (index >= 45 && index < 50) return ({ y: dataPoint, color: blueColors[1] })
   })
   const array = []
   for (let i = 0; i < maxYear * 5; i++) {
@@ -57,12 +64,12 @@ const Histograms = ({ courses, howMany }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [maxYear, setMaxYear] = useState(5)
   const [pageToShow, setPageToShow] = useState(1)
-  const [categories, setCategories] = useState([])
+  //const [categories, setCategories] = useState([])
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
     setDataMany(JSON.parse(getHistoDataMany(sorting)))
-    setCategories(countCategories(maxYear))
+    //setCategories(countCategories(maxYear))
   }, [])
 
 
@@ -86,7 +93,7 @@ const Histograms = ({ courses, howMany }) => {
     } catch (err) {
       console.log(err)
     }
-    setCategories(countCategories(maxYear))
+    //setCategories(countCategories(maxYear))
   }
 
   const handlePageChange = (e, { activePage }) => {
