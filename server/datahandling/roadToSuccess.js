@@ -1,5 +1,5 @@
 const { studentObjects } = require('@root/server/datahandling/students')
-const { whichHasBetterGrade } = require('@root/server/datahandling/grades')
+const { checkGrade, whichHasBetterGrade } = require('@root/server/datahandling/grades')
 
 const roadToSuccessObjects = (data, startCourse, uniqueness) => {
   const students = studentObjects(data)
@@ -64,7 +64,17 @@ const coursesByGrades = (data, startCourse, uniqueness) => {
       courses: [],
     },
     {
-      grade: 'Hyväksytty',
+      grade: 'Tyydyttävät taidot',
+      amountOfStudents: 0,
+      courses: [],
+    },
+    {
+      grade: 'Hyvät taidot',
+      amountOfStudents: 0,
+      courses: [],
+    },
+    {
+      grade: 'Hyväksilukeneet',
       amountOfStudents: 0,
       courses: [],
     },
@@ -74,16 +84,16 @@ const coursesByGrades = (data, startCourse, uniqueness) => {
     let hasDoneStartCourse = false
     let startCourseDate = 0
     let gradeOfStartCourse = 0
-
     student.courses.forEach((credit) => {
       if (credit.course === startCourse) {
         hasDoneStartCourse = true
         startCourseDate = credit.date
         gradeOfStartCourse = credit.grade
+
+        if (!checkGrade('Läpäisseet', gradeOfStartCourse)) {
+          earlierCoursesByGrades[0].amountOfStudents++
+        }
         switch (gradeOfStartCourse) {
-          case 'Hyl.' || '0':
-            earlierCoursesByGrades[0].amountOfStudents++
-            break
           case '1':
             earlierCoursesByGrades[1].amountOfStudents++
             break
@@ -99,8 +109,14 @@ const coursesByGrades = (data, startCourse, uniqueness) => {
           case '5':
             earlierCoursesByGrades[5].amountOfStudents++
             break
-          case 'Hyv.':
+          case 'TT':
             earlierCoursesByGrades[6].amountOfStudents++
+            break
+          case 'HT':
+            earlierCoursesByGrades[7].amountOfStudents++
+            break
+          case 'Hyv.':
+            earlierCoursesByGrades[8].amountOfStudents++
             break
           default:
             break
@@ -118,11 +134,10 @@ const coursesByGrades = (data, startCourse, uniqueness) => {
       }
 
       earlierCourses.forEach((credit) => {
-
+        if (!checkGrade('Läpäisseet', gradeOfStartCourse)) {
+          earlierCoursesByGrades[0].courses = [...earlierCoursesByGrades[0].courses, credit.course]
+        }
         switch (gradeOfStartCourse) {
-          case 'Hyl.' || '0':
-            earlierCoursesByGrades[0].courses = [...earlierCoursesByGrades[0].courses, credit.course]
-            break
           case '1':
             earlierCoursesByGrades[1].courses = [...earlierCoursesByGrades[1].courses, credit.course]
             break
@@ -138,8 +153,14 @@ const coursesByGrades = (data, startCourse, uniqueness) => {
           case '5':
             earlierCoursesByGrades[5].courses = [...earlierCoursesByGrades[5].courses, credit.course]
             break
-          case 'Hyv.':
+          case 'TT':
             earlierCoursesByGrades[6].courses = [...earlierCoursesByGrades[6].courses, credit.course]
+            break
+          case 'HT':
+            earlierCoursesByGrades[7].courses = [...earlierCoursesByGrades[7].courses, credit.course]
+            break
+          case 'Hyv.':
+            earlierCoursesByGrades[8].courses = [...earlierCoursesByGrades[8].courses, credit.course]
             break
           default:
             break

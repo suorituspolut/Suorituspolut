@@ -5,17 +5,7 @@ import Histograms from './Histogram'
 import Bubbles from './Bubbles'
 import Sankeys from './Sankey'
 import RoadToSuccess from './RoadToSuccess'
-import { getCourseData, getRoadToSuccess } from '../../util/redux/dataReducer'
-
-// example for getting the data for RTS
-// const rts = JSON.parse(getRoadToSuccess('Tietoliikenteen perusteet', 'unique'))
-// const rts = JSON.parse(getRoadToSuccess('Tietoliikenteen perusteet', 'all'))
-// console.log(rts)
-// each separate array of an grade contains: name of the course, the total amount of people done that course, and the percentage
-// eg. if you search with "Tietorakenteet and algoritmit",
-// you get:
-// grade of tira: [name of a popular course, number of people who have done that course, percentage of people who have done that course]
-
+import { getCourseData } from '../../util/redux/dataReducer'
 
 const GraphSelector = ({ graphToShow }) => {
   const courses = JSON.parse(getCourseData())
