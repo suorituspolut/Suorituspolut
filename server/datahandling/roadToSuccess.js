@@ -74,7 +74,7 @@ const coursesByGrades = (data, startCourse, uniqueness) => {
       courses: [],
     },
     {
-      grade: 'Hyväksilukeneet',
+      grade: 'Hyväksytty',
       amountOfStudents: 0,
       courses: [],
     },

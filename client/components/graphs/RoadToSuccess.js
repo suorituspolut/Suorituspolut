@@ -17,10 +17,9 @@ import { getRoadToSuccess } from '../../util/redux/dataReducer'
 
 require('highcharts/modules/exporting')(Highcharts)
 
-const RTS = ({courses}) => {
+const RTS = ({ courses }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [data, setData] = useState([])
-  const [grade, setGrade] = useState(5)
 
   useEffect(() => {
     setData(JSON.parse(getRoadToSuccess(course, 'unique')))
@@ -43,18 +42,17 @@ const RTS = ({courses}) => {
         selectedCourse={course}
         courses={courses}
         handleCourseChange={handleCourseChange}
-        handleSearch={handleSearch} 
+        handleSearch={handleSearch}
       />
-      <PieChart grades={data} props={grade} />
+      <PieChart grades={data} />
     </div>
   )
 }
 
-const PieChart = ({ grades, props }) => {
-  const [grade, setGrade] = useState(props)
+const PieChart = ({ grades }) => {
+  const [grade, setGrade] = useState(5)
 
   if (grades.length > 0) {
-
     const totalAmount = grades.reduce((sum, value) => {
       return sum + value.totalAmount
     }, 0)
@@ -71,7 +69,7 @@ const PieChart = ({ grades, props }) => {
           }, {
             name: 'Hylätty',
             y: grades[0].totalAmount / totalAmount,
-            value: 0,
+            value: 'Hylätty',
           }, {
             name: 'Arvosana: 1',
             y: grades[1].totalAmount / totalAmount,
@@ -92,7 +90,7 @@ const PieChart = ({ grades, props }) => {
           {
             name: 'Hyväksilukeneet',
             y: grades[8].totalAmount / totalAmount,
-            value: 6,
+            value: 'Hyväksytty',
           },
         ]
       }
@@ -101,22 +99,22 @@ const PieChart = ({ grades, props }) => {
           {
             name: 'Tyydyttävät taidot',
             y: grades[6].totalAmount / totalAmount,
-            value: 1,
+            value: 'Tyydyttävät taidot',
           },
           {
             name: 'Hyvät taidot',
             y: grades[7].totalAmount / totalAmount,
-            value: 2,
+            value: 'Hyvät taidot',
           },
           {
             name: 'Hylätty',
             y: grades[0].totalAmount / totalAmount,
-            value: 0,
+            value: 'Hylätty',
           },
           {
             name: 'Hyväksilukeneet',
             y: grades[8].totalAmount / totalAmount,
-            value: 3,
+            value: 'Hyväksytty',
           },
         ]
       }
@@ -124,12 +122,12 @@ const PieChart = ({ grades, props }) => {
         {
           name: 'Hyväksytty',
           y: totalAccepted / totalAmount,
-          value: 1,
+          value: 'Hyväksytty',
         },
-        {   
+        {
           name: 'Hylätty',
           y: grades[0].totalAmount / totalAmount,
-          value: 0,
+          value: 'Hylätty',
         },
       ]
     }
@@ -168,8 +166,8 @@ const PieChart = ({ grades, props }) => {
           dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: <br>{point.percentage:.1f} %</br>',
-          }
-        }
+          },
+        },
       },
       series: [{
         name: 'Kaikista arvosanoista',
