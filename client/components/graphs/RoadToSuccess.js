@@ -46,13 +46,13 @@ const RTS = ({courses}) => {
     courses={courses}
     handleCourseChange={handleCourseChange}
     handleSearch={handleSearch} />
-    <PieChart grades={data} />
-    <Table data={data} grade={grade}/>
+    <PieChart grades={data} props={grade} />
     </div>
   )
 }
 
-const PieChart = ({grades}) => {
+const PieChart = ({grades, props}) => {
+    const [grade, setGrade] = useState(props)
     if (grades.length > 1) {
         const totalAmount = grades[0].totalAmount + grades[6].totalAmount
     const options = {
@@ -62,13 +62,6 @@ const PieChart = ({grades}) => {
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie',
-            events: {
-                click: {
-                    function(e) {
-                        console.log(e)
-                    }
-                }
-            },
         },
         credits: {
             text: '',
@@ -85,9 +78,14 @@ const PieChart = ({grades}) => {
             }
         },
         plotOptions: {
-            pie: {
+            series: {
                 allowPointSelect: true,
                 cursor: 'pointer',
+                events: {
+                    click: function(e) {
+                            setGrade(e.point.value)
+                        }
+                },
                 dataLabels: {
                     enabled: true,
                     format: '<b>{point.name}</b>: <br>{point.percentage:.1f} %</br>',
@@ -99,22 +97,28 @@ const PieChart = ({grades}) => {
             colorByPoint: true,
             data: [{
                 name: 'Arvosana: 5',
-                y: grades[5].totalAmount / totalAmount
+                y: grades[5].totalAmount / totalAmount,
+                value: 5,
             }, {
                 name: 'Arvosana: 0',
-                y: grades[0].totalAmount / totalAmount
+                y: grades[0].totalAmount / totalAmount,
+                value: 0,
             }, {
                 name: 'Arvosana: 1',
-                y: grades[1].totalAmount / totalAmount
+                y: grades[1].totalAmount / totalAmount,
+                value: 1,
             }, {
                 name: 'Arvosana: 2',
-                y: grades[2].totalAmount / totalAmount
+                y: grades[2].totalAmount / totalAmount,
+                value: 2,
             }, {
                 name: 'Arvosana: 3',
-                y: grades[3].totalAmount / totalAmount
+                y: grades[3].totalAmount / totalAmount,
+                value: 3,
             }, {
                 name: 'Arvosana: 4',
-                y: grades[4].totalAmount / totalAmount
+                y: grades[4].totalAmount / totalAmount,
+                value: 4,
             }]
         }]
     ,
@@ -126,6 +130,7 @@ const PieChart = ({grades}) => {
             constructorType="chart"
             options={options}
           />
+          <Table data={grades} grade={grade} />
         </div>
       )
     } else {
