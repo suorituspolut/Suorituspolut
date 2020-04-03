@@ -10,17 +10,21 @@ const courseHistoArray = (students, course) => {
 
   students.forEach((student) => {
     const firstCourse = student.courses[0]
-    student.courses.forEach((credit) => {
-      if (firstCourse.course === course) {
-        histogramArray[0]++
-      } else if (credit.course === course) {
-        const time = periodsBetweenTwoDates(firstCourse.date, credit.date)
-        if (time < 36) {
-          histogramArray[time]++
+
+    if (firstCourse === course) {
+      histogramArray[0]++
+    } else {
+      student.courses.forEach((credit) => {
+        if (firstCourse.course !== course && credit.course === course) {
+          const time = periodsBetweenTwoDates(firstCourse.date, credit.date)
+          if (time < 36) {
+            histogramArray[time]++
+          }  
         }
-      }
-    })
+      })
+    }  
   })
+
   return { course, histogramArray }
 }
 
