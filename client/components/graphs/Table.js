@@ -5,6 +5,7 @@ import { Icon, Label, Menu, Table } from 'semantic-ui-react'
 
 const SimpleTable = ({data, grade}) => {
     if (data.length > 1) {
+        try {
         return (
         <Table className="ui table">
         <Table.Header>
@@ -58,6 +59,9 @@ const SimpleTable = ({data, grade}) => {
         </Table.Body>
     </Table>
     )
+    } catch {
+        return null
+    }
     } else return null
 }
 
