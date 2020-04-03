@@ -17,7 +17,6 @@ const countCategories = (maxYear) => {
   const categories = []
   let currentYear = 1
   let currentPeriod = 1
-  maxYear = 9
 
   for (let i = 1; i < maxYear * 5 + 1; i++) {
     categories[i - 1] = `${currentYear} .vuosi /  ${currentPeriod} .periodi`
@@ -35,7 +34,6 @@ const categories = countCategories(9)
 
 const dataWithColors = (data, maxYear) => {
 
-  //maxYear = 9
 
   const addingColors = data.map((dataPoint, index) => {
     if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
@@ -64,12 +62,10 @@ const Histograms = ({ courses, howMany }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [maxYear, setMaxYear] = useState(5)
   const [pageToShow, setPageToShow] = useState(1)
-  //const [categories, setCategories] = useState([])
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
     setDataMany(JSON.parse(getHistoDataMany(sorting)))
-    //setCategories(countCategories(maxYear))
   }, [])
 
 
@@ -93,7 +89,6 @@ const Histograms = ({ courses, howMany }) => {
     } catch (err) {
       console.log(err)
     }
-    //setCategories(countCategories(maxYear))
   }
 
   const handlePageChange = (e, { activePage }) => {
