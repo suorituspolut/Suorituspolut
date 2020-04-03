@@ -4,6 +4,7 @@ import Stacked from './Stacked'
 import Histograms from './Histogram'
 import Bubbles from './Bubbles'
 import Sankeys from './Sankey'
+import RoadToSuccess from './RoadToSuccess'
 import { getCourseData, getRoadToSuccess } from '../../util/redux/dataReducer'
 
 // example for getting the data for RTS
@@ -35,6 +36,8 @@ const GraphSelector = ({ graphToShow }) => {
         return <Stacked />
       case 7:
         return <GraphTestVenn />
+      case 8:
+        return <RoadToSuccess courses={courses} />
       default:
         return (
           <>

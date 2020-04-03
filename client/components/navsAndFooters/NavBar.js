@@ -13,6 +13,10 @@ const NavBar = ({ onChange, value }) => {
     { key: 7, value: 7, text: 'Venn-diagrammi (hahmotelma)' },
   ]
 
+  const suositusOptions = [
+    {key: 1, value: 8, text: 'Road to success'}
+  ]
+
   return (
     <Menu pointing secondary>
       <Menu.Item>
@@ -21,7 +25,9 @@ const NavBar = ({ onChange, value }) => {
       <Menu.Item className="navbar-item">
         <Dropdown text="Kurssigraafit" value={value} options={options} onChange={onChange} />
       </Menu.Item>
-      <Menu.Item className="navbar-item">Suosituskurssit</Menu.Item>
+      <Menu.Item className="navbar-item">
+        <Dropdown text="Suosituskurssit" value={value} options={suositusOptions} onChange={onChange} />
+      </Menu.Item>
     </Menu>
   )
 }
