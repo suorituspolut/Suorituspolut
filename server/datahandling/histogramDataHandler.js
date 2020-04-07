@@ -52,11 +52,22 @@ const histogramObjects = (data, course, sorting) => {
   courselist.forEach((course) => {
     histogramList = [...histogramList, courseHistoArray(students, course)]
   })
+  if (sorting === 'endHeavy') {
+    return sortByModeEndHeavy(histogramList)
+  }
 
-  return sortByMode(histogramList)
+  return sortByModeStartHeavy(histogramList)
 }
 
-const sortByMode = (histogramList) => {
+const sortByModeEndHeavy = (histogramList) => {
+  histogramList.forEach((histoObject) => {
+    histoObject.biggestIndex = histoObject.histogramArray.indexOf(Math.max(...histoObject.histogramArray))
+  })
+
+  return histogramList.sort((histoObject1, histoObject2) => histoObject2.biggestIndex - histoObject1.biggestIndex)
+}
+
+const sortByModeStartHeavy = (histogramList) => {
   histogramList.forEach((histoObject) => {
     histoObject.biggestIndex = histoObject.histogramArray.indexOf(Math.max(...histoObject.histogramArray))
   })

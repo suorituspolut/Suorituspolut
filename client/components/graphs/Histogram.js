@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Button, Pagination } from 'semantic-ui-react'
+import { Button, Form, Pagination, Radio } from 'semantic-ui-react'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
@@ -74,13 +74,14 @@ const Histograms = ({ courses, howMany }) => {
   }
 
   const handleMaxYearChange = (e, { value }) => {
+    e.preventDefault()
     setMaxYear(value)
   }
 
   //this should be changed to include other sorting methods
   const handleSortingChange = (e, { value }) => {
-    setSorting('mandatoryCourses')
-    setDataMany(JSON.parse(getHistoDataMany('mandatoryCourses')))
+    setSorting(value)
+    setDataMany(JSON.parse(getHistoDataMany(value)))
   }
 
   const handleSearch = () => {
@@ -98,9 +99,12 @@ const Histograms = ({ courses, howMany }) => {
   }
 
   const printOutFiveHistograms = (index) => {
-
+    let coursesOnAPage = []
     if (courses.length > 0 && datamany.length > 0) {
-      const coursesOnAPage = [datamany[index], datamany[index + 1], datamany[index + 2], datamany[index + 3], datamany[index + 4]]
+      if (index == 1) {
+        coursesOnAPage = [datamany[0], datamany[1], datamany[2], datamany[3], datamany[4]]
+      }
+      else coursesOnAPage = [datamany[index], datamany[index + 1], datamany[index + 2], datamany[index + 3], datamany[index + 4]]
       return (
         <div>
           {coursesOnAPage.map(course => <Histogram key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} />)}
@@ -117,10 +121,15 @@ const Histograms = ({ courses, howMany }) => {
           <>
             <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata."/>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
-            <Button className="blue" onClick={handleSortingChange}>Näytä vain pakolliset kurssit</Button>
-
+            <div  className="radio-container"> 
+              <Form>
+                <Radio className="radiobutton" label='Kaikki: opintojen alusta ' checked={sorting==='startHeavy'} value='startHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
+                <Radio className="radiobutton" label='Kaikki: opintojen lopusta  ' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
+                <Radio className="radiobutton" label='Pakolliset kurssit' checked={sorting==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
+              </Form>
+            </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(30 / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length / 5) : 1} />
             </div>
 
             <FilterBar
@@ -132,7 +141,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(pageToShow)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(30 / 5) : 1} />
+              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
             </div>
           </>
         )

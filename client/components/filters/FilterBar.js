@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button, Form, Radio } from 'semantic-ui-react'
 import { createNumberOptions, createTextOptions, grades } from '../../util/units'
 import Filter from './Filter'
 
@@ -64,6 +64,7 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
               placeholder="5"
             />
           ) : null}
+
           <td>
             <p />
             <Button type="submit" onClick={() => handleSearch()} className="blue">Päivitä</Button>
