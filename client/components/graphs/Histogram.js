@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Button, Form, Pagination, Radio } from 'semantic-ui-react'
+import { Button, Form, Label, Pagination, Radio } from 'semantic-ui-react'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
@@ -101,6 +101,7 @@ const Histograms = ({ courses, howMany }) => {
   const printOutFiveHistograms = (index) => {
     let coursesOnAPage = []
     if (courses.length > 0 && datamany.length > 0) {
+      if (index >= datamany.length) index = 0
       if (index == 1) {
         coursesOnAPage = [datamany[0], datamany[1], datamany[2], datamany[3], datamany[4]]
       }
@@ -121,15 +122,13 @@ const Histograms = ({ courses, howMany }) => {
           <>
             <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata."/>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
-            <div  className="radio-container"> 
+            <div  className="radio-container">   
               <Form>
-                <Radio className="radiobutton" label='Kaikki: opintojen alusta ' checked={sorting==='startHeavy'} value='startHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
-                <Radio className="radiobutton" label='Kaikki: opintojen lopusta  ' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
-                <Radio className="radiobutton" label='Pakolliset kurssit' checked={sorting==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
+                <h5   className="radio-container">Järjestä kurssihistogrammit:</h5>
+                <Radio className="radiobutton" label='Suoritukset aikaisin opinnoissa' checked={sorting==='startHeavy'} value='startHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
+                <Radio className="radiobutton" label='Suoritukset myöhään opinnoissa' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
+                <Radio className="radiobutton" label='Näytä vain pakolliset kurssit' checked={sorting==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
               </Form>
-            </div>
-            <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length / 5) : 1} />
             </div>
 
             <FilterBar
