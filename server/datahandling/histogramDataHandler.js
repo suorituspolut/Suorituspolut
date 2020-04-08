@@ -55,6 +55,9 @@ const histogramObjects = (data, course, sorting) => {
   if (sorting === 'endHeavy') {
     return sortByModeEndHeavy(histogramList)
   }
+  if (sorting === 'deviationStartHeavy') {
+    return sortByStandardDeviation(histogramList)
+  }
 
   return sortByModeStartHeavy(histogramList)
 }
@@ -73,6 +76,32 @@ const sortByModeStartHeavy = (histogramList) => {
   })
 
   return histogramList.sort((histoObject1, histoObject2) => histoObject1.biggestIndex - histoObject2.biggestIndex)
+}
+
+const sortByStandardDeviation = (histogramList) => {
+  histogramList.forEach((histoObject) => {
+    const median = calculateMedian(histoObject.histogramArray)
+    const n = histoObject.histogramArray.length
+    let deviation = 0
+
+    histoObject.histogramArray.forEach((x) => {
+      deviation += ((x - median) ** 2)
+    })
+
+    deviation = Math.sqrt(deviation / n)
+    histoObject.deviation = deviation
+  })
+
+  return histogramList.sort((histoObject1, histoObject2) => histoObject1.deviation - histoObject2.deviation)
+}
+
+const calculateMedian = (array) => {
+  let sum = 0
+  array.forEach((x) => {
+    sum += x
+  })
+
+  return (sum / array.length)
 }
 
 module.exports = {

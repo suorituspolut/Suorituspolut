@@ -12,7 +12,6 @@ import Info from '../notifications/Info'
 require('highcharts/modules/exporting')(Highcharts)
 
 
-
 const countCategories = (maxYear) => {
   const categories = []
   let currentYear = 1
@@ -125,9 +124,10 @@ const Histograms = ({ courses, howMany }) => {
             <div  className="radio-container">   
               <Form>
                 <h5   className="radio-container">Järjestä kurssihistogrammit:</h5>
-                <Radio className="radiobutton" label='Suoritukset aikaisin opinnoissa' checked={sorting==='startHeavy'} value='startHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
-                <Radio className="radiobutton" label='Suoritukset myöhään opinnoissa' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
-                <Radio className="radiobutton" label='Näytä vain pakolliset kurssit' checked={sorting==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSortingChange} >Näytä vain pakolliset kurssit</Radio>
+                <Radio className="radiobutton" label='Moodin mukaan alkupainotteisesti' checked={sorting==='startHeavy'} value='startHeavy' onChange={handleSortingChange} ></Radio>
+                <Radio className="radiobutton" label='Moodin mukaan loppupainotteisesti' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} ></Radio>
+                <Radio className="radiobutton" label='Keskihajonnan mukaan' checked={sorting==='deviationStartHeavy'} value='deviationStartHeavy' onChange={handleSortingChange} ></Radio>
+                <Radio className="radiobutton" label='Näytä vain pakolliset kurssit' checked={sorting==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSortingChange} ></Radio>
               </Form>
             </div>
 
