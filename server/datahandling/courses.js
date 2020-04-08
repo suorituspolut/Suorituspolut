@@ -30,6 +30,44 @@ const mandatoryCourses =
     'Aineopintojen harjoitustyö: Tietoliikenne',
   ]
 
+const mathCourses =
+  [
+    'Johdatus yliopistomatematiikkaan',
+    'Raja-arvot',
+    'Differentiaalilaskenta',
+    'Integraalilaskenta',
+    'Lineaarialgebra ja matriisilaskenta I',
+    'Lineaarialgebra ja matriisilaskenta II',
+    'Todennäköisyyslaskenta I',
+    'Sarjat',
+    'Vektorianalyysi I',
+    'Topologia IA',
+    'Topologia IB',
+    'Mitta ja integraali',
+    'Vektorianalyysi II',
+    'Algebralliset rakenteet I',
+    'Algebralliset rakenteet II',
+    'Differentiaaliyhtälöt I',
+    'Differentiaaliyhtälöt II',
+    'Johdatus logiikkaan I',
+    'Johdatus logiikkaan II',
+    'Johdatus lukuteoriaan',
+    'Elements of set theory/Joukko-opin alkeet',
+    'Kombinatoriikka',
+    'Matriisilaskennan sovelluksia',
+    'Matemaattinen analyysi I',
+    'Matemaattinen analyysi II',
+    'Matemaattinen analyysi III',
+    'Matemaattinen analyysi IV',
+    'Calculus IA: Limits and differentiation',
+    'Calculus IB: Integration',
+    'Advanced calculus',
+  ]
+
+  const csCourses =
+  [
+    'Advanced calculus',
+  ]
 
 const countTheBiggestCourses = (array, amount) => {
 
@@ -58,5 +96,7 @@ const countTheBiggestCourses = (array, amount) => {
 module.exports = {
   listOfCourses,
   mandatoryCourses,
+  mathCourses,
+  csCourses,
   countTheBiggestCourses,
 }
