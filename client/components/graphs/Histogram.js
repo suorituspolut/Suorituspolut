@@ -61,6 +61,7 @@ const Histograms = ({ courses, howMany }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [maxYear, setMaxYear] = useState(5)
   const [pageToShow, setPageToShow] = useState(1)
+  const [deviation, setDeviation] = useState('')
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
@@ -107,7 +108,7 @@ const Histograms = ({ courses, howMany }) => {
       else coursesOnAPage = [datamany[index], datamany[index + 1], datamany[index + 2], datamany[index + 3], datamany[index + 4]]
       return (
         <div>
-          {coursesOnAPage.map(course => <Histogram key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} />)}
+          {coursesOnAPage.map(course => <Histogram key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} deviation={course.deviation} />)}
         </div>
       )
     }
@@ -165,12 +166,20 @@ const Histograms = ({ courses, howMany }) => {
   )
 }
 
-const Histogram = ({ data, course, categories }) => {
+const Histogram = ({ data, course, categories, deviation }) => {
+  let deviationSubtitle = ''
+
+  if(deviation !== undefined) {
+    deviationSubtitle += 'Keskihajonta: ' + deviation.toFixed(2)
+  }
 
   const options = {
 
     title: {
       text: course,
+    },
+    subtitle: {
+      text: deviationSubtitle,
     },
     credits: {
       text: '',
