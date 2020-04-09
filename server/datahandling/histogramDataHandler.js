@@ -28,48 +28,32 @@ const courseHistoArray = (students, course) => {
   return { course, histogramArray }
 }
 
-const histogramObjects = (data, course, sorting) => {
+const histogramObjects = (data, course, subset, sorting) => {
   const students = studentObjects(data)
 
   if (course) {
     return courseHistoArray(students, course)
   }
 
-  if (sorting === 'mandatoryCourses') {
-    const courses = mandatoryCourses
-    let histogramList = []
-    courses.forEach((course) => {
-      histogramList = [...histogramList, courseHistoArray(students, course)]
-    })
-    return histogramList
-  }
-
-  if (sorting === 'mathCourses') {
-    const courses = mathCourses
-    let histogramList = []
-    courses.forEach((course) => {
-      histogramList = [...histogramList, courseHistoArray(students, course)]
-    })
-    return histogramList
-  }
-
-  if (sorting === 'csCourses') {
-    const courses = csCourses
-    let histogramList = []
-    courses.forEach((course) => {
-      histogramList = [...histogramList, courseHistoArray(students, course)]
-    })
-    return histogramList
-  }
-
   let histogramList = []
-  let courselist = data.map(credit => credit.course)
-  courselist.shift()
-  courselist = [...new Set(courselist)].slice(0, 50)
 
-  courselist.forEach((course) => {
-    histogramList = [...histogramList, courseHistoArray(students, course)]
-  })
+  if (subset === 'mandatoryCourses') {
+    const courses = mandatoryCourses
+    courses.forEach((course) => {
+      histogramList = [...histogramList, courseHistoArray(students, course)]
+    })
+  } else if (subset === 'mathCourses') {
+    const courses = mathCourses
+    courses.forEach((course) => {
+      histogramList = [...histogramList, courseHistoArray(students, course)]
+    })
+  } else if (subset === 'csCourses') {
+    const courses = csCourses
+    courses.forEach((course) => {
+      histogramList = [...histogramList, courseHistoArray(students, course)]
+    })
+  }
+
   if (sorting === 'endHeavy') {
     return sortByModeEndHeavy(histogramList)
   }

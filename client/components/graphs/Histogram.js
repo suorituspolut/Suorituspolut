@@ -56,6 +56,7 @@ const dataWithColors = (data, maxYear) => {
 
 const Histograms = ({ courses, howMany }) => {
   const [sorting, setSorting] = useState('startHeavy')
+  const [subset, setSubset] = useState('mandatoryCourses')
   const [data, setData] = useState([])
   const [datamany, setDataMany] = useState([])
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
@@ -64,7 +65,7 @@ const Histograms = ({ courses, howMany }) => {
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
-    setDataMany(JSON.parse(getHistoDataMany(sorting)))
+    setDataMany(JSON.parse(getHistoDataMany(subset, sorting)))
   }, [])
 
 
@@ -77,10 +78,14 @@ const Histograms = ({ courses, howMany }) => {
     setMaxYear(value)
   }
 
-  //this should be changed to include other sorting methods
   const handleSortingChange = (e, { value }) => {
     setSorting(value)
-    setDataMany(JSON.parse(getHistoDataMany(value)))
+    setDataMany(JSON.parse(getHistoDataMany(subset, value)))
+  }
+
+  const handleSubsetChange = (e, {value}) => {
+    setSubset(value)
+    setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
   }
 
   const handleSearch = () => {
@@ -121,6 +126,14 @@ const Histograms = ({ courses, howMany }) => {
           <>
             <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata."/>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
+            <div className="radio-container">
+              <Form>
+                <h5 className="radio-container">Valitse näytettävät kurssit:</h5>
+                <Radio className="radiobutton" label='Näytä pakolliset TKT-kurssit' checked={subset==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSubsetChange} ></Radio>
+                <Radio className="radiobutton" label='Näytä kaikki TKT-kurssit' checked={subset==='csCourses'} value='csCourses' onChange={handleSubsetChange} ></Radio>
+                <Radio className="radiobutton" label='Näytä matematiikan kurssit' checked={subset==='mathCourses'} value='mathCourses' onChange={handleSubsetChange} ></Radio>
+              </Form>
+            </div>
             <div  className="radio-container">   
               <Form>
                 <h5   className="radio-container">Järjestä kurssihistogrammit:</h5>
@@ -128,9 +141,6 @@ const Histograms = ({ courses, howMany }) => {
                 <Radio className="radiobutton" label='Moodin mukaan loppupainotteisesti' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} ></Radio>
                 <Radio className="radiobutton" label='Keskihajonnan mukaan, pienin hajonta ensin' checked={sorting==='deviation'} value='deviation' onChange={handleSortingChange} ></Radio>
                 <Radio className="radiobutton" label='Keskihajonnan mukaan, suurin hajonta ensin' checked={sorting==='deviationReverse'} value='deviationReverse' onChange={handleSortingChange} ></Radio>
-                <Radio className="radiobutton" label='Näytä pakolliset TKT-kurssit' checked={sorting==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSortingChange} ></Radio>
-                <Radio className="radiobutton" label='Näytä kaikki TKT-kurssit' checked={sorting==='csCourses'} value='csCourses' onChange={handleSortingChange} ></Radio>
-                <Radio className="radiobutton" label='Näytä matematiikan kurssit' checked={sorting==='mathCourses'} value='mathCourses' onChange={handleSortingChange} ></Radio>
               </Form>
             </div>
 

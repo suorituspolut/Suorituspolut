@@ -57,15 +57,15 @@ export const getHistogramData = (course) => {
   return xmlHttp.responseText
 }
 
-export const getHistoDataMany = (sorting) => {
+export const getHistoDataMany = (subset, sorting) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( 'GET', `http://localhost:8000/api/histomany/${sorting}`, false)
+    xmlHttp.open( 'GET', `http://localhost:8000/api/histomany/${sorting}/${subset}`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest(sorting)
-  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histomany/${sorting}`, false)
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histomany/${sorting}/${subset}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }
