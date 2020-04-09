@@ -3,11 +3,31 @@
 ## Project premise
 
 Suorituspolut is a web application intended for providing visualization of course data in University of Helsinki.  
-Essential information to provide includes the order, scheduling and populatiry of completed courses in forms of various diagrams.  
+Currently there is data only of the Bachelor studies in computer science.  
+Essential information to provide includes the order, scheduling and popularity of completed courses in forms of various diagrams.  
 
 ### Course graphs
 
+#### Sankey
+
+The sankey diagrams display study paths between courses.  
+The first version allows selecting the starting course while the second one shows several courses from the beginning of the studies.
+
+#### Histogram
+
+The histograms show the distribution of the timing when courses are completed.  
+The first variant displays a single histogram of the selected course while the second one lists histograms with several options.
+
+#### Bubble
+
+The bubble chart displays the most popular courses in each period.  
+The amount of courses shown can be changed, and the display of each period can be toggled on and off.
+
 ### Course recommendation system
+
+#### Road to success
+
+The road to success contains a pie chart that displays the grade distribution of the selected course.
 
 ## Used technologies
 
