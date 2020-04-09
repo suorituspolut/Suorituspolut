@@ -1,7 +1,7 @@
 const listOfCourses = (data) => {
   const allCourses = data.map(credit => credit.course)
   allCourses.shift()
-  const courses = [...new Set(allCourses)].slice(0, 50)
+  const courses = [...new Set(allCourses)]
 
   return courses
 }
