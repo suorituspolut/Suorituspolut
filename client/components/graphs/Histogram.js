@@ -61,7 +61,6 @@ const Histograms = ({ courses, howMany }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [maxYear, setMaxYear] = useState(5)
   const [pageToShow, setPageToShow] = useState(1)
-  const [deviation, setDeviation] = useState('')
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
