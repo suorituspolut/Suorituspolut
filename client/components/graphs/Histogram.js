@@ -61,7 +61,7 @@ const Histograms = ({ courses, howMany }) => {
   const [datamany, setDataMany] = useState([])
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [maxYear, setMaxYear] = useState(5)
-  const [pageToShow, setPageToShow] = useState(1)
+  const [startIndex, setStartIndex] = useState(0)
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
@@ -98,18 +98,21 @@ const Histograms = ({ courses, howMany }) => {
 
   const handlePageChange = (e, { activePage }) => {
     e.preventDefault()
-    if (activePage !== 1) setPageToShow((activePage - 1) * 5)
-    else setPageToShow(0)
+    if (activePage !== 1) setStartIndex((activePage - 1) * 5)
+    else setStartIndex(0)
   }
 
   const printOutFiveHistograms = (index) => {
     let coursesOnAPage = []
+    const biggestIndex = datamany.length - 1
+
     if (courses.length > 0 && datamany.length > 0) {
       if (index >= datamany.length) index = 0
-      if (index == 1) {
-        coursesOnAPage = [datamany[0], datamany[1], datamany[2], datamany[3], datamany[4]]
+
+      for (let i = 0; i <= 4; i++) {
+        if((index + i) <= biggestIndex) coursesOnAPage = [...coursesOnAPage, datamany[index + i]]
       }
-      else coursesOnAPage = [datamany[index], datamany[index + 1], datamany[index + 2], datamany[index + 3], datamany[index + 4]]
+
       return (
         <div>
           {coursesOnAPage.map(course => <Histogram key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} deviation={course.deviation} />)}
@@ -118,6 +121,7 @@ const Histograms = ({ courses, howMany }) => {
     }
     return <></>
   }
+
 
   return (
     <>
@@ -150,7 +154,7 @@ const Histograms = ({ courses, howMany }) => {
               selectedMaxYear={maxYear}
             />
             <div>
-              {printOutFiveHistograms(pageToShow)}
+              {printOutFiveHistograms(startIndex)}
             </div>
             <div className="pagination-container">
               <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
