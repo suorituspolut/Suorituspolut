@@ -126,7 +126,8 @@ const Histograms = ({ courses, howMany }) => {
                 <h5   className="radio-container">Järjestä kurssihistogrammit:</h5>
                 <Radio className="radiobutton" label='Moodin mukaan alkupainotteisesti' checked={sorting==='startHeavy'} value='startHeavy' onChange={handleSortingChange} ></Radio>
                 <Radio className="radiobutton" label='Moodin mukaan loppupainotteisesti' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} ></Radio>
-                <Radio className="radiobutton" label='Keskihajonnan mukaan' checked={sorting==='deviationStartHeavy'} value='deviationStartHeavy' onChange={handleSortingChange} ></Radio>
+                <Radio className="radiobutton" label='Keskihajonnan mukaan, pienin hajonta ensin ' checked={sorting==='deviation'} value='deviation' onChange={handleSortingChange} ></Radio>
+                <Radio className="radiobutton" label='Keskihajonnan mukaan, suurin hajonta ensin' checked={sorting==='deviationReverse'} value='deviationReverse' onChange={handleSortingChange} ></Radio>
                 <Radio className="radiobutton" label='Näytä vain pakolliset kurssit' checked={sorting==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSortingChange} ></Radio>
               </Form>
             </div>
