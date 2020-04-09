@@ -65,7 +65,7 @@ const Histograms = ({ courses, howMany }) => {
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
-    setDataMany(JSON.parse(getHistoDataMany(sorting)))
+    setDataMany(JSON.parse(getHistoDataMany(subset, sorting)))
   }, [])
 
 
@@ -80,12 +80,12 @@ const Histograms = ({ courses, howMany }) => {
 
   const handleSortingChange = (e, { value }) => {
     setSorting(value)
-    setDataMany(JSON.parse(getHistoDataMany(value)))
+    setDataMany(JSON.parse(getHistoDataMany(subset, value)))
   }
 
   const handleSubsetChange = (e, {value}) => {
     setSubset(value)
-    setDataMany(JSON.parse(getHistoDataMany(value)))
+    setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
   }
 
   const handleSearch = () => {

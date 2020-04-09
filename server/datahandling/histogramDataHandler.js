@@ -35,41 +35,25 @@ const histogramObjects = (data, course, subset, sorting) => {
     return courseHistoArray(students, course)
   }
 
+  let histogramList = []
+
   if (subset === 'mandatoryCourses') {
     const courses = mandatoryCourses
-    let histogramList = []
     courses.forEach((course) => {
       histogramList = [...histogramList, courseHistoArray(students, course)]
     })
-    return histogramList
-  }
-
-  if (subset === 'mathCourses') {
+  } else if (subset === 'mathCourses') {
     const courses = mathCourses
-    let histogramList = []
     courses.forEach((course) => {
       histogramList = [...histogramList, courseHistoArray(students, course)]
     })
-    return histogramList
-  }
-
-  if (subset === 'csCourses') {
+  } else if (subset === 'csCourses') {
     const courses = csCourses
-    let histogramList = []
     courses.forEach((course) => {
       histogramList = [...histogramList, courseHistoArray(students, course)]
     })
-    return histogramList
   }
 
-  let histogramList = []
-  let courselist = data.map(credit => credit.course)
-  courselist.shift()
-  courselist = [...new Set(courselist)].slice(0, 50)
-
-  courselist.forEach((course) => {
-    histogramList = [...histogramList, courseHistoArray(students, course)]
-  })
   if (sorting === 'endHeavy') {
     return sortByModeEndHeavy(histogramList)
   }
