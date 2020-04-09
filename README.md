@@ -3,13 +3,16 @@
 ## Project premise
 
 Suorituspolut is a web application intended for providing visualization of course data in University of Helsinki.  
-Essential information to provide includes the order and scheduling of completed courses in the form of a Sankey diagram.  
-A course recommendation system is also being planned.
+Essential information to provide includes the order, scheduling and populatiry of completed courses in forms of various diagrams.  
+
+### Course graphs
+
+### Course recommendation system
 
 ## Used technologies
 
-The application is built using React, and deployed with Docker.  
-React library Highcharts is used to draw Sankey diagrams to help with visualization.
+The frontend is made using React, the backend uses Node.js, and the application is deployed with Docker.  
+React library Highcharts is used to draw diagrams to help with visualization.
 
 ## Documentation
 [![CircleCI](https://circleci.com/gh/suorituspolut/Suorituspolut.svg?style=svg)](https://circleci.com/gh/suorituspolut/Suorituspolut)
