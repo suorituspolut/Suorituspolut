@@ -148,9 +148,11 @@ const getHistogramDataMany = async (req, res) => {
   const array = []
 
   let sorting = 'startHeavy'
+  let subset = 'mandatoryCourses'
 
   if (req.params.sorting !== null) {
     sorting = req.params.sorting
+    subset = req.params.subset
   }
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
@@ -166,7 +168,7 @@ const getHistogramDataMany = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(histogramObjects(array, null, sorting))
+    res.send(histogramObjects(array, null, subset, sorting))
   })
   await fs.createReadStream(file).pipe(parser)
 }

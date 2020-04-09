@@ -28,14 +28,14 @@ const courseHistoArray = (students, course) => {
   return { course, histogramArray }
 }
 
-const histogramObjects = (data, course, sorting) => {
+const histogramObjects = (data, course, subset, sorting) => {
   const students = studentObjects(data)
 
   if (course) {
     return courseHistoArray(students, course)
   }
 
-  if (sorting === 'mandatoryCourses') {
+  if (subset === 'mandatoryCourses') {
     const courses = mandatoryCourses
     let histogramList = []
     courses.forEach((course) => {
@@ -44,7 +44,7 @@ const histogramObjects = (data, course, sorting) => {
     return histogramList
   }
 
-  if (sorting === 'mathCourses') {
+  if (subset === 'mathCourses') {
     const courses = mathCourses
     let histogramList = []
     courses.forEach((course) => {
@@ -53,7 +53,7 @@ const histogramObjects = (data, course, sorting) => {
     return histogramList
   }
 
-  if (sorting === 'csCourses') {
+  if (subset === 'csCourses') {
     const courses = csCourses
     let histogramList = []
     courses.forEach((course) => {
