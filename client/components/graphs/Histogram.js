@@ -62,6 +62,7 @@ const Histograms = ({ courses, howMany }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [maxYear, setMaxYear] = useState(5)
   const [startIndex, setStartIndex] = useState(0)
+  const [activePage, setActivePage] = useState(1)
 
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
@@ -81,11 +82,13 @@ const Histograms = ({ courses, howMany }) => {
   const handleSortingChange = (e, { value }) => {
     setSorting(value)
     setDataMany(JSON.parse(getHistoDataMany(subset, value)))
+    setActivePage(1)
   }
 
   const handleSubsetChange = (e, {value}) => {
     setSubset(value)
     setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
+    setActivePage(1)
   }
 
   const handleSearch = () => {
@@ -98,6 +101,7 @@ const Histograms = ({ courses, howMany }) => {
 
   const handlePageChange = (e, { activePage }) => {
     e.preventDefault()
+    setActivePage(activePage)
     if (activePage !== 1) setStartIndex((activePage - 1) * 5)
     else setStartIndex(0)
   }
@@ -157,7 +161,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(startIndex)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
+              <Pagination defaultActivePage={1} activePage={activePage} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
             </div>
           </>
         )
