@@ -4,6 +4,7 @@ import Highcharts from 'highcharts'
 import FilterBar from '../filters/FilterBar'
 import Table from './Table'
 import { getRoadToSuccess } from '../../util/redux/dataReducer'
+import Info from '../notifications/Info'
 
 // example for getting the data for RTS
 // const rts = JSON.parse(getRoadToSuccess('Tietoliikenteen perusteet', 'unique'))
@@ -177,6 +178,7 @@ const PieChart = ({ grades }) => {
     }
     return (
       <div className="graph-container">
+        <Info content="Tämä kurssinsuosittelu näyttää ympyrädiagrammin, joka sisältää valitun kurssin arvosanajakauman. Tämän lisäksi näkymässä on taulukko, jossa on listattu yleisimmät kurssia edeltävät suoritukset." />
         <HighchartsReact
           highcharts={Highcharts}
           constructorType="chart"
