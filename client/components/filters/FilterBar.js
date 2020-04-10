@@ -60,7 +60,7 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleSearc
               label="Vuosien määrä"
               handleChange={handleMaxYearChange}
               value={selectedMaxYear}
-              options={createNumberOptions(1, 10)}
+              options={createNumberOptions(1, 11)}
               placeholder="5"
             />
           ) : null}
