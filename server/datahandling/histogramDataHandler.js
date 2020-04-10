@@ -3,6 +3,7 @@ const { mandatoryCourses, mathCourses, csCourses } = require('@root/server/datah
 const { studentObjects } = require('@root/server/datahandling/students')
 
 const courseHistoArray = (students, course) => {
+  let sum = 0
   const histogramArray = new Array(36)
   for (let i = 0; i < histogramArray.length; i++) {
     histogramArray[i] = 0
@@ -13,19 +14,21 @@ const courseHistoArray = (students, course) => {
 
     if (firstCourse === course) {
       histogramArray[0]++
+      sum++
     } else {
       student.courses.forEach((credit) => {
         if (firstCourse.course !== course && credit.course === course) {
           const time = periodsBetweenTwoDates(firstCourse.date, credit.date)
           if (time < 36) {
             histogramArray[time]++
+            sum++
           }  
         }
       })
     }  
   })
 
-  return { course, histogramArray }
+  return { course, histogramArray, sum}
 }
 
 const histogramObjects = (data, course, subset, sorting) => {
@@ -36,23 +39,16 @@ const histogramObjects = (data, course, subset, sorting) => {
   }
 
   let histogramList = []
+  let courses = mandatoryCourses
+  if (subset === 'mathCourses') courses = mathCourses
+  if (subset === 'csCourses') courses = csCourses
 
-  if (subset === 'mandatoryCourses') {
-    const courses = mandatoryCourses
-    courses.forEach((course) => {
-      histogramList = [...histogramList, courseHistoArray(students, course)]
-    })
-  } else if (subset === 'mathCourses') {
-    const courses = mathCourses
-    courses.forEach((course) => {
-      histogramList = [...histogramList, courseHistoArray(students, course)]
-    })
-  } else if (subset === 'csCourses') {
-    const courses = csCourses
-    courses.forEach((course) => {
-      histogramList = [...histogramList, courseHistoArray(students, course)]
-    })
-  }
+  courses.forEach((course) => {
+    const courseHistogramArray = courseHistoArray(students, course)
+    if (courseHistogramArray.sum !== 0) {
+      histogramList = [...histogramList, courseHistogramArray]
+    }
+  })
 
   if (sorting === 'endHeavy') {
     return sortByModeEndHeavy(histogramList)
