@@ -83,12 +83,14 @@ const Histograms = ({ courses, howMany }) => {
     setSorting(value)
     setDataMany(JSON.parse(getHistoDataMany(subset, value)))
     setActivePage(1)
+    setStartIndex(0)
   }
 
   const handleSubsetChange = (e, {value}) => {
     setSubset(value)
     setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
     setActivePage(1)
+    setStartIndex(0)
   }
 
   const handleSearch = () => {
