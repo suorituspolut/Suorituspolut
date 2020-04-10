@@ -29,7 +29,7 @@ const countCategories = (maxYear) => {
   return categories
 }
 
-const categories = countCategories(9)
+const categories = countCategories(10)
 
 const dataWithColors = (data, maxYear) => {
 

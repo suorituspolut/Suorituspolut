@@ -4,7 +4,7 @@ const { studentObjects } = require('@root/server/datahandling/students')
 
 const courseHistoArray = (students, course) => {
   let sum = 0
-  const histogramArray = new Array(45)
+  const histogramArray = new Array(50)
   for (let i = 0; i < histogramArray.length; i++) {
     histogramArray[i] = 0
   }
@@ -19,7 +19,7 @@ const courseHistoArray = (students, course) => {
       student.courses.forEach((credit) => {
         if (firstCourse.course !== course && credit.course === course) {
           const time = periodsBetweenTwoDates(firstCourse.date, credit.date)
-          if (time < 45) {
+          if (time < 50) {
             histogramArray[time]++
             sum++
           }  
