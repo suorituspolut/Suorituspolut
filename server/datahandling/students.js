@@ -29,6 +29,33 @@ const studentObjects = (data) => {
   return students
 }
 
+const graduatedStudents = (data) => {
+  data.shift()
+  let students = []
+  let courses = []
+  let helper = 1234
+  let student = { studentNumber: data[0].studentId, courses: [] }
+
+  data.forEach((credit) => {
+    if (credit.studentId !== helper) {
+      if (credit.course === 'Luonnontieteiden kandidaatti') {
+        courses.sort((credit1, credit2) => credit1.date - credit2.date)
+        student.courses = courses
+        students = [...students, student]
+        courses = []
+        courses = [...courses, credit]
+        helper = credit.studentId
+        student = { studentNumber: credit.studentId, courses: [] }
+      }
+    } else {
+      courses = [...courses, credit]
+    }
+  })
+  courses.sort((credit1, credit2) => credit1.date - credit2.date)
+  return students
+}
+
 module.exports = {
   studentObjects,
+  graduatedStudents,
 }

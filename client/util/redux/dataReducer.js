@@ -82,3 +82,16 @@ export const getRoadToSuccess = (course, uniqueness) => {
   xmlHttp.send(null)
   return xmlHttp.responseText
 }
+
+export const getRecommendations = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open( 'GET', `http://localhost:8000/api/recommendations`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/recommendations`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}

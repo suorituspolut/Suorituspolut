@@ -1,6 +1,6 @@
 const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { mandatoryCourses, mathCourses, csCourses } = require('@root/server/datahandling/courses')
-const { studentObjects } = require('@root/server/datahandling/students')
+const { studentObjects, graduatedStudents } = require('@root/server/datahandling/students')
 
 const courseHistoArray = (students, course) => {
   const histogramArray = new Array(36)
@@ -65,7 +65,7 @@ const histogramObjects = (data, course, sorting) => {
   let histogramList = []
   let courselist = data.map(credit => credit.course)
   courselist.shift()
-  courselist = [...new Set(courselist)].slice(0, 50)
+  courselist = [...new Set(courselist)]
 
   courselist.forEach((course) => {
     histogramList = [...histogramList, courseHistoArray(students, course)]

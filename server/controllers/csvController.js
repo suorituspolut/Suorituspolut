@@ -3,7 +3,7 @@ const { studentPaths, firstCourses } = require('@root/server/datahandling/sankey
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
 const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
 const { roadToSuccessObjects } = require('@root/server/datahandling/roadToSuccess')
-
+const { getRecommendations } = require('@root/server/datahandling/recommendationHandler')
 
 const parse = require('csv-parse')
 const fs = require('fs')
@@ -125,7 +125,6 @@ const getHistogramData = async (req, res) => {
     course = req.params.course
   }
 
-
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
     data.forEach((credit) => {
@@ -233,6 +232,27 @@ const getRoadToSuccessData = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
+const getRecommendationData = async (req, res) => {
+  const array = []
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    if (!data) return
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
+      }
+      array.push(newCourse)
+    })
+    res.send(getRecommendations(array))
+  })
+  await fs.createReadStream(file).pipe(parser)
+}
+
 module.exports = {
   getSankeyNormal,
   getSankeyFirsts,
@@ -241,4 +261,5 @@ module.exports = {
   getBubbleData,
   getHistogramDataMany,
   getRoadToSuccessData,
+  getRecommendationData,
 }
