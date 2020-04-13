@@ -163,7 +163,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(startIndex)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} activePage={activePage} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
+              <Pagination activePage={activePage} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
             </div>
           </>
         )
