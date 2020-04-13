@@ -1,11 +1,13 @@
 const { studentObjects } = require('@root/server/datahandling/students')
-const { checkGrade, whichHasBetterGrade } = require('@root/server/datahandling/grades')
+const { checkGrade, checkPassed, dataByGrade, whichHasBetterGrade } = require('@root/server/datahandling/grades')
 
 const roadToSuccessObjects = (data, startCourse, uniqueness) => {
   const students = studentObjects(data)
   const byGrades = coursesByGrades(students, startCourse, uniqueness)
-  const percentagesForGrades = percentagesForCourses(byGrades)
-  return percentagesForGrades
+  const topTen = topTenCourses(byGrades[10].courses)
+  const percentagesForGrades = percentagesForCourses(byGrades, topTen)
+  const dataWithCorrectRange = dataWithCorrectGradeRange(percentagesForGrades)
+  return dataWithCorrectRange
 }
 
 const getUniqueEarlierCourses = (credits, startCourseDate) => {
@@ -31,174 +33,241 @@ const getUniqueEarlierCourses = (credits, startCourseDate) => {
   return unique
 }
 
-const coursesByGrades = (data, startCourse, uniqueness) => {
-  const earlierCoursesByGrades = [
-    {
-      grade: 'Hylätty',
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 1,
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 2,
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 3,
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 4,
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 5,
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 'Tyydyttävät taidot',
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 'Hyvät taidot',
-      amountOfStudents: 0,
-      courses: [],
-    },
-    {
-      grade: 'Hyväksytty',
-      amountOfStudents: 0,
-      courses: [],
-    },
-  ]
+const coursesByGrades = (students, startCourse, uniqueness) => {
+  const data = dataByGrade()
 
-  data.forEach((student) => {
-    let hasDoneStartCourse = false
-    let startCourseDate = 0
-    let gradeOfStartCourse = 0
+  students.forEach((student) => {
+    let startCredit = null
     student.courses.forEach((credit) => {
       if (credit.course === startCourse) {
-        hasDoneStartCourse = true
-        startCourseDate = credit.date
-        gradeOfStartCourse = credit.grade
-
-        if (!checkGrade('Läpäisseet', gradeOfStartCourse)) {
-          earlierCoursesByGrades[0].amountOfStudents++
+        startCredit = credit
+        data[10].amountOfStudents++
+        if (checkPassed(startCredit.grade)) {
+          data[9].amountOfStudents++
+        } else {
+          data[0].amountOfStudents++
         }
-        switch (gradeOfStartCourse) {
+        switch (startCredit.grade) {
           case '1':
-            earlierCoursesByGrades[1].amountOfStudents++
+            data[1].amountOfStudents++
             break
           case '2':
-            earlierCoursesByGrades[2].amountOfStudents++
+            data[2].amountOfStudents++
             break
           case '3':
-            earlierCoursesByGrades[3].amountOfStudents++
+            data[3].amountOfStudents++
             break
           case '4':
-            earlierCoursesByGrades[4].amountOfStudents++
+            data[4].amountOfStudents++
             break
           case '5':
-            earlierCoursesByGrades[5].amountOfStudents++
+            data[5].amountOfStudents++
             break
           case 'TT':
-            earlierCoursesByGrades[6].amountOfStudents++
+            data[6].amountOfStudents++
             break
           case 'HT':
-            earlierCoursesByGrades[7].amountOfStudents++
+            data[7].amountOfStudents++
             break
           case 'Hyv.':
-            earlierCoursesByGrades[8].amountOfStudents++
+            data[8].amountOfStudents++
             break
           default:
             break
         }
+
       }
     })
 
-    if (hasDoneStartCourse) {
+    if (startCredit) {
       let earlierCourses = []
       if (uniqueness === 'all') {
-        earlierCourses = student.courses.filter(credit => credit.date < startCourseDate)
+        earlierCourses = student.courses.filter(credit => credit.date < startCredit.date)
       }
       if (uniqueness === 'unique') {
-        earlierCourses = getUniqueEarlierCourses(student.courses, startCourseDate)
+        earlierCourses = getUniqueEarlierCourses(student.courses, startCredit.date)
       }
-
       earlierCourses.forEach((credit) => {
-        if (!checkGrade('Läpäisseet', gradeOfStartCourse)) {
-          earlierCoursesByGrades[0].courses = [...earlierCoursesByGrades[0].courses, credit.course]
+        
+        if (checkPassed(startCredit.grade)) {
+          data[9].courses = [...data[9].courses, credit.course]
+          data[10].courses = [...data[10].courses, credit.course]
+        } else {
+          data[0].courses = [...data[0].courses, credit.course]
+          data[10].courses = [...data[10].courses, credit.course]
         }
-        switch (gradeOfStartCourse) {
+        switch (startCredit.grade) {
           case '1':
-            earlierCoursesByGrades[1].courses = [...earlierCoursesByGrades[1].courses, credit.course]
+            data[1].courses = [...data[1].courses, credit.course]
             break
           case '2':
-            earlierCoursesByGrades[2].courses = [...earlierCoursesByGrades[2].courses, credit.course]
+            data[2].courses = [...data[2].courses, credit.course]
             break
           case '3':
-            earlierCoursesByGrades[3].courses = [...earlierCoursesByGrades[3].courses, credit.course]
+            data[3].courses = [...data[3].courses, credit.course]
             break
           case '4':
-            earlierCoursesByGrades[4].courses = [...earlierCoursesByGrades[4].courses, credit.course]
+            data[4].courses = [...data[4].courses, credit.course]
             break
           case '5':
-            earlierCoursesByGrades[5].courses = [...earlierCoursesByGrades[5].courses, credit.course]
+            data[5].courses = [...data[5].courses, credit.course]
             break
           case 'TT':
-            earlierCoursesByGrades[6].courses = [...earlierCoursesByGrades[6].courses, credit.course]
+            data[6].courses = [...data[6].courses, credit.course]
             break
           case 'HT':
-            earlierCoursesByGrades[7].courses = [...earlierCoursesByGrades[7].courses, credit.course]
+            data[7].courses = [...data[7].courses, credit.course]
             break
           case 'Hyv.':
-            earlierCoursesByGrades[8].courses = [...earlierCoursesByGrades[8].courses, credit.course]
+            data[8].courses = [...data[8].courses, credit.course]
             break
           default:
             break
         }
       })
-      hasDoneStartCourse = false
-      startCourseDate = 0
-      gradeOfStartCourse = 0
+      startCredit = null
     }
   })
-  return earlierCoursesByGrades
+  return data
 }
 
-const percentagesForCourses = (byGrades) => {
-  const dataWithPercentages = []
-  let gradeIndex = 0
+const topTenCourses = (allCourses) => {
+  let mostDoneCourses = []
+  
+  const courseSet = new Map()
+  allCourses.forEach((course) => {
+    if (!courseSet.has(course)) {
+      courseSet.set(course, 1)
+    } else {
+      courseSet.set(course, courseSet.get(course) + 1)
+    }
+  })
+  courseSet.forEach((amount, course) => mostDoneCourses.push([course, amount]))
+  mostDoneCourses.sort((course1, course2) => course2[1] - course1[1])
+  mostDoneCourses = mostDoneCourses.slice(0, 10)
+  const topTen = new Map()
+  mostDoneCourses.forEach(course => topTen.set(course[0], 0))
+  
+  return topTen 
+}
 
+const percentagesForCourses = (byGrades, topTenOfAll) => {
+  
+  let dataWithPercentages = []
   byGrades.forEach((gradeArray) => {
+    const topTenOfGrade = new Map()
     const totalAmount = gradeArray.amountOfStudents
     let dataArray = []
-    const courseSet = new Map()
 
-    gradeArray.courses.forEach((course) => {
-      if (!courseSet.has(course)) {
-        courseSet.set(course, 1)
-      } else {
-        courseSet.set(course, courseSet.get(course) + 1)
-      }
-    })
-    courseSet.forEach((amount, course) => dataArray.push([course, amount]))
-    dataArray.sort((course1, course2) => course2[1] - course1[1])
-    dataArray = dataArray.slice(0, 10)
+    if (totalAmount > 0) {
+      gradeArray.courses.forEach((course) => {
+        if (topTenOfAll.has(course) && topTenOfGrade.has(course)) {
+          topTenOfGrade.set(course, topTenOfGrade.get(course) + 1)
+        } else if (topTenOfAll.has(course)) {
+          topTenOfGrade.set(course, 1)
+        }
+      })
 
-    const dataArrayWithPerc = dataArray.map(course => ([course[0], course[1], Number((course[1] / totalAmount * 100).toFixed(2))]))
-    dataWithPercentages[gradeIndex] = { grade: gradeArray.grade, totalAmount, courses: dataArrayWithPerc }
-    gradeIndex++
-  })
+      topTenOfGrade.forEach((amount, course) => {
+        dataArray = [...dataArray, [course, amount, Number(amount / totalAmount * 100).toFixed(2)]]
+      })
+    }
+    dataWithPercentages = [...dataWithPercentages, {grade: gradeArray.grade, totalAmount, courses: dataArray}]
+
+  })    
   return dataWithPercentages
+}
+
+const dataWithCorrectGradeRange = (grades) => {
+  const totalAmount = grades[10].totalAmount
+  const totalAccepted = grades[9].totalAmount
+
+  if (grades[1].totalAmount > 0) {
+    return [
+     {
+        name: 'Hylätty',
+        totalAmount: grades[0].totalAmount,
+        y: grades[0].totalAmount / totalAmount,
+        courses: grades[0].courses,
+      }, {
+        name: 'Arvosana: 1',
+        totalAmount: grades[1].totalAmount,
+        y: grades[1].totalAmount / totalAmount,
+        courses: grades[1].courses, 
+      }, {
+        name: 'Arvosana: 2',
+        totalAmount: grades[2].totalAmount,
+        y: grades[2].totalAmount / totalAmount,
+        courses: grades[2].courses, 
+      }, {
+        name: 'Arvosana: 3',
+        totalAmount: grades[3].totalAmount,
+        y: grades[3].totalAmount / totalAmount,
+        courses: grades[3].courses, 
+      }, {
+        name: 'Arvosana: 4',
+        totalAmount: grades[4].totalAmount,
+        y: grades[4].totalAmount / totalAmount,
+        courses: grades[4].courses, 
+      },
+      {
+        name: 'Arvosana: 5',
+        totalAmount: grades[5].totalAmount,
+        y: grades[5].totalAmount / totalAmount,
+        courses: grades[5].courses, 
+      },
+      {
+        name: 'Hyväksilukeneet',
+        totalAmount: grades[8].totalAmount,
+        y: grades[8].totalAmount / totalAmount,
+        courses: grades[8].courses, 
+      },
+    ]
+  }
+  if (grades[7].totalAmount > 0) {
+    return [
+      {
+        name: 'Hylätty',
+        totalAmount: grades[0].totalAmount,
+        y: grades[0].totalAmount / totalAmount,
+        courses: grades[0].courses, 
+      },
+      {
+        name: 'Tyydyttävät taidot',
+        totalAmount: grades[6].totalAmount,
+        y: grades[6].totalAmount / totalAmount,
+        courses: grades[6].courses, 
+      },
+      {
+        name: 'Hyvät taidot',
+        totalAmount: grades[7].totalAmount,
+        y: grades[7].totalAmount / totalAmount,
+        courses: grades[7].courses,
+      },
+      {
+        name: 'Hyväksilukeneet',
+        totalAmount: grades[8].totalAmount,
+        y: grades[8].totalAmount / totalAmount,
+        courses: grades[8].courses,
+      },
+    ]
+  }
+  else {
+    return [
+      {
+        name: 'Hyväksytty',
+        totalAmount: grades[9].totalAmount,
+        y: totalAccepted / totalAmount,
+        courses: grades[9].courses, 
+      },
+      {
+        name: 'Hylätty',
+        totalAmount: grades[0].totalAmount,
+        y: grades[0].totalAmount / totalAmount,
+        courses: grades[0].courses, 
+      },
+    ]
+  }
 }
 
 module.exports = {
