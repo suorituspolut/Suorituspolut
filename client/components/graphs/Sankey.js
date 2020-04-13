@@ -12,7 +12,7 @@ require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
 const Sankeys = ({ type, courses }) => {
-  const [year, setYear] = useState(2017)
+  const [year, setYear] = useState(2016)
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [grade, setGrade] = useState('Läpäisseet')
   const [levels, setLevels] = useState(5)
@@ -24,27 +24,32 @@ const Sankeys = ({ type, courses }) => {
     setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
   }, [])
 
-  const handleSearch = () => {
+  const handleSearch = (year, course, grade, levels) => {
     if (type === 'firsts') setFirstsData(JSON.parse(getSankeyData('firsts', year, course, grade, levels)))
     else setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
+    handleSearch(value, course, grade, levels)
   }
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
+    handleSearch(year, value, grade, levels)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
+    handleSearch(year, course, value, levels)
   }
 
   const handleLevelChange = (e, { value }) => {
     setLevels(value)
+    handleSearch(year, course, grade, value)
   }
 
+  
   return (
     <>
 
@@ -62,9 +67,8 @@ const Sankeys = ({ type, courses }) => {
             handleCourseChange={handleCourseChange}
             handleGradeChange={handleGradeChange}
             handleYearChange={handleYearChange}
-            handleSearch={handleSearch}
           />
-          <Sankey type={type} data={normalData} />
+          <Sankey type={type} data={normalData} year={year} />
         </>
         )
         :
@@ -77,11 +81,10 @@ const Sankeys = ({ type, courses }) => {
             selectedGrade={grade}
             handleGradeChange={handleGradeChange}
             handleYearChange={handleYearChange}
-            handleSearch={handleSearch}
             selectedLevels={levels}
             handleLevelChange={handleLevelChange}
           />
-          <Sankey type={type} data={firstsData} />
+          <Sankey type={type} data={firstsData} year={year} />
         </>
         )
       }
@@ -89,7 +92,8 @@ const Sankeys = ({ type, courses }) => {
   )
 }
 
-const Sankey = ({ data, type }) => {
+const Sankey = ({ data, type, year }) => {
+
   const options = {
     colors: ['#2980B9', '#3d979f', '#060045', '#E6F69D', '#1ABC9C', '#d8c09b', '#d8c09b', '#d8c09b', '#d8c09b'],
     credits: {
@@ -119,27 +123,18 @@ const Sankey = ({ data, type }) => {
     title: {
       text: 'Suorituspolut',
     },
+    subtitle: {
+      text: `Suoritusvuosi ${year}`,
+    },
     series: [{
       keys: ['from', 'to', 'weight'],
       turboThreshold: 4000,
-      data: data,
+      data,
       type: 'sankey',
       name: 'Suoritusten määrä',
     }],
     tooltip: {
       nodeFormat: type === 'firsts' ? '{point.name}' : '{point.name} {point.sum}',
-      // nodeFormatter: function() {
-      //   let result = this.linksFrom[0].from + ': '
-      //   let sum = 0
-      //   console.log(this.linksTo)
-      //   Highcharts.each(this.linksFrom, function(el) {
-      //       sum += el.weight
-      //   });
-
-      //   result += (sum/ this.linksFrom.length)
-
-      //   return result;
-      // },
     },
     plotOptions: {
       series: {

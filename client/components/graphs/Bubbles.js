@@ -15,7 +15,7 @@ require('highcharts/modules/boost')(Highcharts)
 
 const Bubbles = () => {
   const [year, setYear] = useState(2017)
-  const [bubbleAmount, setBubbleAmount] = useState(10)
+  const [bubbleAmount, setBubbleAmount] = useState(5)
   const [grade, setGrade] = useState('Läpäisseet')
   const [data, setData] = useState([])
 
@@ -23,22 +23,23 @@ const Bubbles = () => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
   }, [])
 
+  const handleSearch = (year, grade, bubbleAmount) => {
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+  }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
+    handleSearch(value, grade, bubbleAmount)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
+    handleSearch(year, value, bubbleAmount)
   }
 
   const handleBubblesChange = (e, { value }) => {
     setBubbleAmount(value)
-  }
-
-
-  const handleSearch = () => {
-    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+    handleSearch(year, grade, value)
   }
 
 
@@ -90,7 +91,7 @@ const Bubbles = () => {
         zMax: 100,
         layoutAlgorithm: {
           splitSeries: false,
-          gravitationalConstant: 0.02
+          gravitationalConstant: 0.02,
         },
         dataLabels: {
           enabled: true,
@@ -116,7 +117,6 @@ const Bubbles = () => {
         handleGradeChange={handleGradeChange}
         handleYearChange={handleYearChange}
         handleBubblesChange={handleBubblesChange}
-        handleSearch={handleSearch}
       />
       <HighchartsReact
         highcharts={Highcharts}

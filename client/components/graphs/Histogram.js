@@ -77,6 +77,7 @@ const Histograms = ({ courses, howMany }) => {
   const handleMaxYearChange = (e, { value }) => {
     e.preventDefault()
     setMaxYear(value)
+    setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, value))
   }
 
   const handleSortingChange = (e, { value }) => {
@@ -155,7 +156,6 @@ const Histograms = ({ courses, howMany }) => {
             </div>
 
             <FilterBar
-              handleSearch={handleSearch}
               handleMaxYearChange={handleMaxYearChange}
               selectedMaxYear={maxYear}
             />
@@ -163,7 +163,7 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(startIndex)}
             </div>
             <div className="pagination-container">
-              <Pagination defaultActivePage={1} activePage={activePage} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
+              <Pagination activePage={activePage} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
             </div>
           </>
         )
@@ -175,7 +175,6 @@ const Histograms = ({ courses, howMany }) => {
             <FilterBar
               courses={courses}
               handleCourseChange={handleCourseChange}
-              handleSearch={handleSearch}
               selectedCourse={course}
               handleMaxYearChange={handleMaxYearChange}
               selectedMaxYear={maxYear}
@@ -191,8 +190,8 @@ const Histograms = ({ courses, howMany }) => {
 const Histogram = ({ data, course, categories, deviation }) => {
   let deviationSubtitle = ''
 
-  if(deviation !== undefined) {
-    deviationSubtitle += 'Keskihajonta: ' + deviation.toFixed(2)
+  if (deviation !== undefined) {
+    deviationSubtitle += `Keskihajonta: ${deviation.toFixed(2)}`
   }
 
   const options = {
