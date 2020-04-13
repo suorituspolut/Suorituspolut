@@ -156,7 +156,6 @@ const Histograms = ({ courses, howMany }) => {
             </div>
 
             <FilterBar
-              //handleSearch={handleSearch}
               handleMaxYearChange={handleMaxYearChange}
               selectedMaxYear={maxYear}
             />
@@ -176,7 +175,6 @@ const Histograms = ({ courses, howMany }) => {
             <FilterBar
               courses={courses}
               handleCourseChange={handleCourseChange}
-              //handleSearch={handleSearch}
               selectedCourse={course}
               handleMaxYearChange={handleMaxYearChange}
               selectedMaxYear={maxYear}
