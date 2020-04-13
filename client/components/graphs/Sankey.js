@@ -12,7 +12,7 @@ require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
 const Sankeys = ({ type, courses }) => {
-  const [year, setYear] = useState(2017)
+  const [year, setYear] = useState(2016)
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [grade, setGrade] = useState('Läpäisseet')
   const [levels, setLevels] = useState(5)
@@ -24,31 +24,32 @@ const Sankeys = ({ type, courses }) => {
     setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
   }, [])
 
-  const handleSearch = (year, course, grade) => {
+  const handleSearch = (year, course, grade, levels) => {
     if (type === 'firsts') setFirstsData(JSON.parse(getSankeyData('firsts', year, course, grade, levels)))
     else setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(value, course, grade)
+    handleSearch(value, course, grade, levels)
   }
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(year, value, grade)
+    handleSearch(year, value, grade, levels)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
-    handleSearch(year, course, value)
+    handleSearch(year, course, value, levels)
   }
 
   const handleLevelChange = (e, { value }) => {
     setLevels(value)
+    handleSearch(year, course, grade, value)
   }
 
-
+  
   return (
     <>
 
@@ -81,7 +82,7 @@ const Sankeys = ({ type, courses }) => {
             selectedGrade={grade}
             handleGradeChange={handleGradeChange}
             handleYearChange={handleYearChange}
-            handleSearch={handleSearch}
+            //handleSearch={handleSearch}
             selectedLevels={levels}
             handleLevelChange={handleLevelChange}
           />
@@ -130,7 +131,7 @@ const Sankey = ({ data, type, year }) => {
     series: [{
       keys: ['from', 'to', 'weight'],
       turboThreshold: 4000,
-      data: data,
+      data,
       type: 'sankey',
       name: 'Suoritusten määrä',
     }],
