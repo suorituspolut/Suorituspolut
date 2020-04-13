@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
+import Info from '../notifications/Info'
 import FilterBar from '../filters/FilterBar'
 import Table from './Table'
 import { getRoadToSuccess } from '../../util/redux/dataReducer'
-import Info from '../notifications/Info'
-
-// example for getting the data for RTS
-// const rts = JSON.parse(getRoadToSuccess('Tietoliikenteen perusteet', 'unique'))
-// const rts = JSON.parse(getRoadToSuccess('Tietoliikenteen perusteet', 'all'))
-// console.log(rts)
-// each separate array of an grade contains: name of the course, the total amount of people done that course, and the percentage
-// eg. if you search with "Tietorakenteet and algoritmit",
-// you get:
-// grade of tira: [name of a popular course, number of people who have done that course, percentage of people who have done that course]
 
 
 require('highcharts/modules/exporting')(Highcharts)
@@ -33,7 +24,6 @@ const RTS = ({ courses }) => {
       console.log(err)
     }
   }
-
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
     handleSearch(value)
@@ -41,98 +31,23 @@ const RTS = ({ courses }) => {
 
   return (
     <div>
+      <Info content="Tämä kurssinsuosittelu näyttää ympyrädiagrammin, 
+        joka sisältää valitun kurssin arvosanajakauman. 
+        Tämän lisäksi näkymässä on taulukko, 
+        jossa on listattu yleisimmät kurssia edeltävät suoritukset." />
       <FilterBar
         selectedCourse={course}
         courses={courses}
         handleCourseChange={handleCourseChange}
       />
-      <PieChart grades={data} />
+      <PieChart grades={data} course={course} />
     </div>
   )
 }
 
-const PieChart = ({ grades }) => {
-  const [grade, setGrade] = useState(5)
-
+const PieChart = ({ grades, course }) => {
+  const [highlight, setHighlight] = useState(6)
   if (grades.length > 0) {
-    const totalAmount = grades.reduce((sum, value) => {
-      return sum + value.totalAmount
-    }, 0)
-
-    const totalAccepted = totalAmount - grades[0].totalAmount
-
-    const dataWithCorrectGradeRange = () => {
-      if (grades[1].totalAmount > 0) {
-        return [
-          {
-            name: 'Arvosana: 5',
-            y: grades[5].totalAmount / totalAmount,
-            value: 5,
-          }, {
-            name: 'Hylätty',
-            y: grades[0].totalAmount / totalAmount,
-            value: 'Hylätty',
-          }, {
-            name: 'Arvosana: 1',
-            y: grades[1].totalAmount / totalAmount,
-            value: 1,
-          }, {
-            name: 'Arvosana: 2',
-            y: grades[2].totalAmount / totalAmount,
-            value: 2,
-          }, {
-            name: 'Arvosana: 3',
-            y: grades[3].totalAmount / totalAmount,
-            value: 3,
-          }, {
-            name: 'Arvosana: 4',
-            y: grades[4].totalAmount / totalAmount,
-            value: 4,
-          },
-          {
-            name: 'Hyväksilukeneet',
-            y: grades[8].totalAmount / totalAmount,
-            value: 'Hyväksytty',
-          },
-        ]
-      }
-      if (grades[7].totalAmount > 0) {
-        return [
-          {
-            name: 'Tyydyttävät taidot',
-            y: grades[6].totalAmount / totalAmount,
-            value: 'Tyydyttävät taidot',
-          },
-          {
-            name: 'Hyvät taidot',
-            y: grades[7].totalAmount / totalAmount,
-            value: 'Hyvät taidot',
-          },
-          {
-            name: 'Hylätty',
-            y: grades[0].totalAmount / totalAmount,
-            value: 'Hylätty',
-          },
-          {
-            name: 'Hyväksilukeneet',
-            y: grades[8].totalAmount / totalAmount,
-            value: 'Hyväksytty',
-          },
-        ]
-      }
-      return [
-        {
-          name: 'Hyväksytty',
-          y: totalAccepted / totalAmount,
-          value: 'Hyväksytty',
-        },
-        {
-          name: 'Hylätty',
-          y: grades[0].totalAmount / totalAmount,
-          value: 'Hylätty',
-        },
-      ]
-    }
 
     const options = {
 
@@ -162,7 +77,7 @@ const PieChart = ({ grades }) => {
           cursor: 'pointer',
           events: {
             click: function(e) {
-              setGrade(e.point.value)
+              setHighlight(e.point.index+1)
             }
           },
           dataLabels: {
@@ -174,22 +89,21 @@ const PieChart = ({ grades }) => {
       series: [{
         name: 'Kaikista arvosanoista',
         colorByPoint: true,
-        data: dataWithCorrectGradeRange(),
+        data: grades,
       }],
     }
     return (
       <div className="graph-container">
-        <Info content="Tämä kurssinsuosittelu näyttää ympyrädiagrammin, joka sisältää valitun kurssin arvosanajakauman. Tämän lisäksi näkymässä on taulukko, jossa on listattu yleisimmät kurssia edeltävät suoritukset." />
         <HighchartsReact
           highcharts={Highcharts}
           constructorType="chart"
           options={options}
         />
-        <Table data={grades} grade={grade} />
+        <Table data={grades} highlight={highlight} setHighlight={setHighlight} course={course} />
       </div>
     )
   } else {
-    return <p>Ei aiempia kursseja!</p>
+    return <p>Lataillaan</p>
   }
 }
 
