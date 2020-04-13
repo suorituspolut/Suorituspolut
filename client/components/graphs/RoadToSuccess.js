@@ -25,7 +25,8 @@ const RTS = ({ courses }) => {
   useEffect(() => {
     setData(JSON.parse(getRoadToSuccess(course, 'unique')))
   }, [])
-  const handleSearch = () => {
+
+  const handleSearch = (course) => {
     try {
       setData(JSON.parse(getRoadToSuccess(course, 'unique')))
     } catch (err) {
@@ -35,6 +36,7 @@ const RTS = ({ courses }) => {
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
+    handleSearch(value)
   }
 
   return (
@@ -43,7 +45,6 @@ const RTS = ({ courses }) => {
         selectedCourse={course}
         courses={courses}
         handleCourseChange={handleCourseChange}
-        handleSearch={handleSearch}
       />
       <PieChart grades={data} />
     </div>
