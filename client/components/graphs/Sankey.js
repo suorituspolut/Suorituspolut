@@ -67,7 +67,6 @@ const Sankeys = ({ type, courses }) => {
             handleCourseChange={handleCourseChange}
             handleGradeChange={handleGradeChange}
             handleYearChange={handleYearChange}
-            //handleSearch={handleSearch}
           />
           <Sankey type={type} data={normalData} year={year} />
         </>
@@ -82,7 +81,6 @@ const Sankeys = ({ type, courses }) => {
             selectedGrade={grade}
             handleGradeChange={handleGradeChange}
             handleYearChange={handleYearChange}
-            //handleSearch={handleSearch}
             selectedLevels={levels}
             handleLevelChange={handleLevelChange}
           />
