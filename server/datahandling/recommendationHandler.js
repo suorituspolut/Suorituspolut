@@ -22,10 +22,11 @@ const timelyGraduated = (data) => {
   return onTime
 }
 
-const getRecommendations = (data) => {
+const getRecommendations = (data, year) => {
   // TODO: List all courses they have done by the year and term chosen
   //       change return to whatever you are returning to frontend
 
+  if (year === 2019) return ['Kandidaatin tutkielma']
   return mockList//timelyGraduated(data)
 }
 
