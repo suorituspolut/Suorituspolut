@@ -83,15 +83,15 @@ export const getRoadToSuccess = (course, uniqueness) => {
   return xmlHttp.responseText
 }
 
-export const getRecommendations = (year) => {
+export const getRecommendations = (year, term) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( 'GET', `http://localhost:8000/api/recommendations/${year}`, false)
+    xmlHttp.open( 'GET', `http://localhost:8000/api/recommendations/${year}/${term}`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/recommendations/${year}`, false)
+  xmlHttp.open( 'GET', `https://toska.cs.helsinki.fi/suorituspolut/api/recommendations/${year}/${term}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }

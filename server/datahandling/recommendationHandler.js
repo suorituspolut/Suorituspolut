@@ -22,12 +22,12 @@ const timelyGraduated = (data) => {
   return onTime
 }
 
-const getRecommendations = (data, year) => {
+const getRecommendations = (data, year, term) => {
   // TODO: List all courses they have done by the year and term chosen
   //       change return to whatever you are returning to frontend
 
-  if (year === 2019) return ['Kandidaatin tutkielma']
-  return mockList//timelyGraduated(data)
+  if (year === 2019 && term === 'Kevät') return ['Kandidaatin tutkielma']
+  return mockList  //timelyGraduated(data)
 }
 
 module.exports = {

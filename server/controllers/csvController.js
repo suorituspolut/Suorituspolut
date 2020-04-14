@@ -237,9 +237,13 @@ const getRoadToSuccessData = async (req, res) => {
 const getRecommendationData = async (req, res) => {
   const array = []
   let year = 2017
+  let term = 'Syksy'
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
+  }
+  if (req.params.term !== null) {
+    term = req.params.term
   }
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
@@ -255,7 +259,7 @@ const getRecommendationData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(getRecommendations(array, year))
+    res.send(getRecommendations(array, year, term))
   })
   await fs.createReadStream(file).pipe(parser)
 }
