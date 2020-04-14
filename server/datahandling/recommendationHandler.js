@@ -1,6 +1,7 @@
 const { graduatedStudents } = require('@root/server/datahandling/students')
 const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 
+const mockList = ['Linis I', 'Käyttöjärjestelmät', 'Ohjelmoinnin jatkokurssi', 'Ranskan alkeet', 'Kemian kertauskurssi', 'Tietorakenteet ja algoritmit', 'Keramiikkakurssi', 'JYM', 'Tikape', 'Tilpe', 'Ylimääräinen kurssi'] 
 
 //Gets all students who have graduated and filters all the timely graduated ones
 const timelyGraduated = (data) => {
@@ -24,7 +25,8 @@ const timelyGraduated = (data) => {
 const getRecommendations = (data) => {
   // TODO: List all courses they have done by the year and term chosen
   //       change return to whatever you are returning to frontend
-  return timelyGraduated(data)
+
+  return mockList//timelyGraduated(data)
 }
 
 module.exports = {
