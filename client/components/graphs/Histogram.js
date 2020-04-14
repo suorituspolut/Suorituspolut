@@ -69,9 +69,17 @@ const Histograms = ({ courses, howMany }) => {
     setDataMany(JSON.parse(getHistoDataMany(subset, sorting)))
   }, [])
 
+  const handleSearch = () => {
+    try {
+      setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
+    handleSearch(course, maxYear)
   }
 
   const handleMaxYearChange = (e, { value }) => {
@@ -92,14 +100,6 @@ const Histograms = ({ courses, howMany }) => {
     setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
     setActivePage(1)
     setStartIndex(0)
-  }
-
-  const handleSearch = () => {
-    try {
-      setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
-    } catch (err) {
-      console.log(err)
-    }
   }
 
   const handlePageChange = (e, { activePage }) => {
