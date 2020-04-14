@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { Table } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import { getRecommendations } from '../../util/redux/dataReducer'
+
 
 const Recommendation = () => {
   const [data, setData] = useState([])
@@ -29,9 +31,9 @@ const Recommendation = () => {
     if (data.length > 10) data = data.slice(0, 10)
 
     return (
-      <ul>
-        {data.map(course => <li key={course}>{course}</li>)}
-      </ul>
+      <Table.Body>
+        {data.map(course => <Table.Row key={course}><Table.Cell>{course}</Table.Cell></Table.Row>)}
+      </Table.Body>
     )
   }
 
@@ -39,8 +41,12 @@ const Recommendation = () => {
     return (
       <div>
         <FilterBar year={year} handleYearChange={handleYearChange} term={term} handleTermChange={handleTermChange}/>
-        <h2>Suositeltavat kurssit ajankohdalle {term}, {year}:</h2>
-        {listTenCourses(data)}
+        <Table singleLine>
+          <Table.Header>
+            <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}:</Table.HeaderCell>
+          </Table.Header>
+          {listTenCourses(data)}
+        </Table>
       </div>
     )
   }
