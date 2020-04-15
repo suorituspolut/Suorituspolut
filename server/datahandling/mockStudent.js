@@ -2,7 +2,7 @@ const date1 = new Date('21 Oct 2016 03:00:00 GMT')
 const date2 = new Date('18 Dec 2016 03:00:00 GMT')
 
 const student = {
-  studentNumber: '9888000', 
+  studentNumber: '9888000',
   courses: [{
     studentId: '9888000',
     courseId: '581325',
