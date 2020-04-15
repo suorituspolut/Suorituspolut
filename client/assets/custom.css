@@ -49,3 +49,13 @@
 .info-box {
   max-height: 20s0px;
 }
+
+.highlighted-cell {
+  background-color:#1d414f !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.ui.fluid.search {
+  min-width: 200px;
+}

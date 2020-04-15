@@ -20,7 +20,7 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearC
           ) : null}
           {selectedCourse ? (
             <Filter
-              label="Aloituskurssi"
+              label="Kurssi"
               handleChange={handleCourseChange}
               value={selectedCourse}
               options={createTextOptions(courses)}
