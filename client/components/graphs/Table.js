@@ -4,48 +4,64 @@ import { Table } from 'semantic-ui-react'
 const SimpleTable = ({ data, course, highlight, setHighlight }) => {
     
   if (data.length > 1) {
- 
-      const courseData = data.map(gradeArray => gradeArray.courses)
-      let table = []
       
-      courseData[1].forEach((course) => {
-        table = [...table, [course[0]]]
+      let gradeNames = data.map((gradeArray) => {
+        if (gradeArray.courses.length > 0) return gradeArray.name
+        else return
       })
-      courseData.forEach((gradeArray) => {
-        gradeArray.forEach((course, index) => {
-          table[index] = [...table[index], course[2]]
+      const existingGrades = gradeNames.filter(grade => grade !== undefined)
+
+      const courseData = data.map(gradeArray => gradeArray.courses)
+      let allCourses = []
+      courseData.forEach(courseArray => {
+        courseArray.forEach(course => allCourses.push(course[0]))
+      })
+      allCourses = [...new Set(allCourses)]
+
+      let table = []
+      allCourses.forEach((course) => {
+        table = [...table, {course: course}]
+      })
+      courseData.forEach((courseArray, index) => {
+        courseArray.forEach((course) => {
+          const courseObject = table.find(o => o.course === course[0])
+          courseObject[data[index].name] = course[2]
+          table[table.indexOf(courseObject)] = courseObject
         })
       })
 
-    return (
-      <Table className="ui table">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Kurssin "{course}" kävijät ovat käyneet myös:</Table.HeaderCell>
-            {data.map((gradeArray, index) => (
-              gradeArray.courses.length > 0 ? 
-              <Table.HeaderCell className="ascending" onClick={() => setHighlight(index+1)} key={gradeArray.name}>
-                {gradeArray.name}
-              </Table.HeaderCell>
-              :null
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {data[1].courses.map((course, index) => (
-            <Table.Row key={course[0]}>
-              {table[index].map((credit, index2) => (
-                <Table.Cell key={index2}>
-                  {index2 === highlight ? <b>{credit}</b> : credit}
-                  {index2 !== 0 ? <>%</> : null}
-                </Table.Cell>
-              ))}
+      return (
+        <>
+        <h4>Ennen kurssia {course}, opiskelijat ovat käyneet:</h4>
+        <Table className="ui table">
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Aiempi kurssi</Table.HeaderCell>
+              {existingGrades.map((grade) => {
+                if (highlight === grade) return <Table.HeaderCell className="highlighted-cell" onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
+                return <Table.HeaderCell onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
+              }
+              )}
             </Table.Row>
-          ))}
-        </Table.Body>
-         </Table>
+          </Table.Header>
+          <Table.Body>
+            {table.map((course) => (
+              <Table.Row key={course.course}>
+                <Table.Cell>
+                  <b>{course.course}</b>
+                </Table.Cell>
+                {existingGrades.map((name) => {
+                  if (highlight === name) return <Table.Cell className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
+                  return <Table.Cell>{course[name]}%</Table.Cell>
+                })}
+              </Table.Row>
+            ))}   
+          </Table.Body>
+          </Table>
+        </>
       )
     }
+
     return null
 }
 

@@ -58,3 +58,13 @@
   color: #2271bb;
   margin-bottom: 2px;
 }
+
+.highlighted-cell {
+  background-color:#1d414f !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.ui.fluid.search {
+  min-width: 200px;
+}

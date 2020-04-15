@@ -16,7 +16,7 @@ const RTS = ({ courses }) => {
   useEffect(() => {
     setData(JSON.parse(getRoadToSuccess(course, 'unique')))
   }, [])
-
+  console.log(data)
   const handleSearch = (course) => {
     try {
       setData(JSON.parse(getRoadToSuccess(course, 'unique')))
@@ -29,6 +29,8 @@ const RTS = ({ courses }) => {
     handleSearch(value)
   }
 
+  
+
   return (
     <div>
       <Info content="Tämä kurssinsuosittelu näyttää ympyrädiagrammin, 
@@ -40,15 +42,14 @@ const RTS = ({ courses }) => {
         courses={courses}
         handleCourseChange={handleCourseChange}
       />
-      <PieChart grades={data} course={course} />
+      {data ? <PieChart grades={data} course={course} /> : null}
     </div>
   )
 }
 
 const PieChart = ({ grades, course }) => {
-  const [highlight, setHighlight] = useState(6)
+  const [highlight, setHighlight] = useState("Kaikki")
   if (grades.length > 0) {
-
     const options = {
 
       chart: {
@@ -77,7 +78,7 @@ const PieChart = ({ grades, course }) => {
           cursor: 'pointer',
           events: {
             click: function(e) {
-              setHighlight(e.point.index+1)
+              setHighlight(e.point.name)
             }
           },
           dataLabels: {
@@ -89,7 +90,7 @@ const PieChart = ({ grades, course }) => {
       series: [{
         name: 'Kaikista arvosanoista',
         colorByPoint: true,
-        data: grades,
+        data: grades.slice(1,grades.length),
       }],
     }
     return (

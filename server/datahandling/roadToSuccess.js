@@ -181,90 +181,126 @@ const percentagesForCourses = (byGrades, topTenOfAll) => {
 const dataWithCorrectGradeRange = (grades) => {
   const totalAmount = grades[10].totalAmount
   const totalAccepted = grades[9].totalAmount
+  
 
   if (grades[1].totalAmount > 0) {
     return [
-     {
+      {
+        name: 'Kaikki',
+        totalAmount: grades[10].totalAmount,
+        y: grades[10].totalAmount / totalAmount,
+        courses: grades[10].courses,
+        color: '#1675db'
+      },
+      {
         name: 'Hylätty',
         totalAmount: grades[0].totalAmount,
         y: grades[0].totalAmount / totalAmount,
         courses: grades[0].courses,
+        color: '#1d1e1f',
       }, {
         name: 'Arvosana: 1',
         totalAmount: grades[1].totalAmount,
         y: grades[1].totalAmount / totalAmount,
-        courses: grades[1].courses, 
+        courses: grades[1].courses,
+        color: '#ff5454',
       }, {
         name: 'Arvosana: 2',
         totalAmount: grades[2].totalAmount,
         y: grades[2].totalAmount / totalAmount,
-        courses: grades[2].courses, 
+        courses: grades[2].courses,
+        color: '#e39e30',
       }, {
         name: 'Arvosana: 3',
         totalAmount: grades[3].totalAmount,
         y: grades[3].totalAmount / totalAmount,
-        courses: grades[3].courses, 
+        courses: grades[3].courses,
+        color: '#554fa8',
       }, {
         name: 'Arvosana: 4',
         totalAmount: grades[4].totalAmount,
         y: grades[4].totalAmount / totalAmount,
-        courses: grades[4].courses, 
+        courses: grades[4].courses,
+        color: '#6ad5fc',         
       },
       {
         name: 'Arvosana: 5',
         totalAmount: grades[5].totalAmount,
         y: grades[5].totalAmount / totalAmount,
-        courses: grades[5].courses, 
+        courses: grades[5].courses,
+        color: '#15d167',
       },
       {
         name: 'Hyväksilukeneet',
         totalAmount: grades[8].totalAmount,
         y: grades[8].totalAmount / totalAmount,
         courses: grades[8].courses, 
+        color: '#e3cd9a',
       },
     ]
   }
   if (grades[7].totalAmount > 0) {
+
     return [
+      {
+        name: 'Kaikki',
+        totalAmount: grades[10].totalAmount,
+        y: grades[10].totalAmount / totalAmount,
+        courses: grades[10].courses,
+        color: '#1675db'
+      },
       {
         name: 'Hylätty',
         totalAmount: grades[0].totalAmount,
         y: grades[0].totalAmount / totalAmount,
-        courses: grades[0].courses, 
+        courses: grades[0].courses,
+        color: '#1d1e1f' 
       },
       {
         name: 'Tyydyttävät taidot',
         totalAmount: grades[6].totalAmount,
         y: grades[6].totalAmount / totalAmount,
-        courses: grades[6].courses, 
+        courses: grades[6].courses,
+        color: '#e39e30',
       },
       {
         name: 'Hyvät taidot',
         totalAmount: grades[7].totalAmount,
         y: grades[7].totalAmount / totalAmount,
         courses: grades[7].courses,
+        color: '#15d167',
       },
       {
         name: 'Hyväksilukeneet',
         totalAmount: grades[8].totalAmount,
         y: grades[8].totalAmount / totalAmount,
         courses: grades[8].courses,
+        color: '#4e4c6b',
       },
     ]
   }
   else {
     return [
       {
+        name: 'Kaikki',
+        totalAmount: grades[10].totalAmount,
+        y: grades[10].totalAmount / totalAmount,
+        courses: grades[10].courses,
+        color: '#1675db',
+      },
+      {
         name: 'Hyväksytty',
         totalAmount: grades[9].totalAmount,
         y: totalAccepted / totalAmount,
-        courses: grades[9].courses, 
+        courses: grades[9].courses,
+        color: '#15d167',
       },
       {
         name: 'Hylätty',
         totalAmount: grades[0].totalAmount,
         y: grades[0].totalAmount / totalAmount,
-        courses: grades[0].courses, 
+        courses: grades[0].courses,
+        color: '#1d1e1f',
       },
     ]
   }
