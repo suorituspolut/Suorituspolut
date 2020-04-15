@@ -10,12 +10,14 @@ const Recommendation = () => {
   const [term, setTerm] = useState('Syksy')
   const [signedIn, setSignedIn] = useState(false)
 
+  const [studentNumber, setStudentNumber] = useState(null)
+
   useEffect(() => {
-    setData(JSON.parse(getRecommendations(year, term)))
+    setData(JSON.parse(getRecommendations(year, term, studentNumber)))
   }, [])
 
-  const getData = (year, term) => {
-    setData(JSON.parse(getRecommendations(year, term)))
+  const getData = (year, term, studentNumber) => {
+    setData(JSON.parse(getRecommendations(year, term, studentNumber)))
   }
 
   const handleYearChange = (e, { value }) => {
@@ -29,7 +31,12 @@ const Recommendation = () => {
   }
 
   const handleToggleChange = () => {
-    setSignedIn(!signedIn)
+    const signed = !signedIn
+    let studentNumber = null
+    setSignedIn(signed)
+    if (signed) studentNumber = '9888000'
+    setStudentNumber(studentNumber)
+    getData(year, term, studentNumber)
   }
 
   const listTenCourses = (data) => {
@@ -54,6 +61,9 @@ const Recommendation = () => {
         <Table singleLine>
           <Table.Header>
             <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}:</Table.HeaderCell>
+            { signedIn ? (
+                <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
+            ) : null}
           </Table.Header>
           {listTenCourses(data)}
         </Table>
