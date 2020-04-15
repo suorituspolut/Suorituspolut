@@ -9,12 +9,13 @@ const NavBar = ({ onChange, value }) => {
     { key: 3, value: 3, text: 'Histogrammi (kurssin suoritusajankohta)' },
     { key: 4, value: 4, text: 'Histogrammi (useamman kurssin suoritusajankohta)' },
     { key: 5, value: 5, text: 'Kuplagraafi (listaus kursseista periodeittain)' },
-    // { key: 6, value: 6, text: 'Pullonkaulakurssit (hahmotelma)' },
-    // { key: 7, value: 7, text: 'Venn-diagrammi (hahmotelma)' },
+    { key: 6, value: 6, text: 'Pullonkaulakurssit (hahmotelma)' },
+    { key: 7, value: 7, text: 'Venn-diagrammi (hahmotelma)' },
   ]
 
   const suositusOptions = [
     { key: 1, value: 8, text: 'Road to success' },
+    { key: 2, value: 9, text: 'Kurssisuositukset' }
   ]
 
   return (

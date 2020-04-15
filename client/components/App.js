@@ -5,7 +5,7 @@ import GraphSelector from './graphs/GraphSelector'
 
 
 const App = () => {
-  const [graphToShow, setGraphToShow] = useState(8)
+  const [graphToShow, setGraphToShow] = useState(9)
 
 
   const handleGraphChange = (e, { value }) => {
