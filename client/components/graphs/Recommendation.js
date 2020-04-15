@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'semantic-ui-react'
+import { Table, Radio } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import { getRecommendations } from '../../util/redux/dataReducer'
 
@@ -8,6 +8,7 @@ const Recommendation = () => {
   const [data, setData] = useState([])
   const [year, setYear] = useState(2017)
   const [term, setTerm] = useState('Syksy')
+  const [signedIn, setSignedIn] = useState(false)
 
   useEffect(() => {
     setData(JSON.parse(getRecommendations(year, term)))
@@ -27,6 +28,10 @@ const Recommendation = () => {
     getData(year, value)
   }
 
+  const handleToggleChange = () => {
+    setSignedIn(!signedIn)
+  }
+
   const listTenCourses = (data) => {
     if (data.length > 10) data = data.slice(0, 10)
 
@@ -41,6 +46,11 @@ const Recommendation = () => {
     return (
       <div>
         <FilterBar year={year} handleYearChange={handleYearChange} term={term} handleTermChange={handleTermChange}/>
+        <div className='mockStudentToggle'>
+          <h4 className='mockStudentToggleTitle'>Käytä sisäänkirjautuneena testikäyttäjänä</h4>
+          <p>(ei näytä jo käytyjä kursseja suosituksissa)</p>
+          <Radio toggle onChange={handleToggleChange}/>
+        </div>
         <Table singleLine>
           <Table.Header>
             <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}:</Table.HeaderCell>

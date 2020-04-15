@@ -49,3 +49,12 @@
 .info-box {
   max-height: 20s0px;
 }
+
+.mockStudentToggle {
+  text-align: right;
+}
+
+.mockStudentToggleTitle {
+  color: #2271bb;
+  margin-bottom: 2px;
+}
