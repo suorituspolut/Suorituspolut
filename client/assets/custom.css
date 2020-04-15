@@ -50,6 +50,15 @@
   max-height: 20s0px;
 }
 
+.mockStudentToggle {
+  text-align: right;
+}
+
+.mockStudentToggleTitle {
+  color: #2271bb;
+  margin-bottom: 2px;
+}
+
 .highlighted-cell {
   background-color:#1d414f !important;
   color: white !important;

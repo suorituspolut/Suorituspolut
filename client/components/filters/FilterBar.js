@@ -1,9 +1,9 @@
 import React from 'react'
-import { createNumberOptions, createTextOptions, grades } from '../../util/units'
+import { createNumberOptions, createTextOptions, grades, terms } from '../../util/units'
 import Filter from './Filter'
 
 
-const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearChange, handleLevelChange, handleBubblesChange, selectedCourse, selectedGrade, selectedYear, selectedLevels, selectedBubbles, selectedMaxYear, handleMaxYearChange }) => {
+const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearChange, handleLevelChange, handleBubblesChange, selectedCourse, selectedGrade, selectedYear, selectedLevels, selectedBubbles, selectedMaxYear, year, term, handleMaxYearChange, handleTermChange }) => {
 
   return (
     <table className="ui four very basic table filter-container">
@@ -61,6 +61,24 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearC
               value={selectedMaxYear}
               options={createNumberOptions(1, 11)}
               placeholder="5"
+            />
+          ) : null}
+          {year ? (
+            <Filter
+              label="Vuosi"
+              handleChange={handleYearChange}
+              value={year}
+              options={createNumberOptions(2013, 2020).reverse()}
+              placeholder="5"
+            />
+          ) : null}
+          {term ? (
+            <Filter
+              label="Lukukausi"
+              handleChange={handleTermChange}
+              value={term}
+              options={terms}
+              placeholder="Syksy"
             />
           ) : null}
         </tr>

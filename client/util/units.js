@@ -57,3 +57,5 @@ export const mandatoryCourses =
       ],
     },
   ]
+
+export const terms = createTextOptions(['Syksy', 'Kevät', 'Kesä'])

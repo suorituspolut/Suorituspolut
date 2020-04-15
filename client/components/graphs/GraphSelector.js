@@ -5,6 +5,7 @@ import Histograms from './Histogram'
 import Bubbles from './Bubbles'
 import Sankeys from './Sankey'
 import RoadToSuccess from './RoadToSuccess'
+import Recommendation from './Recommendation'
 import { getCourseData, getRecommendations } from '../../util/redux/dataReducer'
 
 //  const recommendations = JSON.parse(getRecommendations())
@@ -32,6 +33,8 @@ const GraphSelector = ({ graphToShow }) => {
         return <GraphTestVenn />
       case 8:
         return <RoadToSuccess courses={courses} />
+      case 9:
+        return <Recommendation />
       default:
         return (
           <>
