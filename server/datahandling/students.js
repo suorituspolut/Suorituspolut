@@ -1,3 +1,5 @@
+const { mockStudent } = require('@root/server/datahandling/mockStudent')
+
 // What: creates an array of student-objects with their corresponding courses in an array
 // Takes in: array of credits with studentIds, dates, courses, grades, module
 const studentObjects = (data) => {
@@ -25,6 +27,11 @@ const studentObjects = (data) => {
   courses.sort((credit1, credit2) => credit1.date - credit2.date)
   student.courses = courses
   students = [...students, student]
+
+
+  //add a mock student into dataset
+  mockStudent.courses.sort((credit1, credit2) => credit1.date - credit2.date)
+  students = [...students, mockStudent]
 
   return students
 }
