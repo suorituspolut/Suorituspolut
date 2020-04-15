@@ -14,8 +14,8 @@ const NavBar = ({ onChange, value }) => {
   ]
 
   const suositusOptions = [
-    {key: 1, value: 8, text: 'Road to success'},
-    {key: 2, value: 9, text: 'Kurssisuositukset'}
+    { key: 1, value: 8, text: 'Road to success' },
+    { key: 2, value: 9, text: 'Kurssisuositukset' }
   ]
 
   return (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import HC_more from 'highcharts/highcharts-more'
+import { Icon } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import { getBubbleData } from '../../util/redux/dataReducer'
 import Info from '../notifications/Info'
@@ -40,6 +41,21 @@ const Bubbles = () => {
   const handleBubblesChange = (e, { value }) => {
     setBubbleAmount(value)
     handleSearch(year, grade, value)
+  }
+
+  const printOutBubbles = () => {
+    if (data.length > 0) {
+      return (
+        <div>
+          <HighchartsReact
+            highcharts={Highcharts}
+            constructorType="chart"
+            options={options}
+          />
+        </div>
+      )
+    }
+    return <p><Icon loading name="spinner" size="big" /></p>
   }
 
 
@@ -81,7 +97,7 @@ const Bubbles = () => {
     },
     tooltip: {
       useHTML: true,
-      pointFormat: '<b>{point.name}:</b> {point.value} suoritusta'
+      pointFormat: '<b>{point.name}:</b> {point.value} suoritusta',
     },
     plotOptions: {
       packedbubble: {
@@ -109,7 +125,7 @@ const Bubbles = () => {
 
   return (
     <div>
-      <Info content="Tämä kuplakaavio näyttää jokaisen neljän periodin ja viidennen kesäperiodin suoritetuimmat kurssit. Periodin klikkaaminen piilottaa kyseisen periodin kurssisuoritukset. Suoritusvuoden ja periodeissa näytettävien kurssien määrän voi valita, ja suoritusten arvosanan perusteella voi rajata hakua."/>
+      <Info content="Tämä kuplakaavio näyttää jokaisen neljän periodin ja viidennen kesäperiodin suoritetuimmat kurssit. Periodin klikkaaminen piilottaa kyseisen periodin kurssisuoritukset. Suoritusvuoden ja periodeissa näytettävien kurssien määrän voi valita, ja suoritusten arvosanan perusteella voi rajata hakua." />
       <FilterBar
         selectedYear={year}
         selectedGrade={grade}
@@ -118,11 +134,7 @@ const Bubbles = () => {
         handleYearChange={handleYearChange}
         handleBubblesChange={handleBubblesChange}
       />
-      <HighchartsReact
-        highcharts={Highcharts}
-        constructorType="chart"
-        options={options}
-      />
+      {printOutBubbles()}
     </div>
   )
 }

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Button, Form, Label, Pagination, Radio } from 'semantic-ui-react'
+import {
+  Button, Form, Label, Pagination, Radio, Icon,
+} from 'semantic-ui-react'
+import Info from '../notifications/Info'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
-import Info from '../notifications/Info'
 
 
 require('highcharts/modules/exporting')(Highcharts)
@@ -32,8 +34,6 @@ const countCategories = (maxYear) => {
 const categories = countCategories(10)
 
 const dataWithColors = (data, maxYear) => {
-
-
   const addingColors = data.map((dataPoint, index) => {
     if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
     if (index >= 5 && index < 10) return ({ y: dataPoint, color: blueColors[1] })
@@ -95,7 +95,7 @@ const Histograms = ({ courses, howMany }) => {
     setStartIndex(0)
   }
 
-  const handleSubsetChange = (e, {value}) => {
+  const handleSubsetChange = (e, { value }) => {
     setSubset(value)
     setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
     setActivePage(1)
@@ -117,7 +117,7 @@ const Histograms = ({ courses, howMany }) => {
       if (index >= datamany.length) index = 0
 
       for (let i = 0; i <= 4; i++) {
-        if((index + i) <= biggestIndex) coursesOnAPage = [...coursesOnAPage, datamany[index + i]]
+        if ((index + i) <= biggestIndex) coursesOnAPage = [...coursesOnAPage, datamany[index + i]]
       }
 
       return (
@@ -126,32 +126,42 @@ const Histograms = ({ courses, howMany }) => {
         </div>
       )
     }
-    return <></>
+    return <p><Icon loading name="spinner" size="big" /></p>
   }
 
+  const printOutOneHistogram = () => {
+    if (courses.length > 0 && datamany.length > 0) {
+      return (
+        <div>
+          <Histogram maxYear={maxYear} data={data} course={course} categories={categories} />
+        </div>
+      )
+    }
+    return <p><Icon loading name="spinner" size="big" /></p>
+  }
 
   return (
     <>
       {howMany !== 1
-      ? (
+        ? (
           <>
-            <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata."/>
+            <Info content="Tässä on histogrammi useiden kurssien suoritusten jakautumiselle opiskeluvuosien ja periodien mukaan. Näytettävän kurssipaketin ja histogrammien listausjärjestyksen voi valita." />
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="radio-container">
               <Form>
                 <h5 className="radio-container">Valitse näytettävät kurssit:</h5>
-                <Radio className="radiobutton" label='Näytä pakolliset TKT-kurssit' checked={subset==='mandatoryCourses'} value='mandatoryCourses' onChange={handleSubsetChange} ></Radio>
-                <Radio className="radiobutton" label='Näytä kaikki TKT-kurssit' checked={subset==='csCourses'} value='csCourses' onChange={handleSubsetChange} ></Radio>
-                <Radio className="radiobutton" label='Näytä matematiikan kurssit' checked={subset==='mathCourses'} value='mathCourses' onChange={handleSubsetChange} ></Radio>
+                <Radio className="radiobutton" label="Näytä pakolliset TKT-kurssit" checked={subset === 'mandatoryCourses'} value="mandatoryCourses" onChange={handleSubsetChange} />
+                <Radio className="radiobutton" label="Näytä kaikki TKT-kurssit" checked={subset === 'csCourses'} value="csCourses" onChange={handleSubsetChange} />
+                <Radio className="radiobutton" label="Näytä matematiikan kurssit" checked={subset === 'mathCourses'} value="mathCourses" onChange={handleSubsetChange} />
               </Form>
             </div>
-            <div  className="radio-container">   
+            <div className="radio-container">
               <Form>
-                <h5   className="radio-container">Järjestä kurssihistogrammit:</h5>
-                <Radio className="radiobutton" label='Moodin mukaan alkupainotteisesti' checked={sorting==='startHeavy'} value='startHeavy' onChange={handleSortingChange} ></Radio>
-                <Radio className="radiobutton" label='Moodin mukaan loppupainotteisesti' checked={sorting==='endHeavy'} value='endHeavy' onChange={handleSortingChange} ></Radio>
-                <Radio className="radiobutton" label='Keskihajonnan mukaan, pienin hajonta ensin' checked={sorting==='deviation'} value='deviation' onChange={handleSortingChange} ></Radio>
-                <Radio className="radiobutton" label='Keskihajonnan mukaan, suurin hajonta ensin' checked={sorting==='deviationReverse'} value='deviationReverse' onChange={handleSortingChange} ></Radio>
+                <h5 className="radio-container">Järjestä kurssihistogrammit:</h5>
+                <Radio className="radiobutton" label="Moodin mukaan alkupainotteisesti" checked={sorting === 'startHeavy'} value="startHeavy" onChange={handleSortingChange} />
+                <Radio className="radiobutton" label="Moodin mukaan loppupainotteisesti" checked={sorting === 'endHeavy'} value="endHeavy" onChange={handleSortingChange} />
+                <Radio className="radiobutton" label="Keskihajonnan mukaan, pienin hajonta ensin" checked={sorting === 'deviation'} value="deviation" onChange={handleSortingChange} />
+                <Radio className="radiobutton" label="Keskihajonnan mukaan, suurin hajonta ensin" checked={sorting === 'deviationReverse'} value="deviationReverse" onChange={handleSortingChange} />
               </Form>
             </div>
 
@@ -163,14 +173,13 @@ const Histograms = ({ courses, howMany }) => {
               {printOutFiveHistograms(startIndex)}
             </div>
             <div className="pagination-container">
-              <Pagination activePage={activePage} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length  / 5) : 1} />
+              <Pagination activePage={activePage} onPageChange={handlePageChange} totalPages={courses.length > 0 ? Math.ceil(datamany.length / 5) : 1} />
             </div>
           </>
         )
-        :
-        (
+        : (
           <>
-            <Info content="Tässä on histogrammi jokaisen kurssin suoritusten jakautumiselle opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata." />
+            <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata." />
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <FilterBar
               courses={courses}
@@ -179,7 +188,7 @@ const Histograms = ({ courses, howMany }) => {
               handleMaxYearChange={handleMaxYearChange}
               selectedMaxYear={maxYear}
             />
-            <Histogram maxYear={maxYear} data={data} course={course} categories={categories} />
+            {printOutOneHistogram()}
           </>
         )
       }
@@ -187,7 +196,9 @@ const Histograms = ({ courses, howMany }) => {
   )
 }
 
-const Histogram = ({ data, course, categories, deviation }) => {
+const Histogram = ({
+  data, course, categories, deviation,
+}) => {
   let deviationSubtitle = ''
 
   if (deviation !== undefined) {
@@ -238,7 +249,7 @@ const Histogram = ({ data, course, categories, deviation }) => {
       colorKey: 'colorValue',
       type: 'column',
       name: 'Kurssisuoritukset',
-      data: data ? data: [{ y: 0, color: "#81d4fa"}]
+      data: data || [{ y: 0, color: '#81d4fa' }],
     }],
   }
 

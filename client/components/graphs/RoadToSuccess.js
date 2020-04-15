@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
+import { Icon } from 'semantic-ui-react'
 import Info from '../notifications/Info'
 import FilterBar from '../filters/FilterBar'
 import Table from './Table'
@@ -29,14 +30,14 @@ const RTS = ({ courses }) => {
     handleSearch(value)
   }
 
-  
 
   return (
     <div>
-      <Info content="Tämä kurssinsuosittelu näyttää ympyrädiagrammin, 
-        joka sisältää valitun kurssin arvosanajakauman. 
-        Tämän lisäksi näkymässä on taulukko, 
-        jossa on listattu yleisimmät kurssia edeltävät suoritukset." />
+      <Info content="Tämä kurssinsuosittelu näyttää ympyrädiagrammin,
+        joka sisältää valitun kurssin arvosanajakauman.
+        Tämän lisäksi näkymässä on taulukko,
+        jossa on listattu yleisimmät kurssia edeltävät suoritukset."
+      />
       <FilterBar
         selectedCourse={course}
         courses={courses}
@@ -48,7 +49,7 @@ const RTS = ({ courses }) => {
 }
 
 const PieChart = ({ grades, course }) => {
-  const [highlight, setHighlight] = useState("Kaikki")
+  const [highlight, setHighlight] = useState('Kaikki')
   if (grades.length > 0) {
     const options = {
 
@@ -65,7 +66,7 @@ const PieChart = ({ grades, course }) => {
         text: '',
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
       },
       accessibility: {
         point: {
@@ -77,9 +78,9 @@ const PieChart = ({ grades, course }) => {
           allowPointSelect: true,
           cursor: 'pointer',
           events: {
-            click: function(e) {
+            click(e) {
               setHighlight(e.point.name)
-            }
+            },
           },
           dataLabels: {
             enabled: true,
@@ -90,7 +91,7 @@ const PieChart = ({ grades, course }) => {
       series: [{
         name: 'Kaikista arvosanoista',
         colorByPoint: true,
-        data: grades.slice(1,grades.length),
+        data: grades.slice(1, grades.length),
       }],
     }
     return (
@@ -103,9 +104,8 @@ const PieChart = ({ grades, course }) => {
         <Table data={grades} highlight={highlight} setHighlight={setHighlight} course={course} />
       </div>
     )
-  } else {
-    return <p>Lataillaan</p>
   }
+  return <p><Icon loading name="spinner" size="big" /></p>
 }
 
 export default RTS
