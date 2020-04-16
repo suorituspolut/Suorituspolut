@@ -51,7 +51,7 @@ const GraphSelector = ({ graphToShow }) => {
     <>
      
     <div className="graph-container">
-    <div margin-left="50">{infos[graphToShow-1] ? <Info content ={infos[graphToShow-1] }/> : <Info content ={infos[0] }/>}</div>
+    <div margin-left="50">{infos[graphToShow-1] ? <Info content ={infos[graphToShow-1] }/> : "" }</div>
       {whichGraph(graphToShow)}
     </div></>
   )
