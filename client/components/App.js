@@ -3,7 +3,6 @@ import Footer from './navsAndFooters/Footer'
 import NavBar from './navsAndFooters/NavBar'
 import GraphSelector from './graphs/GraphSelector'
 
-
 const App = () => {
   const [graphToShow, setGraphToShow] = useState(9)
 
@@ -15,7 +14,9 @@ const App = () => {
   return (
     <>
       <NavBar onChange={handleGraphChange} value={graphToShow} />
+    
       <GraphSelector graphToShow={graphToShow} />
+      
       <Footer />
     </>
   )

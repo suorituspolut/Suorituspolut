@@ -71,7 +71,7 @@ const Stacked = () => {
 
   return (
     <>
-      <Info content="Tämä graafin on tarkoitus näyttää, mitä kursseja on suoritettu useampaan kertaan uudelleen. Eli missä kurssissa suoritusmäärällä ja suorittaneiden määrällä on suurimmat erot."/>
+     
         <div className="graph-container">
           <HighchartsReact
             highcharts={Highcharts}

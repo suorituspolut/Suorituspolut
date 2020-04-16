@@ -20,6 +20,7 @@ const NavBar = ({ onChange, value }) => {
 
   return (
     <Menu pointing secondary>
+      
       <Menu.Item>
         <img alt="" className="navbar-logo" src={Logo} />
       </Menu.Item>
@@ -29,7 +30,9 @@ const NavBar = ({ onChange, value }) => {
       <Menu.Item className="navbar-item">
         <Dropdown text="Suosituskurssit" value={value} options={suositusOptions} onChange={onChange} />
       </Menu.Item>
+      
     </Menu>
+    
   )
 }
 

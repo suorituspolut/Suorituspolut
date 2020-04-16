@@ -8,6 +8,9 @@ import RoadToSuccess from './RoadToSuccess'
 import Recommendation from './Recommendation'
 import { getCourseData, getRecommendations } from '../../util/redux/dataReducer'
 
+import Info from '../notifications/Info'
+import infos from '../notifications/Info_contents'
+
 //  const recommendations = JSON.parse(getRecommendations())
 //  At the moment returns studentObjects who have graduated in time
 //  To be changed to return recommended courses in /server/datahandling/recommendationHandler
@@ -45,9 +48,12 @@ const GraphSelector = ({ graphToShow }) => {
   }
 
   return (
+    <>
+     
     <div className="graph-container">
+    <div margin-left="50">{infos[graphToShow-1] ? <Info content ={infos[graphToShow-1] }/> : "" }</div>
       {whichGraph(graphToShow)}
-    </div>
+    </div></>
   )
 }
 

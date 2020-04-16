@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import { Icon } from 'semantic-ui-react'
-import Info from '../notifications/Info'
 import FilterBar from '../filters/FilterBar'
 import Table from './Table'
 import { getRoadToSuccess } from '../../util/redux/dataReducer'
@@ -33,11 +32,7 @@ const RTS = ({ courses }) => {
 
   return (
     <div>
-      <Info content="Tämä kurssinsuosittelu näyttää ympyrädiagrammin,
-        joka sisältää valitun kurssin arvosanajakauman.
-        Tämän lisäksi näkymässä on taulukko,
-        jossa on listattu yleisimmät kurssia edeltävät suoritukset."
-      />
+      
       <FilterBar
         selectedCourse={course}
         courses={courses}

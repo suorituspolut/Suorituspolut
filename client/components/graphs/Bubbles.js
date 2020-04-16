@@ -5,7 +5,7 @@ import HC_more from 'highcharts/highcharts-more'
 import { Icon } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import { getBubbleData } from '../../util/redux/dataReducer'
-import Info from '../notifications/Info'
+
 
 HC_more(Highcharts)
 
@@ -125,7 +125,7 @@ const Bubbles = () => {
 
   return (
     <div>
-      <Info content="Tämä kuplakaavio näyttää jokaisen neljän periodin ja viidennen kesäperiodin suoritetuimmat kurssit. Periodin klikkaaminen piilottaa kyseisen periodin kurssisuoritukset. Suoritusvuoden ja periodeissa näytettävien kurssien määrän voi valita, ja suoritusten arvosanan perusteella voi rajata hakua." />
+     
       <FilterBar
         selectedYear={year}
         selectedGrade={grade}
