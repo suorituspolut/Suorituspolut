@@ -57,7 +57,7 @@ const Sankeys = ({ type, courses }) => {
       {type === 'normal'
         ? (
           <>
-            <Info content="Tämä Sankey-diagrammi antaa valita kurssin, ja näyttää, mitä kursseja kyseisen kurssin käyneet ovat suorittaneet seuraavassa periodissa. Kurssin lisäksi voi valita aloitusvuoden, ja rajata hakua suoritusten arvosanan perusteella." />
+            
             <Headline text="Mitä kursseja on suoritettu seuraavassa periodissa" />
             <FilterBar
               selectedCourse={course}
@@ -73,7 +73,7 @@ const Sankeys = ({ type, courses }) => {
         )
         : (
           <>
-            <Info content="Tämä Sankey-diagrammi näyttää opintojen etenemisen periodeittain koulutusohjelman ensimmäisistä kursseista lähtien. Suoritusvuoden ja näytettävien periodien määrän voi valita, ja suoritusten arvosanan perusteella voi rajata hakua." />
+            
             <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
             <FilterBar
               selectedYear={year}

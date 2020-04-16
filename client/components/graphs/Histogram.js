@@ -4,7 +4,6 @@ import Highcharts from 'highcharts'
 import {
   Button, Form, Label, Pagination, Radio, Icon,
 } from 'semantic-ui-react'
-import Info from '../notifications/Info'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
@@ -145,7 +144,7 @@ const Histograms = ({ courses, howMany }) => {
       {howMany !== 1
         ? (
           <>
-            <Info content="Tässä on histogrammi useiden kurssien suoritusten jakautumiselle opiskeluvuosien ja periodien mukaan. Näytettävän kurssipaketin ja histogrammien listausjärjestyksen voi valita." />
+           
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="radio-container">
               <Form>
@@ -179,7 +178,7 @@ const Histograms = ({ courses, howMany }) => {
         )
         : (
           <>
-            <Info content="Tämä histogrammi näyttää valitun kurssin suoritusten jakautumisen opiskeluvuosien ja periodien mukaan. Näytettävien opiskeluvuosien määrää voi rajata." />
+           
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <FilterBar
               courses={courses}

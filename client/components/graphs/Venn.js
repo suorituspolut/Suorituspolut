@@ -1,7 +1,6 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import Info from '../notifications/Info'
 
 
 require("highcharts/modules/venn")(Highcharts)
@@ -62,7 +61,7 @@ const GraphTestVenn = () => {
 
   return (
     <>
-    <Info content="Tämän graafin on tarkoitus näyttää kaksi kurssia, ja vertailla niiden suoritusten määrää, ja tarkistaa kuinka moni suorittaa molemmat kurssit."/>
+    
     <div className="graph-container">
       <HighchartsReact
         highcharts={Highcharts}
