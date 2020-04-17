@@ -1,3 +1,5 @@
+import { ABSOLUTE } from '../../../../../.cache/typescript/2.6/node_modules/@types/relateurl/index';
+
 const { graduatedStudents } = require('@root/server/datahandling/students')
 const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { mockStudent } = require('@root/server/datahandling/mockStudent')
@@ -23,11 +25,20 @@ const timelyGraduated = (data) => {
   return onTime
 }
 
+const byYear = (year, data) => {
+  let filtered = []
+  
+  return filtered
+}
+
+const byTerm = (term, data) => {
+  
+}
+
 const getRecommendations = (data, year, term, studentNumber) => {
+
   // TODO: List all courses they have done by the year and term chosen
   //       change return to whatever you are returning to frontend
-
-
   // examples of use below
   // expected to return an array of recommended courses
   if (studentNumber !== null && studentNumber === mockStudent.studentNumber) return ['Analyysi II', 'Tietokoneen toiminta']
