@@ -1,5 +1,3 @@
-import { ABSOLUTE } from '../../../../../.cache/typescript/2.6/node_modules/@types/relateurl/index';
-
 const { graduatedStudents } = require('@root/server/datahandling/students')
 const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { mockStudent } = require('@root/server/datahandling/mockStudent')
@@ -32,7 +30,7 @@ const byYear = (year, data) => {
 }
 
 const byTerm = (term, data) => {
-  
+
 }
 
 const getRecommendations = (data, year, term, studentNumber) => {
