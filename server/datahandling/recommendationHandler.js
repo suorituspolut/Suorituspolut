@@ -44,7 +44,7 @@ const getRecommendations = (data, year, term, studentNumber, goalYears) => {
 
   if (studentNumber !== null && studentNumber === mockStudent.studentNumber) return ['Analyysi II', 'Tietokoneen toiminta']
   if (year === 3 && term === 'Kevät') return ['Kandidaatin tutkielma']
-  return mockList  //timelyGraduated(data)
+  return mockList
 }
 
 module.exports = {
