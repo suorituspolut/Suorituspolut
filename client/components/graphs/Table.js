@@ -30,7 +30,7 @@ const SimpleTable = ({ data, course, highlight, setHighlight }) => {
 
     return (
       <>
-        <h4>Ennen kurssia {course}, opiskelijat ovat käyneet:</h4>
+        <h4>Ennen kurssia "{course}", opiskelijat ovat käyneet:</h4>
         <Table className="ui table">
           <Table.Header>
             <Table.Row>
