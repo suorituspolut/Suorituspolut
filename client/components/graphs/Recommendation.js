@@ -60,10 +60,12 @@ const Recommendation = () => {
         </div>
         <Table singleLine>
           <Table.Header>
+            <Table.Row>
             <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}:</Table.HeaderCell>
             { signedIn ? (
                 <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
             ) : null}
+            </Table.Row>
           </Table.Header>
           {listTenCourses(data)}
         </Table>

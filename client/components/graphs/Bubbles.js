@@ -125,7 +125,6 @@ const Bubbles = () => {
 
   return (
     <div>
-     
       <FilterBar
         selectedYear={year}
         selectedGrade={grade}

@@ -3,13 +3,12 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 
 
-require("highcharts/modules/venn")(Highcharts)
-require("highcharts/modules/sankey")(Highcharts)
-require("highcharts/modules/exporting")(Highcharts)
-require("highcharts/modules/boost")(Highcharts)
+require('highcharts/modules/venn')(Highcharts)
+require('highcharts/modules/sankey')(Highcharts)
+require('highcharts/modules/exporting')(Highcharts)
+require('highcharts/modules/boost')(Highcharts)
 
 const GraphTestVenn = () => {
-
   const options = {
     credits: {
       text: '',
@@ -61,14 +60,13 @@ const GraphTestVenn = () => {
 
   return (
     <>
-    
-    <div className="graph-container">
-      <HighchartsReact
-        highcharts={Highcharts}
-        constructorType="chart"
-        options={options}
-      />
-    </div>
+      <div className="graph-container">
+        <HighchartsReact
+          highcharts={Highcharts}
+          constructorType="chart"
+          options={options}
+        />
+      </div>
     </>
   )
 }
