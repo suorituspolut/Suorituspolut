@@ -16,7 +16,9 @@ const FilterBar = ({ courses,
   selectedBubbles,
   selectedMaxYear,
   year,
+  studyYear,
   term,
+  handleStudyYearChange,
   handleMaxYearChange,
   handleTermChange }) => {
 
@@ -80,11 +82,11 @@ const FilterBar = ({ courses,
           ) : null}
           {year ? (
             <Filter
-              label="Vuosi"
+              label="Lukuvuosi"
               handleChange={handleYearChange}
               value={year}
-              options={createNumberOptions(2013, 2020).reverse()}
-              placeholder="5"
+              options={createNumberOptions(1, 5)}
+              placeholder="2"
             />
           ) : null}
           {term ? (
@@ -94,6 +96,15 @@ const FilterBar = ({ courses,
               value={term}
               options={terms}
               placeholder="Syksy"
+            />
+          ) : null}
+          {studyYear ? (
+            <Filter
+              label="Tavoiteaika"
+              handleChange={handleStudyYearChange}
+              value={studyYear}
+              options={createNumberOptions(2, 5)}
+              placeholder="3"
             />
           ) : null}
         </tr>
