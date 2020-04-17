@@ -38,7 +38,7 @@ const SimpleTable = ({ data, course, highlight, setHighlight }) => {
             <Table.Row>
               <Table.HeaderCell>Aiempi kurssi</Table.HeaderCell>
               {existingGrades.map((grade) => {
-                if (highlight === grade) return <Table.HeaderCell className="highlighted-cell" onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
+                if (highlight === grade) return <Table.HeaderCell key={grade} className="highlighted-cell" onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
                 return <Table.HeaderCell onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
               }
               )}
@@ -51,7 +51,7 @@ const SimpleTable = ({ data, course, highlight, setHighlight }) => {
                   <b>{course.course}</b>
                 </Table.Cell>
                 {existingGrades.map((name) => {
-                  if (highlight === name) return <Table.Cell className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
+                  if (highlight === name) return <Table.Cell key={name} className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
                   return <Table.Cell>{course[name]}%</Table.Cell>
                 })}
               </Table.Row>
