@@ -2,35 +2,37 @@ import React from 'react'
 import { Table } from 'semantic-ui-react'
 
 const SimpleTable = ({ data, course, highlight, setHighlight }) => {
-
-  if (data.length > 1) {    
-    const gradeNames = data.map((gradeArray) => {
-      if (gradeArray.courses.length > 0) return gradeArray.name
-    })
-    const existingGrades = gradeNames.filter(grade => grade !== undefined)
-
-    const courseData = data.map(gradeArray => gradeArray.courses)
-    let allCourses = []
-    courseData.forEach((courseArray) => {
-      courseArray.forEach(course => allCourses.push(course[0]))
-    })
-    allCourses = [...new Set(allCourses)]
-
-    let table = []
-    allCourses.forEach((course) => {
-      table = [...table, { course }]
-    })
-    courseData.forEach((courseArray, index) => {
-      courseArray.forEach((course) => {
-        const courseObject = table.find(o => o.course === course[0])
-        courseObject[data[index].name] = course[2]
-        table[table.indexOf(courseObject)] = courseObject
+    
+  if (data.length > 1) {
+      
+      let gradeNames = data.map((gradeArray) => {
+        if (gradeArray.courses.length > 0) return gradeArray.name
+        else return
       })
-    })
+      const existingGrades = gradeNames.filter(grade => grade !== undefined)
 
-    return (
-      <>
-        <h4>Ennen kurssia "{course}", opiskelijat ovat käyneet:</h4>
+      const courseData = data.map(gradeArray => gradeArray.courses)
+      let allCourses = []
+      courseData.forEach(courseArray => {
+        courseArray.forEach(course => allCourses.push(course[0]))
+      })
+      allCourses = [...new Set(allCourses)]
+
+      let table = []
+      allCourses.forEach((course) => {
+        table = [...table, {course: course}]
+      })
+      courseData.forEach((courseArray, index) => {
+        courseArray.forEach((course) => {
+          const courseObject = table.find(o => o.course === course[0])
+          courseObject[data[index].name] = course[2]
+          table[table.indexOf(courseObject)] = courseObject
+        })
+      })
+
+      return (
+        <>
+        <h4>Ennen kurssia {course}, opiskelijat ovat käyneet:</h4>
         <Table className="ui table">
           <Table.Header>
             <Table.Row>
@@ -44,23 +46,23 @@ const SimpleTable = ({ data, course, highlight, setHighlight }) => {
           </Table.Header>
           <Table.Body>
             {table.map((course) => (
-            <Table.Row key={course.course}>
-              <Table.Cell>
-                <b>{course.course}</b>
-              </Table.Cell>
-              {existingGrades.map((name) => {
-                if (highlight === name) return <Table.Cell className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
-                return <Table.Cell>{course[name]}%</Table.Cell>
-              })}
-            </Table.Row>
-          ))}   
+              <Table.Row key={course.course}>
+                <Table.Cell>
+                  <b>{course.course}</b>
+                </Table.Cell>
+                {existingGrades.map((name) => {
+                  if (highlight === name) return <Table.Cell className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
+                  return <Table.Cell>{course[name]}%</Table.Cell>
+                })}
+              </Table.Row>
+            ))}   
           </Table.Body>
-        </Table>
-      </>
-    )
-  }
+          </Table>
+        </>
+      )
+    }
 
-  return null
+    return null
 }
 
 export default SimpleTable
