@@ -6,18 +6,21 @@ import { getRecommendations } from '../../util/redux/dataReducer'
 
 const Recommendation = () => {
   const [data, setData] = useState([])
-  const [year, setYear] = useState(2017)
+  const [year, setYear] = useState(2)
+  const [goalYears, setGoalYears] = useState(3)
   const [term, setTerm] = useState('Syksy')
   const [signedIn, setSignedIn] = useState(false)
 
   const [studentNumber, setStudentNumber] = useState(null)
 
+  let tableHeader = `Suositeltavat kurssit ajankohdalle ${year}. Lukuvuosi, ${term}:`
+
   useEffect(() => {
-    setData(JSON.parse(getRecommendations(year, term, studentNumber)))
+    setData(JSON.parse(getRecommendations(year, term, studentNumber, goalYears)))
   }, [])
 
-  const getData = (year, term, studentNumber) => {
-    setData(JSON.parse(getRecommendations(year, term, studentNumber)))
+  const getData = (year, term, studentNumber, goalYears) => {
+    setData(JSON.parse(getRecommendations(year, term, studentNumber, goalYears)))
   }
 
   const handleYearChange = (e, { value }) => {
@@ -30,13 +33,18 @@ const Recommendation = () => {
     getData(year, value)
   }
 
+  const handleStudyYearChange = (e, { value }) => {
+    setGoalYears(value)
+    getData(year, term, studentNumber, value)
+  }
+
   const handleToggleChange = () => {
     const signed = !signedIn
     let studentNumber = null
     setSignedIn(signed)
     if (signed) studentNumber = '9888000'
     setStudentNumber(studentNumber)
-    getData(year, term, studentNumber)
+    getData(year, term, studentNumber, goalYears)
   }
 
   const listTenCourses = (data) => {
@@ -44,7 +52,7 @@ const Recommendation = () => {
 
     return (
       <Table.Body>
-        {data.map(course => <Table.Row key={course}><Table.Cell>{course}</Table.Cell></Table.Row>)}
+        {data.map(course => <Table.Row key={course[0]}><Table.Cell>{course[0]}</Table.Cell></Table.Row>)}
       </Table.Body>
     )
   }
@@ -53,6 +61,10 @@ const Recommendation = () => {
     return (
       <div>
         <FilterBar year={year} handleYearChange={handleYearChange} term={term} handleTermChange={handleTermChange}/>
+        <div>
+          <h5 className="timelyGraduated">Vertaa suositeltaessa opiskelijoihin, jotka ovat valmistuneet vuodessa:</h5>
+          <FilterBar studyYear={goalYears} handleStudyYearChange={handleStudyYearChange} />
+        </div>
         <div className='mockStudentToggle'>
           <h4 className='mockStudentToggleTitle'>Käytä sisäänkirjautuneena testikäyttäjänä</h4>
           <p>(ei näytä jo käytyjä kursseja suosituksissa)</p>
@@ -60,7 +72,7 @@ const Recommendation = () => {
         </div>
         <Table singleLine>
           <Table.Header>
-            <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}:</Table.HeaderCell>
+            <Table.HeaderCell>{tableHeader}</Table.HeaderCell>
             { signedIn ? (
                 <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
             ) : null}
@@ -73,6 +85,8 @@ const Recommendation = () => {
 
   return <p>Lataillaan</p>
 }
+
+
 
 
 export default Recommendation

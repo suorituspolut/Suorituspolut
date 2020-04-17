@@ -12,7 +12,7 @@ router.get('/bubbles/:year/:grade/:bubbles', data.getBubbleData)
 router.get('/histogram/:course', data.getHistogramData)
 router.get('/histomany/:sorting/:subset', data.getHistogramDataMany)
 router.get('/rts/:course/:uniqueness', data.getRoadToSuccessData)
-router.get('/recommendations/:year/:term/:studentNumber', data.getRecommendationData)
+router.get('/recommendations/:year/:term/:studentNumber/:goalYears', data.getRecommendationData)
 
 
 module.exports = router

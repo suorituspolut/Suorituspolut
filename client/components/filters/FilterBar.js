@@ -3,7 +3,7 @@ import { createNumberOptions, createTextOptions, grades, terms } from '../../uti
 import Filter from './Filter'
 
 
-const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearChange, handleLevelChange, handleBubblesChange, selectedCourse, selectedGrade, selectedYear, selectedLevels, selectedBubbles, selectedMaxYear, year, term, handleMaxYearChange, handleTermChange }) => {
+const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearChange, handleLevelChange, handleBubblesChange, selectedCourse, selectedGrade, selectedYear, selectedLevels, selectedBubbles, selectedMaxYear, year, term, studyYear, handleStudyYearChange, handleMaxYearChange, handleTermChange }) => {
 
   return (
     <table className="ui four very basic table filter-container">
@@ -65,11 +65,11 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearC
           ) : null}
           {year ? (
             <Filter
-              label="Vuosi"
+              label="Lukuvuosi"
               handleChange={handleYearChange}
               value={year}
-              options={createNumberOptions(2013, 2020).reverse()}
-              placeholder="5"
+              options={createNumberOptions(1, 5)}
+              placeholder="2"
             />
           ) : null}
           {term ? (
@@ -79,6 +79,15 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearC
               value={term}
               options={terms}
               placeholder="Syksy"
+            />
+          ) : null}
+          {studyYear ? (
+            <Filter
+              label="Tavoiteaika"
+              handleChange={handleStudyYearChange}
+              value={studyYear}
+              options={createNumberOptions(2, 5)}
+              placeholder="3"
             />
           ) : null}
         </tr>
