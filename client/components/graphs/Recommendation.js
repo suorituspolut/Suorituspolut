@@ -7,17 +7,18 @@ import { getRecommendations } from '../../util/redux/dataReducer'
 const Recommendation = () => {
   const [data, setData] = useState([])
   const [year, setYear] = useState(2)
+  const [goalYears, setGoalYears] = useState(3)
   const [term, setTerm] = useState('Syksy')
   const [signedIn, setSignedIn] = useState(false)
 
   const [studentNumber, setStudentNumber] = useState(null)
 
   useEffect(() => {
-    setData(JSON.parse(getRecommendations(year, term, studentNumber)))
+    setData(JSON.parse(getRecommendations(year, term, studentNumber, goalYears)))
   }, [])
 
-  const getData = (year, term, studentNumber) => {
-    setData(JSON.parse(getRecommendations(year, term, studentNumber)))
+  const getData = (year, term, studentNumber, goalYears) => {
+    setData(JSON.parse(getRecommendations(year, term, studentNumber, goalYears)))
   }
 
   const handleYearChange = (e, { value }) => {
@@ -30,13 +31,18 @@ const Recommendation = () => {
     getData(year, value)
   }
 
+  const handleStudyYearChange = (e, { value }) => {
+    setGoalYears(value)
+    getData(year, term, studentNumber, value)
+  }
+
   const handleToggleChange = () => {
     const signed = !signedIn
     let studentNumber = null
     setSignedIn(signed)
     if (signed) studentNumber = '9888000'
     setStudentNumber(studentNumber)
-    getData(year, term, studentNumber)
+    getData(year, term, studentNumber, goalYears)
   }
 
   const listTenCourses = (data) => {
@@ -53,6 +59,10 @@ const Recommendation = () => {
     return (
       <div>
         <FilterBar year={year} handleYearChange={handleYearChange} term={term} handleTermChange={handleTermChange}/>
+        <div>
+          <h5 className="timelyGraduated">Vertaa suositeltaessa opiskelijoihin, jotka ovat valmistuneet vuodessa:</h5>
+          <FilterBar studyYear={goalYears} handleStudyYearChange={handleStudyYearChange} />
+        </div>
         <div className='mockStudentToggle'>
           <h4 className='mockStudentToggleTitle'>Käytä sisäänkirjautuneena testikäyttäjänä</h4>
           <p>(ei näytä jo käytyjä kursseja suosituksissa)</p>

@@ -68,3 +68,9 @@
 .ui.fluid.search {
   min-width: 200px;
 }
+
+.timelyGraduated {
+  text-align: center;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
