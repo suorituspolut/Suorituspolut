@@ -4,11 +4,10 @@ import { Table } from 'semantic-ui-react'
 const SimpleTable = ({ data, course, highlight, setHighlight }) => {
     
   if (data.length > 1) {
-      
-      let gradeNames = data.map((gradeArray) => {
-        if (gradeArray.courses.length > 0) return gradeArray.name
-        else return
-      })
+    let gradeNames = data.map((gradeArray) => {
+      if (gradeArray.courses.length > 0) return gradeArray.name
+      else return
+    })
       const existingGrades = gradeNames.filter(grade => grade !== undefined)
 
       const courseData = data.map(gradeArray => gradeArray.courses)
