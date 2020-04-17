@@ -3,7 +3,24 @@ import { createNumberOptions, createTextOptions, grades, terms } from '../../uti
 import Filter from './Filter'
 
 
-const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearChange, handleLevelChange, handleBubblesChange, selectedCourse, selectedGrade, selectedYear, selectedLevels, selectedBubbles, selectedMaxYear, year, term, studyYear, handleStudyYearChange, handleMaxYearChange, handleTermChange }) => {
+const FilterBar = ({ courses,
+  handleCourseChange,
+  handleGradeChange,
+  handleYearChange,
+  handleLevelChange,
+  handleBubblesChange,
+  selectedCourse,
+  selectedGrade,
+  selectedYear,
+  selectedLevels,
+  selectedBubbles,
+  selectedMaxYear,
+  year,
+  studyYear,
+  term,
+  handleStudyYearChange,
+  handleMaxYearChange,
+  handleTermChange }) => {
 
   return (
     <table className="ui four very basic table filter-container">
@@ -91,7 +108,6 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearC
             />
           ) : null}
         </tr>
-
       </tbody>
     </table>
   )

@@ -72,10 +72,12 @@ const Recommendation = () => {
         </div>
         <Table singleLine>
           <Table.Header>
-            <Table.HeaderCell>{tableHeader}</Table.HeaderCell>
-            { signedIn ? (
+            <Table.Row>
+              <Table.HeaderCell>{tableHeader}</Table.HeaderCell>
+              { signedIn ? (
                 <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
-            ) : null}
+              ) : null}
+            </Table.Row>
           </Table.Header>
           {listTenCourses(data)}
         </Table>

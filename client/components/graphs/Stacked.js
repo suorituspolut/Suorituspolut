@@ -1,8 +1,6 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import Info from '../notifications/Info'
-
 
 require('highcharts/modules/export-data')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
@@ -56,7 +54,7 @@ const Stacked = () => {
     plotOptions: {
       column: {
         stacking: 'percent',
-      }
+      },
     },
     series: [{
       name: 'Viimeinen tai ensimmäinen suorituskerta',
@@ -64,21 +62,20 @@ const Stacked = () => {
     }, {
       name: 'Käyty uudelleen',
       data: [41, 15, 13, 12, 5]
-    }
+    },
     ],
   }
 
 
   return (
     <>
-     
-        <div className="graph-container">
-          <HighchartsReact
-            highcharts={Highcharts}
-            constructorType="chart"
-            options={options}
-          />
-        </div>
+      <div className="graph-container">
+        <HighchartsReact
+          highcharts={Highcharts}
+          constructorType="chart"
+          options={options}
+        />
+      </div>
     </>
   )
 }

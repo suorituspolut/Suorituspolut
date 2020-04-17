@@ -44,22 +44,6 @@ const separateOthersCategory = (weightedCredits, startingCourse, amount) => {
   return arrayWithOthers
 }
 
-// What: creates the "Other"-category for a second level courses
-// Takes in: an array of highcharts-objects of the second period, with the weights already summed up and an array of biggest courses for that level
-const separateOthersCategorySecond = (array, biggestCourses) => {
-  const highChartsArrays = []
-
-  array.forEach((credit) => {
-    if (biggestCourses.includes(credit[1])) {
-      highChartsArrays.push(credit)
-    } else {
-      highChartsArrays.push([credit[0], " Muut", credit[2]])
-    }
-  })
-
-  return highChartsArrays
-}
-
 // What: creates the basic highchart-objects for the bubblechart
 // Takes in: an array of credits of a period
 const creditArraysBubble = (credits) => {
@@ -111,7 +95,6 @@ const separateOthersCategoryBubble = (weightedCredits, amount) => {
 
 module.exports = {
   separateOthersCategory,
-  separateOthersCategorySecond,
   addWeights,
   creditArraysBubble,
   addWeightsBubble,
