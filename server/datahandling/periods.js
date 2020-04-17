@@ -61,6 +61,12 @@ const periodToYearEnd = (period) => {
   return 4 
 }
 
+const periodsToClosestYear = (amount) => {
+  let remainder = amount % 5
+
+  return amount - remainder
+}
+
 const periodsBetweenTwoDates = (date1, date2) => {
   const start = toPeriod(date1)
   const end = toPeriod(date2)
@@ -111,4 +117,5 @@ module.exports = {
   dataByYear,
   timeBetween,
   periodsBetweenTwoDates,
+  periodsToClosestYear
 }

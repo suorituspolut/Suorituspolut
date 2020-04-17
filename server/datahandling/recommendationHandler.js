@@ -1,5 +1,5 @@
 const { graduatedStudents } = require('@root/server/datahandling/students')
-const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
+const { periodsBetweenTwoDates, periodsToClosestYear } = require('@root/server/datahandling/periods')
 const { mockStudent } = require('@root/server/datahandling/mockStudent')
 
 const mockList = ['Linis I', 'Käyttöjärjestelmät', 'Ohjelmoinnin jatkokurssi', 'Ranskan alkeet', 'Kemian kertauskurssi', 'Tietorakenteet ja algoritmit', 'Keramiikkakurssi', 'JYM', 'Tikape', 'Tilpe', 'Ylimääräinen kurssi'] 
@@ -23,18 +23,39 @@ const timelyGraduated = (data) => {
   return onTime
 }
 
-const byYear = (year, data) => {
+
+
+const makeCourseList = (data, year, term) => {
   let filtered = []
-  
+  const courseSet = new Map()
+  let weight = 0
+  data.forEach((student) => {
+    let firstCourse = student.courses[0]
+    student.courses.forEach((credit) => {
+      let creditTime = 5 + periodsToClosestYear(periodsBetweenTwoDates(firstCourse.date, credit.date))
+      if (year * 5 === creditTime) {
+        if (courseSet.has(credit.course)) {
+          weight = courseSet.get(credit.course) + 1
+          courseSet.set(credit.course, weight)
+        } else {
+          courseSet.set(credit.course, 1)
+        }
+      }
+    })
+  })
+
+  courseSet.forEach((weight, course) => {
+    filtered = [...filtered, [course, weight]]
+  })
+  filtered.sort((credit1, credit2) => credit2[1] - credit1[1])
+  console.log(filtered)
   return filtered
 }
 
-const byTerm = (term, data) => {
-
-}
 
 const getRecommendations = (data, year, term, studentNumber) => {
-
+  let timely = timelyGraduated(data)
+  let courseList = makeCourseList(timely)
   // TODO: List all courses they have done by the year and term chosen
   //       change return to whatever you are returning to frontend
   // examples of use below
