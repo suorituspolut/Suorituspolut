@@ -1,5 +1,5 @@
 const { studentObjects } = require('@root/server/datahandling/students')
-const { checkGrade, checkPassed, dataByGrade, whichHasBetterGrade } = require('@root/server/datahandling/grades')
+const { checkPassed, dataByGrade, whichHasBetterGrade } = require('@root/server/datahandling/grades')
 
 const roadToSuccessObjects = (data, startCourse, uniqueness) => {
   const students = studentObjects(data)
@@ -75,7 +75,6 @@ const coursesByGrades = (students, startCourse, uniqueness) => {
           default:
             break
         }
-
       }
     })
 
@@ -88,7 +87,7 @@ const coursesByGrades = (students, startCourse, uniqueness) => {
         earlierCourses = getUniqueEarlierCourses(student.courses, startCredit.date)
       }
       earlierCourses.forEach((credit) => {
-        
+
         if (checkPassed(startCredit.grade)) {
           data[9].courses = [...data[9].courses, credit.course]
           data[10].courses = [...data[10].courses, credit.course]
@@ -133,7 +132,6 @@ const coursesByGrades = (students, startCourse, uniqueness) => {
 
 const topTenCourses = (allCourses) => {
   let mostDoneCourses = []
-  
   const courseSet = new Map()
   allCourses.forEach((course) => {
     if (!courseSet.has(course)) {
@@ -147,12 +145,10 @@ const topTenCourses = (allCourses) => {
   mostDoneCourses = mostDoneCourses.slice(0, 10)
   const topTen = new Map()
   mostDoneCourses.forEach(course => topTen.set(course[0], 0))
-  
-  return topTen 
+  return topTen
 }
 
 const percentagesForCourses = (byGrades, topTenOfAll) => {
-  
   let dataWithPercentages = []
   byGrades.forEach((gradeArray) => {
     const topTenOfGrade = new Map()
@@ -173,15 +169,13 @@ const percentagesForCourses = (byGrades, topTenOfAll) => {
       })
     }
     dataWithPercentages = [...dataWithPercentages, {grade: gradeArray.grade, totalAmount, courses: dataArray}]
-
-  })    
+  })
   return dataWithPercentages
 }
 
 const dataWithCorrectGradeRange = (grades) => {
   const totalAmount = grades[10].totalAmount
   const totalAccepted = grades[9].totalAmount
-  
 
   if (grades[1].totalAmount > 0) {
     return [

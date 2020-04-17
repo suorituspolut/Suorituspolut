@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import {
-  Button, Form, Label, Pagination, Radio, Icon,
-} from 'semantic-ui-react'
+import { Form, Pagination, Radio, Icon } from 'semantic-ui-react'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'

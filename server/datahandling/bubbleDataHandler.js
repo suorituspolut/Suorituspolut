@@ -48,7 +48,7 @@ const bubbleData = (data, year, grade, bubbles) => {
           break
         default:
           break
-      }  
+      }
     }
   })
 

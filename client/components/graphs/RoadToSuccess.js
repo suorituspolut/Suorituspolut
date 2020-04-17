@@ -32,7 +32,6 @@ const RTS = ({ courses }) => {
 
   return (
     <div>
-      
       <FilterBar
         selectedCourse={course}
         courses={courses}

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import Footer from './navsAndFooters/Footer'
-import NavBar from './navsAndFooters/NavBar'
 import GraphSelector from './graphs/GraphSelector'
+import NavBar from './navsAndFooters/NavBar'
 
 const App = () => {
   const [graphToShow, setGraphToShow] = useState(9)
-
 
   const handleGraphChange = (e, { value }) => {
     setGraphToShow(value)
@@ -14,9 +13,7 @@ const App = () => {
   return (
     <>
       <NavBar onChange={handleGraphChange} value={graphToShow} />
-    
       <GraphSelector graphToShow={graphToShow} />
-      
       <Footer />
     </>
   )
