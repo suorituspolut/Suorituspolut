@@ -1,5 +1,5 @@
 const { graduatedStudents } = require('@root/server/datahandling/students')
-const { periodsBetweenTwoDates, periodsToClosestYear } = require('@root/server/datahandling/periods')
+const { periodsBetweenTwoDates, periodsToClosestYear, periodToTerm, toPeriod } = require('@root/server/datahandling/periods')
 const { mockStudent } = require('@root/server/datahandling/mockStudent')
 
 const mockList = ['Linis I', 'Käyttöjärjestelmät', 'Ohjelmoinnin jatkokurssi', 'Ranskan alkeet', 'Kemian kertauskurssi', 'Tietorakenteet ja algoritmit', 'Keramiikkakurssi', 'JYM', 'Tikape', 'Tilpe', 'Ylimääräinen kurssi'] 
@@ -33,8 +33,9 @@ const makeCourseList = (data, year, term) => {
   data.forEach((student) => {
     let firstCourse = student.courses[0]
     student.courses.forEach((credit) => {
+      let creditTerm = periodToTerm(toPeriod(credit.date).period)
       let creditTime = 5 + periodsToClosestYear(periodsBetweenTwoDates(firstCourse.date, credit.date))
-      if (year * 5 === creditTime) {
+      if (year * 5 === creditTime && creditTerm === term) {
         if (courseSet.has(credit.course)) {
           weight = courseSet.get(credit.course) + 1
           courseSet.set(credit.course, weight)
@@ -54,16 +55,9 @@ const makeCourseList = (data, year, term) => {
 
 
 const getRecommendations = (data, year, term, studentNumber, goalYears) => {
-  // TODO: List all courses they have done by the year and term chosen
-  //       change return to whatever you are returning to frontend
-  // examples of use below
-  // expected to return an array of recommended courses
-
   let timely = timelyGraduated(data, goalYears)
-  let courseList = makeCourseList(timely, year)
+  let courseList = makeCourseList(timely, year, term)
 
-  if (studentNumber !== null && studentNumber === mockStudent.studentNumber) return ['Analyysi II', 'Tietokoneen toiminta']
-  if (year === 3 && term === 'Kevät') return ['Kandidaatin tutkielma']
   return courseList
 }
 

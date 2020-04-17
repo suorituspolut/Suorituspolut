@@ -6,7 +6,7 @@ import { getRecommendations } from '../../util/redux/dataReducer'
 
 const Recommendation = () => {
   const [data, setData] = useState([])
-  const [year, setYear] = useState(2)
+  const [year, setYear] = useState(1)
   const [goalYears, setGoalYears] = useState(3)
   const [term, setTerm] = useState('Syksy')
   const [signedIn, setSignedIn] = useState(false)
