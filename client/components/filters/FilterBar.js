@@ -83,7 +83,7 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearC
           ) : null}
           {studyYear ? (
             <Filter
-              label="Valmistumisvuosi"
+              label="Tavoiteaika"
               handleChange={handleStudyYearChange}
               value={studyYear}
               options={createNumberOptions(2, 5)}

@@ -13,6 +13,8 @@ const Recommendation = () => {
 
   const [studentNumber, setStudentNumber] = useState(null)
 
+  let tableHeader = `Suositeltavat kurssit ajankohdalle ${year}. Lukuvuosi, ${term}:`
+
   useEffect(() => {
     setData(JSON.parse(getRecommendations(year, term, studentNumber, goalYears)))
   }, [])
@@ -70,7 +72,7 @@ const Recommendation = () => {
         </div>
         <Table singleLine>
           <Table.Header>
-            <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}. lukuvuosi:</Table.HeaderCell>
+            <Table.HeaderCell>{tableHeader}</Table.HeaderCell>
             { signedIn ? (
                 <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
             ) : null}
@@ -83,6 +85,8 @@ const Recommendation = () => {
 
   return <p>Lataillaan</p>
 }
+
+
 
 
 export default Recommendation
