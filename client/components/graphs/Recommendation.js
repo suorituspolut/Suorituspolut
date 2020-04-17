@@ -52,7 +52,7 @@ const Recommendation = () => {
 
     return (
       <Table.Body>
-        {data.map(course => <Table.Row key={course[0]}><Table.Cell>{course[0]}</Table.Cell></Table.Row>)}
+        {data.map(course => <Table.Row key={course[0]}><Table.Cell>{course[0]}</Table.Cell><Table.Cell></Table.Cell></Table.Row>)}
       </Table.Body>
     )
   }
@@ -76,7 +76,7 @@ const Recommendation = () => {
               <Table.HeaderCell>{tableHeader}</Table.HeaderCell>
               { signedIn ? (
                 <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
-              ) : null}
+              ) : <Table.HeaderCell></Table.HeaderCell>}
             </Table.Row>
           </Table.Header>
           {listTenCourses(data)}
