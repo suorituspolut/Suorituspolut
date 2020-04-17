@@ -16,7 +16,7 @@ const RTS = ({ courses }) => {
   useEffect(() => {
     setData(JSON.parse(getRoadToSuccess(course, 'unique')))
   }, [])
-  console.log(data)
+
   const handleSearch = (course) => {
     try {
       setData(JSON.parse(getRoadToSuccess(course, 'unique')))
