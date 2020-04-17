@@ -24,6 +24,7 @@ const addWeights = (credits) => {
   })
 
   weightedCredits.sort(byWeights)
+  
   return weightedCredits
 }
 

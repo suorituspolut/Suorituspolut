@@ -84,7 +84,7 @@ const firstCourses = (data, year, grade, levels) => {
     let nextPeriodWithCredit = 0
     let periodHasChanged = false
 
-    if ( year === startPeriod.year && isCsStudent(firstCourse.course)) {
+    if (year === startPeriod.year && isCsStudent(firstCourse.course)) {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
         if (level >= levels) {
