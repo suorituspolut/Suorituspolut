@@ -65,11 +65,11 @@ const FilterBar = ({ courses, handleCourseChange, handleGradeChange, handleYearC
           ) : null}
           {year ? (
             <Filter
-              label="Vuosi"
+              label="Lukuvuosi"
               handleChange={handleYearChange}
               value={year}
-              options={createNumberOptions(2013, 2020).reverse()}
-              placeholder="5"
+              options={createNumberOptions(1, 4).reverse()}
+              placeholder="2"
             />
           ) : null}
           {term ? (

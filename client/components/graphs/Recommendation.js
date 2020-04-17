@@ -6,7 +6,7 @@ import { getRecommendations } from '../../util/redux/dataReducer'
 
 const Recommendation = () => {
   const [data, setData] = useState([])
-  const [year, setYear] = useState(2017)
+  const [year, setYear] = useState(2)
   const [term, setTerm] = useState('Syksy')
   const [signedIn, setSignedIn] = useState(false)
 
@@ -60,7 +60,7 @@ const Recommendation = () => {
         </div>
         <Table singleLine>
           <Table.Header>
-            <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}:</Table.HeaderCell>
+            <Table.HeaderCell>Suositeltavat kurssit ajankohdalle {term}, {year}. lukuvuosi:</Table.HeaderCell>
             { signedIn ? (
                 <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
             ) : null}

@@ -40,7 +40,7 @@ const getRecommendations = (data, year, term, studentNumber) => {
   // examples of use below
   // expected to return an array of recommended courses
   if (studentNumber !== null && studentNumber === mockStudent.studentNumber) return ['Analyysi II', 'Tietokoneen toiminta']
-  if (year === 2019 && term === 'Kevät') return ['Kandidaatin tutkielma']
+  if (year === 3 && term === 'Kevät') return ['Kandidaatin tutkielma']
   return mockList  //timelyGraduated(data)
 }
 
