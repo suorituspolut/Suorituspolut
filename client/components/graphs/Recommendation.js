@@ -6,7 +6,7 @@ import { getRecommendations } from '../../util/redux/dataReducer'
 
 const Recommendation = () => {
   const [data, setData] = useState([])
-  const [year, setYear] = useState(1)
+  const [year, setYear] = useState(2)
   const [goalYears, setGoalYears] = useState(3)
   const [term, setTerm] = useState('Syksy')
   const [signedIn, setSignedIn] = useState(false)
@@ -25,12 +25,12 @@ const Recommendation = () => {
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    getData(value, term)
+    getData(value, term, studentNumber, goalYears)
   }
 
   const handleTermChange = (e, { value }) => {
     setTerm(value)
-    getData(year, value)
+    getData(year, value, studentNumber, goalYears)
   }
 
   const handleStudyYearChange = (e, { value }) => {

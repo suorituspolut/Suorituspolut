@@ -247,10 +247,10 @@ const getRecommendationData = async (req, res) => {
   if (req.params.term !== null) {
     term = req.params.term
   }
-  if (req.params.studentNumber !== 'null') {
+  if (req.params.studentNumber !== null) {
     studentNumber = req.params.studentNumber
   }
-  if (req.params.goalYears !== 'null') {
+  if (req.params.goalYears !== null) {
     goalYears = req.params.goalYears
   }
   const parser = parse({ delimiter: ';' }, (err, data) => {
