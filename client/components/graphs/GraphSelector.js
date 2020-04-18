@@ -1,6 +1,4 @@
 import React from 'react'
-import GraphTestVenn from './Venn'
-import Stacked from './Stacked'
 import Histograms from './Histogram'
 import Bubbles from './Bubbles'
 import Sankeys from './Sankey'
@@ -30,10 +28,6 @@ const GraphSelector = ({ graphToShow }) => {
         return <Histograms courses={courses} howMany={5} />
       case 5:
         return <Bubbles />
-      case 6:
-        return <Stacked />
-      case 7:
-        return <GraphTestVenn />
       case 8:
         return <RoadToSuccess courses={courses} />
       case 9:
@@ -54,6 +48,7 @@ const GraphSelector = ({ graphToShow }) => {
     {infos.find(element => element.id==graphToShow) ? <Info content ={infos.find(element => element.id==graphToShow).text}/> : undefined}
       {whichGraph(graphToShow)}
     </div></>
+
   )
 }
 

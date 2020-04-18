@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-
 import { Icon } from 'semantic-ui-react'
-import { getSankeyData } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
-import Info from '../notifications/Info'
+import { getSankeyData } from '../../util/redux/dataReducer'
 
 require('highcharts/modules/sankey')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
@@ -57,7 +55,6 @@ const Sankeys = ({ type, courses }) => {
       {type === 'normal'
         ? (
           <>
-            
             <Headline text="Mitä kursseja on suoritettu seuraavassa periodissa" />
             <FilterBar
               selectedCourse={course}
@@ -73,7 +70,6 @@ const Sankeys = ({ type, courses }) => {
         )
         : (
           <>
-            
             <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
             <FilterBar
               selectedYear={year}

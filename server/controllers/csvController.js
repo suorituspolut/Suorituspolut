@@ -239,6 +239,7 @@ const getRecommendationData = async (req, res) => {
   let year = 2017
   let term = 'Syksy'
   let studentNumber = null
+  let goalYears = 3
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
@@ -246,10 +247,12 @@ const getRecommendationData = async (req, res) => {
   if (req.params.term !== null) {
     term = req.params.term
   }
-  if (req.params.studentNumber !== 'null') {
+  if (req.params.studentNumber !== null) {
     studentNumber = req.params.studentNumber
   }
-
+  if (req.params.goalYears !== null) {
+    goalYears = req.params.goalYears
+  }
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
     data.forEach((credit) => {
@@ -263,7 +266,7 @@ const getRecommendationData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(getRecommendations(array, year, term, studentNumber))
+    res.send(getRecommendations(array, year, term, studentNumber, goalYears))
   })
   await fs.createReadStream(file).pipe(parser)
 }
