@@ -126,7 +126,7 @@ const Sankey = ({ data, type, year }) => {
         turboThreshold: 4000,
         data,
         type: 'sankey',
-        name: 'Suoritusten määrä',
+        name: type === 'firsts' ? '' : 'Suoritusten määrä',
       }],
       tooltip: {
         nodeFormat: type === 'firsts' ? '{point.name}' : '{point.name} {point.sum}',

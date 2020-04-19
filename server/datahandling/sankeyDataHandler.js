@@ -70,7 +70,7 @@ const isCsStudent = (firstCourse) => {
 }
 // Creates a highcharts-array of the studentpaths taking into account all credits in each students starting period
 // Takes in: an array of credits and starting year
-const firstCourses = (data, year, levels) => {
+const firstCourses = (data, year, levels, grade) => {
   const students = studentObjects(data)
   let highChartsArrays = []
   let fromCourses = []
@@ -84,7 +84,7 @@ const firstCourses = (data, year, levels) => {
     let nextPeriodWithCredit = 0
     let periodHasChanged = false
 
-    if ( year === startPeriod.year && isCsStudent(firstCourse.course)) {
+    if ( year === startPeriod.year && isCsStudent(firstCourse.course) && checkGrade(grade, firstCourse.grade)) {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
         if (level >= levels) {
