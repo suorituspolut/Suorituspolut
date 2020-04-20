@@ -42,7 +42,7 @@ const Recommendation = () => {
     const signed = !signedIn
     let studentNumber = null
     setSignedIn(signed)
-    if (signed) studentNumber = '424'
+    if (signed) studentNumber = '391640'
     setStudentNumber(studentNumber)
     getData(year, term, studentNumber, goalYears)
   }
