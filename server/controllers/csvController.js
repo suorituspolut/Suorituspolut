@@ -32,7 +32,6 @@ test()
 */
 
 const getSankeyNormal = async (req, res) => {
-
   const array = []
   let year = 2017
   let course = 'Ohjelmoinnin perusteet'
@@ -81,6 +80,7 @@ const getSankeyFirsts = async (req, res) => {
   if (req.params.grade !== null) {
     grade = req.params.grade
   }
+
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
     data.forEach((credit) => {
@@ -94,7 +94,7 @@ const getSankeyFirsts = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(firstCourses(array, year, grade, levels))
+    res.send(firstCourses(array, year, levels, grade))
   })
   await fs.createReadStream(file).pipe(parser)
 }

@@ -51,10 +51,13 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
 
   for (let i = levels - 1; i > 0; i--) {
     const key = i.toString()
-    let array = separatedByLevel.get(key).sort(byWeights)
-    if (array.length > 5) {
-      for (let j = 5; j < array.length; j++) {
-        console.log(array[j])
+    if (separatedByLevel.has(key)) {
+      console.log('level :', key)
+      const array = separatedByLevel.get(key).sort(byWeights)
+      if (array.length > 5) {
+        for (let j = 5; j < array.length; j++) {
+          console.log(array[j])
+        }
       }
     }
   }
