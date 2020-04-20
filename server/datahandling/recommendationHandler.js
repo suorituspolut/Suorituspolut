@@ -56,7 +56,7 @@ const makeCourseList = (data, year, term) => {
 const filterCoursesFromList = (courseList, studentCourseList) => {
   const newList = []
   courseList.forEach((credit) => {
-    if (studentCourseList.includes(credit[0])) {
+    if (!studentCourseList.includes(credit[0])) {
       newList.push(credit)
     }
   })
