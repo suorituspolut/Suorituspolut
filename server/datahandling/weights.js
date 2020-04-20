@@ -1,7 +1,6 @@
 // What: returns an array of highchart-objects where the weights of similar paths have been counted together
 // Takes in: an array of highchart-objects with a weight of 1
 const addWeights = (credits) => {
-  //console.log('credits: ', credits)
   const courseSet = new Map()
   let weightedCredits = []
 
@@ -24,11 +23,45 @@ const addWeights = (credits) => {
   })
 
   weightedCredits.sort(byWeights)
-  
+
   return weightedCredits
 }
 
 const byWeights = (credit1, credit2) => credit2[2]-credit1[2]
+
+const othersCategoryFirsts = (weightedCredits, levels) => {
+  const separatedByLevel = new Map()
+
+  weightedCredits.forEach((credit) => {
+    const thisLevel = credit[0][0]
+    let array = []
+    if(separatedByLevel.has(thisLevel)) {
+      array = separatedByLevel.get(thisLevel)
+    }
+    array = [...array, credit]
+    separatedByLevel.set(thisLevel, array)
+  })
+
+  // separatedByLevel.forEach((array, level) => {
+  //   if (array.length > 5) {
+  //     const sortedArray = array.sort(byWeights)
+  //     separatedByLevel.set(level, sortedArray)
+  //   }
+  // })
+
+  for (let i = levels - 1; i > 0; i--) {
+    const key = i.toString()
+    let array = separatedByLevel.get(key).sort(byWeights)
+    if (array.length > 5) {
+      for (let j = 5; j < array.length; j++) {
+        console.log(array[j])
+      }
+    }
+  }
+
+
+  return weightedCredits
+}
 
 // What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
 // Takes in: an array of highchart-objects of a single period-level, the orig. starting course, and amount of categories wanted in total
@@ -100,4 +133,5 @@ module.exports = {
   creditArraysBubble,
   addWeightsBubble,
   separateOthersCategoryBubble,
+  othersCategoryFirsts,
 }
