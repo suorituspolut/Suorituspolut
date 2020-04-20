@@ -42,14 +42,13 @@ const Recommendation = () => {
     const signed = !signedIn
     let studentNumber = null
     setSignedIn(signed)
-    if (signed) studentNumber = '9888000'
+    if (signed) studentNumber = '424'
     setStudentNumber(studentNumber)
     getData(year, term, studentNumber, goalYears)
   }
 
   const listTenCourses = (data) => {
     if (data.length > 10) data = data.slice(0, 10)
-
     return (
       <Table.Body>
         {data.map(course => <Table.Row key={course[0]}><Table.Cell>{course[0]}</Table.Cell></Table.Row>)}
