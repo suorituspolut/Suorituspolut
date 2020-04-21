@@ -1,4 +1,4 @@
-const { graduatedStudents } = require('@root/server/datahandling/students')
+const { graduatedStudents, coursesOfOneStudent } = require('@root/server/datahandling/students')
 const { periodsBetweenTwoDates, periodsToClosestYear, periodToTerm, toPeriod } = require('@root/server/datahandling/periods')
 const { mockStudent } = require('@root/server/datahandling/mockStudent')
 
@@ -53,11 +53,27 @@ const makeCourseList = (data, year, term) => {
   return filtered
 }
 
+const filterCoursesFromList = (courseList, studentCourseList) => {
+  const newList = []
+  courseList.forEach((credit) => {
+    if (!studentCourseList.includes(credit[0])) {
+      newList.push(credit)
+    }
+  })
+
+  return newList
+}
+
 
 const getRecommendations = (data, year, term, studentNumber, goalYears) => {
   let timely = timelyGraduated(data, goalYears)
   let courseList = makeCourseList(timely, year, term)
-
+  if (studentNumber !== 'null') {
+    let studentCourseList = coursesOfOneStudent(studentNumber, data)
+    let filtered = filterCoursesFromList(courseList, studentCourseList)
+    return filtered
+  }
+  
   return courseList
 }
 
