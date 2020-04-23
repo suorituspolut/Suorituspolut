@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Form, Pagination, Radio, Icon } from 'semantic-ui-react'
+import {
+  Form, Pagination, Radio, Icon,
+} from 'semantic-ui-react'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
@@ -109,12 +111,13 @@ const Histograms = ({ courses, howMany }) => {
   const printOutFiveHistograms = (index) => {
     let coursesOnAPage = []
     const biggestIndex = datamany.length - 1
+    let indexValue = index
 
     if (courses.length > 0 && datamany.length > 0) {
-      if (index >= datamany.length) index = 0
+      if (indexValue >= datamany.length) indexValue = 0
 
       for (let i = 0; i <= 4; i++) {
-        if ((index + i) <= biggestIndex) coursesOnAPage = [...coursesOnAPage, datamany[index + i]]
+        if ((indexValue + i) <= biggestIndex) coursesOnAPage = [...coursesOnAPage, datamany[indexValue + i]]
       }
 
       return (
@@ -142,7 +145,7 @@ const Histograms = ({ courses, howMany }) => {
       {howMany !== 1
         ? (
           <>
-           
+
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="radio-container">
               <Form>
@@ -176,7 +179,7 @@ const Histograms = ({ courses, howMany }) => {
         )
         : (
           <>
-           
+
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <FilterBar
               courses={courses}

@@ -131,20 +131,6 @@ const Sankey = ({ data, type, year }) => {
       tooltip: {
         nodeFormat: type === 'firsts' ? '{point.name}' : '{point.name} {point.sum}',
       },
-      plotOptions: {
-        series: {
-          cursor: 'pointer',
-          point: {
-            events: {
-              click(event) {
-                if (!event.point.name.includes('highcharts')) {
-                  onClick(event.point.name)
-                }
-              },
-            },
-          },
-        },
-      },
     }
 
 
