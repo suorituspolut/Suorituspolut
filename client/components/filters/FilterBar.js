@@ -1,9 +1,12 @@
 import React from 'react'
-import { createNumberOptions, createTextOptions, createYearsWithAll, grades, terms } from '../../util/units'
+import {
+  createNumberOptions, createTextOptions, createYearsWithAll, grades, terms,
+} from '../../util/units'
 import Filter from './Filter'
 
 
-const FilterBar = ({ courses,
+const FilterBar = ({
+  courses,
   handleCourseChange,
   handleGradeChange,
   handleYearChange,
@@ -114,5 +117,6 @@ const FilterBar = ({ courses,
     </table>
   )
 }
+
 
 export default FilterBar

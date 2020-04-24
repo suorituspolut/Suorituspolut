@@ -10,8 +10,6 @@ export const createNumberOptions = (start, end, all) => {
   return array
 }
 
-
-
 export const createTextOptions = (array) => {
   return array.map(item => ({ key: item, value: item, text: item }))
 }
@@ -22,20 +20,19 @@ export const blueColors = ['#81d4fa', '#4fc3f7', '#29b6f6', '#039be5', '#0288d1'
 
 export const randomKey = () => Math.random()*100000
 
-export const mandatoryCourses =
-  [
-    {
-      perusopinnot:
+export const mandatoryCourses = [
+  {
+    perusopinnot:
       [
-        'Johdatus tietojenkäsittelytieteeseen', 
-        'Ohjelmoinnin perusteet', 
+        'Johdatus tietojenkäsittelytieteeseen',
+        'Ohjelmoinnin perusteet',
         'Ohjelmoinnin jatkokurssi',
         'Tietokantojen perusteet',
         'Tietokoneen toiminta',
       ],
-    },
-    {
-      aineopinnot:
+  },
+  {
+    aineopinnot:
       [
         'Tietoliikenteen perusteet',
         'Ohjelmistotekniikka',
@@ -47,22 +44,22 @@ export const mandatoryCourses =
         'Kandidaatin tutkielma',
         'Kypsyysnäyte LuK',
       ],
-    },
-    {
-      valinnaisetOpinnot:
+  },
+  {
+    valinnaisetOpinnot:
       [
         'Tietoturvan perusteet',
         'Johdatus tekoälyyn',
       ],
-    },
-    {
-      aineopintojenHarjoitustyöt:
+  },
+  {
+    aineopintojenHarjoitustyöt:
       [
         'Aineopintojen harjoitustyö: Tietokantasovellus',
         'Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit',
         'Aineopintojen harjoitustyö: Tietoliikenne',
       ],
-    },
-  ]
+  },
+]
 
 export const terms = createTextOptions(['Syksy', 'Kevät', 'Kesä'])
