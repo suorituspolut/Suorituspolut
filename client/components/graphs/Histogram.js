@@ -68,7 +68,7 @@ const Histograms = ({ courses, howMany }) => {
     setDataMany(JSON.parse(getHistoDataMany(subset, sorting)))
   }, [])
 
-  const handleSearch = () => {
+  const handleSearch = (course, maxYear) => {
     try {
       setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
     } catch (err) {
@@ -78,7 +78,7 @@ const Histograms = ({ courses, howMany }) => {
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(course, maxYear)
+    handleSearch(value, maxYear)
   }
 
   const handleMaxYearChange = (e, { value }) => {
