@@ -9,27 +9,8 @@ const parse = require('csv-parse')
 const fs = require('fs')
 
 
-const file = (process.cwd() + '/data/anon_dataset.csv')
-
-/* const Papa = require('papaparse')
-const readCSV = async (filePath) => {
-  const csvFile = fs.readFileSync(filePath)
-  const csvData = csvFile.toString()
-  return new Promise(resolve => {
-    Papa.parse(csvData, {
-      header: true,
-      complete: results => {
-        resolve(results.data);
-      }
-    });
-  });
-};
-let parsedData;
-const test = async () => {
-  parsedData = await readCSV(file); 
-}
-test()
-*/
+const file = (`${process.cwd()}/data/anon_dataset.csv`)
+const file2 = (`${process.cwd()}/data/student_background.csv`)
 
 const getSankeyNormal = async (req, res) => {
   const array = []
@@ -45,7 +26,7 @@ const getSankeyNormal = async (req, res) => {
 
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
-    if (!data) return 
+    if (!data) return
     data.forEach((credit) => {
       const newCourse = {
         studentId: credit[0],
@@ -117,6 +98,29 @@ const getCourses = async (req, res) => {
   })
 
   await fs.createReadStream(file).pipe(parser)
+}
+
+const getStudyData = async (req, res) => {
+  const array = []
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    data.forEach((credit) => {
+      const newStudy = {
+        studentId: credit[0],
+        studyCode: credit[1],
+        studyName: credit[2],
+      }
+      array.push(newStudy)
+    })
+
+    const allStudies = array.map(credit => credit.studyName)
+    allStudies.shift()
+    const studies = [...new Set(allStudies)]
+    res.send(studies)
+    //res.send(array)
+  })
+
+  await fs.createReadStream(file2).pipe(parser)
 }
 
 const getHistogramData = async (req, res) => {
@@ -283,4 +287,5 @@ module.exports = {
   getHistogramDataMany,
   getRoadToSuccessData,
   getRecommendationData,
+  getStudyData,
 }
