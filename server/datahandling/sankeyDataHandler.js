@@ -1,6 +1,6 @@
 const { checkGrade } = require('@root/server/datahandling/grades')
 const { toPeriod, isSamePeriod, nextPeriodOf } = require('@root/server/datahandling/periods')
-const { addWeights, separateOthersCategory, separateOthersCategorySecond } = require('@root/server/datahandling/weights')
+const { addWeights, separateOthersCategory, othersCategoryFirsts } = require('@root/server/datahandling/weights')
 const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
 const { studentObjects } = require('@root/server/datahandling/students')
 
@@ -54,15 +54,14 @@ const highChartsObjects = (data, startCourse, year, grade) => {
     hasDoneStartCourse = false
   })
 
-  //console.log(studentsWhoHaveDoneCreditcourse)
   return highChartsArrays
 }
 
 const isCsStudent = (firstCourse) => {
   let isCsStudent = false
-  if (firstCourse === 'Ohjelmoinnin perusteet' ||
-    firstCourse === 'Ohjelmoinnin jatkokurssi' ||
-    firstCourse === 'Tietokone työvälineenä') {
+  if (firstCourse === 'Ohjelmoinnin perusteet'
+    || firstCourse === 'Ohjelmoinnin jatkokurssi'
+    || firstCourse === 'Tietokone työvälineenä') {
     isCsStudent = true
   }
 
@@ -88,6 +87,7 @@ const firstCourses = (data, year, levels, grade) => {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
         if (level >= levels) {
+          // do nothing
         } else if (isSamePeriod(periodOfCourse, fromPeriod)) {
           fromCourses = [...fromCourses, `${level}: ${course.course}`]
         } else if (!periodHasChanged && !isSamePeriod(periodOfCourse, fromPeriod)) {
@@ -100,7 +100,7 @@ const firstCourses = (data, year, levels, grade) => {
         } else {
           fromCourses.forEach((from) => {
             toCourses.forEach((to) => {
-              highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
+              highChartsArrays = [...highChartsArrays, [from, to, 1]]
             })
           })
           level++
@@ -112,7 +112,7 @@ const firstCourses = (data, year, levels, grade) => {
       })
       fromCourses.forEach((from) => {
         toCourses.forEach((to) => {
-          highChartsArrays = [...highChartsArrays, [from, to, 1, 400]]
+          highChartsArrays = [...highChartsArrays, [from, to, 1]]
         })
       })
       fromCourses = []
@@ -120,7 +120,8 @@ const firstCourses = (data, year, levels, grade) => {
     }
   })
 
-  return addWeights(highChartsArrays)
+
+  return othersCategoryFirsts(addWeights(highChartsArrays), levels)
 }
 
 module.exports = {

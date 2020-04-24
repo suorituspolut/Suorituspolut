@@ -1,10 +1,10 @@
 const { graduatedStudents, coursesOfOneStudent } = require('@root/server/datahandling/students')
 const { periodsBetweenTwoDates, periodsToClosestYear, periodToTerm, toPeriod } = require('@root/server/datahandling/periods')
-const { mockStudent } = require('@root/server/datahandling/mockStudent')
+// const { mockStudent } = require('@root/server/datahandling/mockStudent')
 
-const mockList = ['Linis I', 'Käyttöjärjestelmät', 'Ohjelmoinnin jatkokurssi', 'Ranskan alkeet', 'Kemian kertauskurssi', 'Tietorakenteet ja algoritmit', 'Keramiikkakurssi', 'JYM', 'Tikape', 'Tilpe', 'Ylimääräinen kurssi'] 
+// const mockList = ['Linis I', 'Käyttöjärjestelmät', 'Ohjelmoinnin jatkokurssi', 'Ranskan alkeet', 'Kemian kertauskurssi', 'Tietorakenteet ja algoritmit', 'Keramiikkakurssi', 'JYM', 'Tikape', 'Tilpe', 'Ylimääräinen kurssi'] 
 
-//Gets all students who have graduated and filters all the timely graduated ones
+// Gets all students who have graduated and filters all the timely graduated ones
 const timelyGraduated = (data, goalYears) => {
   const periods = goalYears * 5
   const students = graduatedStudents(data)
@@ -25,16 +25,15 @@ const timelyGraduated = (data, goalYears) => {
 }
 
 
-
 const makeCourseList = (data, year, term) => {
   let filtered = []
   const courseSet = new Map()
   let weight = 0
   data.forEach((student) => {
-    let firstCourse = student.courses[0]
+    const firstCourse = student.courses[0]
     student.courses.forEach((credit) => {
-      let creditTerm = periodToTerm(toPeriod(credit.date).period)
-      let creditTime = 5 + periodsToClosestYear(periodsBetweenTwoDates(firstCourse.date, credit.date))
+      const creditTerm = periodToTerm(toPeriod(credit.date).period)
+      const creditTime = 5 + periodsToClosestYear(periodsBetweenTwoDates(firstCourse.date, credit.date))
       if (year * 5 === creditTime && creditTerm === term) {
         if (courseSet.has(credit.course)) {
           weight = courseSet.get(credit.course) + 1

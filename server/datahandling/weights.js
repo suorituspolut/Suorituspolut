@@ -23,10 +23,121 @@ const addWeights = (credits) => {
   })
 
   weightedCredits.sort(byWeights)
+
   return weightedCredits
 }
 
 const byWeights = (credit1, credit2) => credit2[2]-credit1[2]
+
+const othersCategoryFirsts = (weightedCredits, levels) => {
+  let others = 7
+  const separatedByLevel = new Map()
+  let keepList = []
+
+  weightedCredits.forEach((credit) => {
+    const thisLevel = Number(credit[0][0])
+    let array = []
+    if(separatedByLevel.has(thisLevel)) {
+      array = separatedByLevel.get(thisLevel)
+    }
+    array = [...array, credit]
+    separatedByLevel.set(thisLevel, array)
+  })
+
+  let toWeight = new Map()
+
+  // level 1
+  if (separatedByLevel.has(1)) {
+    let array = separatedByLevel.get(1)
+    const fromWeight = new Map()
+    for (let i = 0; i < array.length; i++) {
+      if (fromWeight.has(array[i][0])) {
+        let weight = fromWeight.get(array[i][0])
+        weight += array[i][2]
+        fromWeight.set(array[i][0], weight)
+      } else {
+        fromWeight.set(array[i][0], array[i][2])
+      }
+
+      if (toWeight.has(array[i][1])) {
+        let weight = toWeight.get(array[i][1])
+        weight += array[i][2]
+        toWeight.set(array[i][1], weight)
+      } else {
+        toWeight.set(array[i][1], array[i][2])
+      }
+    }
+
+    keepList = findBiggestCourses(fromWeight, others)
+    array.forEach((highChartObject) => {
+      if (!keepList.includes(highChartObject[0])) {
+        highChartObject[0] = '1: Muut'
+      }
+    })
+    array = addWeights(array)
+  }
+
+  // rest of the levels
+  separatedByLevel.forEach((array, level) => {
+    let previousLevel = separatedByLevel.get(level - 1)
+    if (level !== 1) {
+      keepList = findBiggestCourses(toWeight, others)
+      toWeight = new Map()
+      array.forEach((highChartObject) => {
+        if (!keepList.includes(highChartObject[0])) {
+          highChartObject[0] = `${level}: Muut`
+        }
+        for (let i = 0; i < array.length; i++) {
+          if (toWeight.has(array[i][1])) {
+            let weight = toWeight.get(array[i][1])
+            weight += array[i][2]
+            toWeight.set(array[i][1], weight)
+          } else {
+            toWeight.set(array[i][1], array[i][2])
+          }
+        }
+      })
+      previousLevel.forEach((highChartObject) => {
+        if (!keepList.includes(highChartObject[1])) {
+          highChartObject[1] = `${level}: Muut`
+        }
+      })
+      // array = addWeights(array)
+      previousLevel = addWeights(previousLevel)
+    }
+
+    if ( level === levels - 1) {
+      keepList = findBiggestCourses(toWeight, others)
+
+      array.forEach((highChartObject) => {
+        if (!keepList.includes(highChartObject[1])) {
+          highChartObject[1] = `${levels}: Muut`
+        }
+      })
+      array = addWeights(array)
+    }
+
+
+  })
+
+
+  return addWeights(weightedCredits)
+}
+
+const findBiggestCourses = (mapOfWeights, amount) => {
+  let array = []
+
+  mapOfWeights.forEach((weight, course) => {
+    array = [...array, { course, weight }]
+  })
+
+  array.sort((a, b) => b.weight - a.weight)
+  array = array.slice(0, amount)
+  array = array.map(c => c.course)
+
+  return array
+}
+
 
 // What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
 // Takes in: an array of highchart-objects of a single period-level, the orig. starting course, and amount of categories wanted in total
@@ -98,4 +209,5 @@ module.exports = {
   creditArraysBubble,
   addWeightsBubble,
   separateOthersCategoryBubble,
+  othersCategoryFirsts,
 }

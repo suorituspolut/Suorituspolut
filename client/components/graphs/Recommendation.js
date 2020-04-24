@@ -52,7 +52,7 @@ const Recommendation = () => {
     if (handledData.length > 10) handledData = handledData.slice(0, 10)
     return (
       <Table.Body>
-        {handledData.map(course => <Table.Row key={course[0]}><Table.Cell>{course[0]}</Table.Cell></Table.Row>)}
+        {data.map(course => <Table.Row key={course[0]}><Table.Cell>{course[0]}</Table.Cell><Table.Cell></Table.Cell></Table.Row>)}
       </Table.Body>
     )
   }
@@ -75,11 +75,8 @@ const Recommendation = () => {
             <Table.Row>
               <Table.HeaderCell>{tableHeader}</Table.HeaderCell>
               { signedIn ? (
-                <Table.HeaderCell textAlign="right">
-                  Matti Malli, opiskelijanumero:
-                  {studentNumber}
-                </Table.HeaderCell>
-              ) : null}
+                <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
+              ) : <Table.HeaderCell></Table.HeaderCell>}
             </Table.Row>
           </Table.Header>
           {listTenCourses(data)}

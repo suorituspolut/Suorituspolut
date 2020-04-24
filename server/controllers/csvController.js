@@ -49,16 +49,17 @@ const getSankeyFirsts = async (req, res) => {
   let year = 2017
   let levels = 4
   let grade = 'Kaikki'
+
   if (req.params.year !== null) {
     year = Number(req.params.year)
   }
 
-  if (req.params.grade !== null) {
-    grade = req.params.grade
-  }
-
   if (req.params.levels !== null) {
     levels = Number(req.params.levels)
+  }
+
+  if (req.params.grade !== null) {
+    grade = req.params.grade
   }
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
