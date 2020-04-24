@@ -78,3 +78,8 @@
 .radiobutton {
   padding: 0em 0.3em 0em 0.3em;
 }
+
+.pie-legend {
+  text-align: center;
+  font-weight: 600;
+}

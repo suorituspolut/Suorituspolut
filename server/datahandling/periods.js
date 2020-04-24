@@ -125,5 +125,5 @@ module.exports = {
   timeBetween,
   periodsBetweenTwoDates,
   periodsToClosestYear,
-  periodToTerm
+  periodToTerm,
 }

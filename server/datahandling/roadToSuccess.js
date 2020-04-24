@@ -1,22 +1,45 @@
 const { studentObjects } = require('@root/server/datahandling/students')
-const { checkPassed, dataByGrade, whichHasBetterGrade } = require('@root/server/datahandling/grades')
+const { dataByGrade, gradeToNumber, whichHasBetterGrade } = require('@root/server/datahandling/grades')
 
-const roadToSuccessObjects = (data, startCourse, uniqueness) => {
-  const students = studentObjects(data)
-  const byGrades = coursesByGrades(students, startCourse, uniqueness)
+const roadToSuccessObjects = (data, year, course, uniqueness) => {
+  const allStudents = studentObjects(data)
+  const studentsWithCourse = uniqueCoursesEarlier(allStudents, year, course)
+  const byGrades = coursesByGrades(studentsWithCourse)
   const topTen = topTenCourses(byGrades[10].courses)
   const percentagesForGrades = percentagesForCourses(byGrades, topTen)
   const dataWithCorrectRange = dataWithCorrectGradeRange(percentagesForGrades)
   return dataWithCorrectRange
 }
 
-const getUniqueEarlierCourses = (credits, startCourseDate) => {
+const uniqueCoursesEarlier = (students, year, startCourse) => {
+  const studentList = []
+  students.forEach((student) => {
+    let searched = null
+    let earlierCourses = []
+
+    student.courses.forEach((credit) => {
+      if (credit.course === startCourse && searched && (credit.date.getFullYear() === Number(year) || year === 'Kaikki')) {
+        searched = whichHasBetterGrade(credit, searched)
+      } else if (credit.course === startCourse && !searched && (credit.date.getFullYear() === Number(year) || year === 'Kaikki')) {
+        searched = credit
+      }
+    })
+    if (searched) {
+      earlierCourses = getUniqueEarlierCourses(student.courses, searched.date)
+      studentList.push({ searched, earlierCourses })
+    }
+  })
+  return studentList
+}
+
+
+const getUniqueEarlierCourses = (credits, chosenDate) => {
   const earlierCourses = new Map()
   const unique = []
 
   credits.forEach((credit) => {
     let creditToAdd = {}
-    if (credit.date < startCourseDate) {
+    if (credit.date < chosenDate) {
       if (!earlierCourses.has(credit.course)) {
         earlierCourses.set(credit.course, credit)
       } else if (earlierCourses.has(credit.course)) {
@@ -33,100 +56,26 @@ const getUniqueEarlierCourses = (credits, startCourseDate) => {
   return unique
 }
 
-const coursesByGrades = (students, startCourse, uniqueness) => {
+const coursesByGrades = (students) => {
   const data = dataByGrade()
 
   students.forEach((student) => {
-    let startCredit = null
-    student.courses.forEach((credit) => {
-      if (credit.course === startCourse) {
-        startCredit = credit
-        data[10].amountOfStudents++
-        if (checkPassed(startCredit.grade)) {
-          data[9].amountOfStudents++
-        } else {
-          data[0].amountOfStudents++
-        }
-        switch (startCredit.grade) {
-          case '1':
-            data[1].amountOfStudents++
-            break
-          case '2':
-            data[2].amountOfStudents++
-            break
-          case '3':
-            data[3].amountOfStudents++
-            break
-          case '4':
-            data[4].amountOfStudents++
-            break
-          case '5':
-            data[5].amountOfStudents++
-            break
-          case 'TT':
-            data[6].amountOfStudents++
-            break
-          case 'HT':
-            data[7].amountOfStudents++
-            break
-          case 'Hyv.':
-            data[8].amountOfStudents++
-            break
-          default:
-            break
-        }
+    const grade = gradeToNumber(student.searched.grade)
+    data[10].amountOfStudents++
+    data[grade].amountOfStudents++
+    if (grade !== 0) {
+      data[9].amountOfStudents++
+    }
+
+    student.earlierCourses.forEach((credit) => {
+      data[grade].courses = [...data[grade].courses, credit.course]
+      data[10].courses = [...data[10].courses, credit.course]
+      if (grade !== 0) {
+        data[9].courses = [...data[9].courses, credit.course]
       }
     })
-
-    if (startCredit) {
-      let earlierCourses = []
-      if (uniqueness === 'all') {
-        earlierCourses = student.courses.filter(credit => credit.date < startCredit.date)
-      }
-      if (uniqueness === 'unique') {
-        earlierCourses = getUniqueEarlierCourses(student.courses, startCredit.date)
-      }
-      earlierCourses.forEach((credit) => {
-
-        if (checkPassed(startCredit.grade)) {
-          data[9].courses = [...data[9].courses, credit.course]
-          data[10].courses = [...data[10].courses, credit.course]
-        } else {
-          data[0].courses = [...data[0].courses, credit.course]
-          data[10].courses = [...data[10].courses, credit.course]
-        }
-        switch (startCredit.grade) {
-          case '1':
-            data[1].courses = [...data[1].courses, credit.course]
-            break
-          case '2':
-            data[2].courses = [...data[2].courses, credit.course]
-            break
-          case '3':
-            data[3].courses = [...data[3].courses, credit.course]
-            break
-          case '4':
-            data[4].courses = [...data[4].courses, credit.course]
-            break
-          case '5':
-            data[5].courses = [...data[5].courses, credit.course]
-            break
-          case 'TT':
-            data[6].courses = [...data[6].courses, credit.course]
-            break
-          case 'HT':
-            data[7].courses = [...data[7].courses, credit.course]
-            break
-          case 'Hyv.':
-            data[8].courses = [...data[8].courses, credit.course]
-            break
-          default:
-            break
-        }
-      })
-      startCredit = null
-    }
   })
+
   return data
 }
 
@@ -168,7 +117,7 @@ const percentagesForCourses = (byGrades, topTenOfAll) => {
         dataArray = [...dataArray, [course, amount, Number(amount / totalAmount * 100).toFixed(2)]]
       })
     }
-    dataWithPercentages = [...dataWithPercentages, {grade: gradeArray.grade, totalAmount, courses: dataArray}]
+    dataWithPercentages = [...dataWithPercentages, { grade: gradeArray.grade, totalAmount, courses: dataArray }]
   })
   return dataWithPercentages
 }
@@ -177,7 +126,7 @@ const dataWithCorrectGradeRange = (grades) => {
   const totalAmount = grades[10].totalAmount
   const totalAccepted = grades[9].totalAmount
 
-  if (grades[1].totalAmount > 0) {
+  if (grades[1].totalAmount > 0 || grades[5].totalAmount > 0) {
     return [
       {
         name: 'Kaikki',
@@ -273,31 +222,29 @@ const dataWithCorrectGradeRange = (grades) => {
       },
     ]
   }
-  else {
-    return [
-      {
-        name: 'Kaikki',
-        totalAmount: grades[10].totalAmount,
-        y: grades[10].totalAmount / totalAmount,
-        courses: grades[10].courses,
-        color: '#1675db',
-      },
-      {
-        name: 'Hyväksytty',
-        totalAmount: grades[9].totalAmount,
-        y: totalAccepted / totalAmount,
-        courses: grades[9].courses,
-        color: '#15d167',
-      },
-      {
-        name: 'Hylätty',
-        totalAmount: grades[0].totalAmount,
-        y: grades[0].totalAmount / totalAmount,
-        courses: grades[0].courses,
-        color: '#1d1e1f',
-      },
-    ]
-  }
+  return [
+    {
+      name: 'Kaikki',
+      totalAmount: grades[10].totalAmount,
+      y: grades[10].totalAmount / totalAmount,
+      courses: grades[10].courses,
+      color: '#1675db',
+    },
+    {
+      name: 'Hyväksytty',
+      totalAmount: grades[9].totalAmount,
+      y: totalAccepted / totalAmount,
+      courses: grades[9].courses,
+      color: '#15d167',
+    },
+    {
+      name: 'Hylätty',
+      totalAmount: grades[0].totalAmount,
+      y: grades[0].totalAmount / totalAmount,
+      courses: grades[0].courses,
+      color: '#1d1e1f',
+    },
+  ]
 }
 
 module.exports = {

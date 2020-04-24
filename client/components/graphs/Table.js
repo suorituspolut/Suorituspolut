@@ -1,15 +1,15 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
+import { randomKey } from '../../util/units'
 
-const SimpleTable = ({
-  data, course, highlight, setHighlight,
-}) => {
+const SimpleTable = ({ data, course, highlight, setHighlight }) => {
+
+
+
   if (data.length > 1) {
     const gradeNames = data.map((gradeArray) => {
-      if (gradeArray.courses.length > 0) {
-        return gradeArray.name
-      }
-      return null
+      if (gradeArray.courses.length > 0) return gradeArray.name
+      return
     })
 
     const existingGrades = gradeNames.filter(grade => grade !== undefined)
@@ -28,52 +28,33 @@ const SimpleTable = ({
     courseData.forEach((courseArray, index) => {
       courseArray.forEach((course) => {
         const courseObject = table.find(o => o.course === course[0])
-        const courseIndex = 2
-        courseObject[data[index].name] = course[courseIndex]
+        courseObject[data[index].name] = course[2]
         table[table.indexOf(courseObject)] = courseObject
       })
     })
 
     return (
       <>
-        <h4>
-          Ennen kurssia&nbsp;
-          {course}
-          , opiskelijat ovat käyneet:
-        </h4>
+        <h4>Ennen kurssia "{course}", opiskelijat ovat käyneet:</h4>
         <Table className="ui table">
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Aiempi kurssi</Table.HeaderCell>
               {existingGrades.map((grade) => {
-                if (highlight === grade) return <Table.HeaderCell key={grade} className="highlighted-cell" onClick={() => setHighlight(grade)}>{grade}</Table.HeaderCell>
-                return <Table.HeaderCell onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
+                if (highlight === grade) return <Table.HeaderCell key={randomKey()} className="highlighted-cell" onClick={() => setHighlight(grade)} key={randomKey()}>{grade}</Table.HeaderCell>
+                return <Table.HeaderCell onClick={() => setHighlight(grade)} key={randomKey()}>{grade}</Table.HeaderCell>
               })}
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {table.map(course => (
-              <Table.Row key={course.course}>
-                <Table.Cell>
+              <Table.Row key={randomKey()}>
+                <Table.Cell key={randomKey()}>
                   <b>{course.course}</b>
                 </Table.Cell>
                 {existingGrades.map((name) => {
-                  if (highlight === name) {
-                    return (
-                      <Table.Cell key={name} className="highlighted-cell">
-                        <b>
-                          {course[name]}
-                          %
-                        </b>
-                      </Table.Cell>
-                    )
-                  }
-                  return (
-                    <Table.Cell>
-                      {course[name]}
-                      %
-                    </Table.Cell>
-                  )
+                  if (highlight === name) return <Table.Cell key={randomKey()} className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
+                  return <Table.Cell key={randomKey()}>{course[name] ? course[name] : 0} %</Table.Cell>
                 })}
               </Table.Row>
             ))}
