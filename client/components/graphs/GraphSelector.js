@@ -14,7 +14,7 @@ import infos from '../notifications/Info_contents'
 //  To be changed to return recommended courses in /server/datahandling/recommendationHandler
 
 const GraphSelector = ({ graphToShow }) => {
-  const courses = JSON.parse(getCourseData())
+  const courses = JSON.parse(getCourseData()).sort()
 
   const whichGraph = (graph) => {
     switch (graph) {

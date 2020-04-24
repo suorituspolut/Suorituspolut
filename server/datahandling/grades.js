@@ -94,34 +94,22 @@ const dataByGrade = () => [
 ]
 
 const gradeToNumber = (grade) => {
-  if (grade == '0' ||
-      grade === '1' ||
-      grade === '2' ||
-      grade === '3' ||
-      grade === '4' ||
-      grade === '5') {
-        return Number(grade)
-  } else if (grade === 'Eisa' || grade === 'Hyl.' || grade === 'Luop') {
-    return 0
-  } else if (grade === 'Hyv.') {
-    return 8
-  } else if (grade === 'HT') {
-    return 7
-  } else if (grade === 'TT') {
-    return 6
-  } else if (grade === 'LUB') {
-    return 11
-  } else if (grade === 'NSLA') {
-    return 12
-  } else if (grade === 'CL') {
-    return 13
-  } else if (grade === 'MCLA') {
-    return 14 
-  } else if (grade === 'ECLA') {
-    return 15
-  } else if (grade === 'L') {
-    return 16
-  }
+  if (grade === '0'
+      || grade === '1'
+      || grade === '2'
+      || grade === '3'
+      || grade === '4'
+      || grade === '5') return Number(grade)
+  if (grade === 'Eisa' || grade === 'Hyl.' || grade === 'Luop') return 0
+  if (grade === 'Hyv.') return 8
+  if (grade === 'HT') return 7
+  if (grade === 'TT') return 6
+  if (grade === 'LUB') return 11
+  if (grade === 'NSLA') return 12
+  if (grade === 'CL') return 13
+  if (grade === 'MCLA') return 14
+  if (grade === 'ECLA') return 15
+  if (grade === 'L') return 16
   return 8
 }
 

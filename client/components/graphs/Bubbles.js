@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-// eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
 import { Icon } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
@@ -111,7 +110,7 @@ const Bubbles = () => {
   const printOutBubbles = () => {
     if (data.length > 0) {
       return (
-        <div>
+        <div className="graph-container">
           <HighchartsReact
             highcharts={Highcharts}
             constructorType="chart"

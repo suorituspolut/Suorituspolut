@@ -11,7 +11,6 @@ import { getRoadToSuccess } from '../../util/redux/dataReducer'
 require('highcharts/modules/exporting')(Highcharts)
 
 const RTS = ({ courses }) => {
-
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [year, setYear] = useState(2017)
   const [data, setData] = useState([])
@@ -46,7 +45,7 @@ const RTS = ({ courses }) => {
         courses={courses}
         handleCourseChange={handleCourseChange}
         selectedYear={year}
-        yearWithAll={true}
+        yearWithAll
         handleYearChange={handleYearChange}
       />
       {data ? <PieChart grades={data} course={course} /> : null}
