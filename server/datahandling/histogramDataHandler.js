@@ -45,7 +45,7 @@ const histogramObjects = (data, course, subset, sorting) => {
 
   courses.forEach((course) => {
     const courseHistogramArray = courseHistoArray(students, course)
-    if (courseHistogramArray.sum !== 0) {
+    if (courseHistogramArray.sum > 20) {
       histogramList = [...histogramList, courseHistogramArray]
     }
   })

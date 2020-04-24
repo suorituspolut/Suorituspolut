@@ -94,7 +94,6 @@ const dataByGrade = () => [
 ]
 
 const gradeToNumber = (grade) => {
-  console.log(grade)
   if (grade == '0' ||
       grade === '1' ||
       grade === '2' ||
