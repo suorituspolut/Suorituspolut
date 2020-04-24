@@ -37,7 +37,7 @@ const FilterBar = ({
               handleChange={handleYearChange}
               value={selectedYear}
               options={createNumberOptions(2013, 2020, yearWithAll).reverse()}
-              placeholder="2019"
+              placeholder="2017"
             />
           ) : null}
           {selectedCourse ? (

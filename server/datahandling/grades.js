@@ -60,10 +60,41 @@ const dataByGrade = () => [
     grade: 'Kaikki',
     amountOfStudents: 0,
     courses: [],
-  }
+  },
+  {
+    grade: 'LUB',
+    amountOfStudents: 0,
+    courses: [],
+  },
+  {
+    grade: 'NSLA',
+    amountOfStudents: 0,
+    courses: [],
+  },
+  {
+    grade: 'CL',
+    amountOfStudents: 0,
+    courses: [],
+  },
+  {
+    grade: 'MCLA',
+    amountOfStudents: 0,
+    courses: [],
+  },
+  {
+    grade: 'ECLA',
+    amountOfStudents: 0,
+    courses: [],
+  },
+  {
+    grade: 'L',
+    amountOfStudents: 0,
+    courses: [],
+  },
 ]
 
 const gradeToNumber = (grade) => {
+  console.log(grade)
   if (grade == '0' ||
       grade === '1' ||
       grade === '2' ||
@@ -79,6 +110,18 @@ const gradeToNumber = (grade) => {
     return 7
   } else if (grade === 'TT') {
     return 6
+  } else if (grade === 'LUB') {
+    return 11
+  } else if (grade === 'NSLA') {
+    return 12
+  } else if (grade === 'CL') {
+    return 13
+  } else if (grade === 'MCLA') {
+    return 14 
+  } else if (grade === 'ECLA') {
+    return 15
+  } else if (grade === 'L') {
+    return 16
   }
   return 8
 }
