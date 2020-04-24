@@ -49,14 +49,21 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
   //   }
   // })
 
-  for (let i = levels - 1; i > 0; i--) {
+  for (let i = 1; i < levels; i++) {
     const key = i.toString()
     if (separatedByLevel.has(key)) {
+      const fromWeight = new Map()
       console.log('level :', key)
-      const array = separatedByLevel.get(key).sort(byWeights)
+      const array = separatedByLevel.get(key)
       if (array.length > 5) {
-        for (let j = 5; j < array.length; j++) {
-          console.log(array[j])
+        for (let j = 0; j < array.length; j++) {
+          if (fromWeight.has(array[j][0])) {
+            let weight = fromWeight.get(array[j][0])
+            weight += array[j][2]
+            fromWeight.set(array[j][0], weight)
+          } else {
+            fromWeight.set(array[j][0], array[j][2])
+          }
         }
       }
     }

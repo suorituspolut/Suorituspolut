@@ -59,9 +59,9 @@ const highChartsObjects = (data, startCourse, year, grade) => {
 
 const isCsStudent = (firstCourse) => {
   let isCsStudent = false
-  if (firstCourse === 'Ohjelmoinnin perusteet' ||
-    firstCourse === 'Ohjelmoinnin jatkokurssi' ||
-    firstCourse === 'Tietokone työvälineenä') {
+  if (firstCourse === 'Ohjelmoinnin perusteet'
+    || firstCourse === 'Ohjelmoinnin jatkokurssi'
+    || firstCourse === 'Tietokone työvälineenä') {
     isCsStudent = true
   }
 
