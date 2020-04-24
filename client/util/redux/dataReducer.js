@@ -76,7 +76,7 @@ export const getRoadToSuccess = (year, course, uniqueness) => {
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/rts/${course}/${uniqueness}`, false)
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/rts/${year}/${course}/${uniqueness}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }
