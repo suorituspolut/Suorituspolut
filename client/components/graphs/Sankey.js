@@ -123,27 +123,13 @@ const Sankey = ({ data, type, year }) => {
       },
       series: [{
         keys: ['from', 'to', 'weight'],
-        turboThreshold: 4000,
+        turboThreshold: 9000,
         data,
         type: 'sankey',
         name: type === 'firsts' ? '' : 'Suoritusten määrä',
       }],
       tooltip: {
         nodeFormat: type === 'firsts' ? '{point.name}' : '{point.name} {point.sum}',
-      },
-      plotOptions: {
-        series: {
-          cursor: 'pointer',
-          point: {
-            events: {
-              click(event) {
-                if (!event.point.name.includes('highcharts')) {
-                  onClick(event.point.name)
-                }
-              },
-            },
-          },
-        },
       },
     }
 

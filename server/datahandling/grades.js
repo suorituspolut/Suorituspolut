@@ -57,27 +57,30 @@ const dataByGrade = () => [
     courses: [],
   },
   {
-    grade: 'Kaikki', 
+    grade: 'Kaikki',
     amountOfStudents: 0,
     courses: [],
   }
 ]
 
 const gradeToNumber = (grade) => {
-  switch (grade) {
-    case '0' || '1' || '2' || '3' || '4' || '5':
-      return Number(grade)
-    case 'Eisa' || 'Hyl.':
-      return 0
-    case 'Hyv.':
-      return 1
-    case 'HT':
-      return 2
-    case 'TT':
-      return 1
-    default:
-      return 0
+  if (grade == '0' ||
+      grade === '1' ||
+      grade === '2' ||
+      grade === '3' ||
+      grade === '4' ||
+      grade === '5') {
+        return Number(grade)
+  } else if (grade === 'Eisa' || grade === 'Hyl.' || grade === 'Luop') {
+    return 0
+  } else if (grade === 'Hyv.') {
+    return 8
+  } else if (grade === 'HT') {
+    return 7
+  } else if (grade === 'TT') {
+    return 6
   }
+  return 8
 }
 
 const checkPassed = (grade) => {

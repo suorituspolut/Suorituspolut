@@ -62,7 +62,19 @@ const graduatedStudents = (data) => {
   return students
 }
 
+const coursesOfOneStudent = (studentNumber, data) => {
+  data.shift()
+  let courses = []
+  data.forEach((credit) => {
+    if (credit.studentId === studentNumber) {
+      courses = [...courses, credit.course]
+    }
+  })
+  return courses
+}
+
 module.exports = {
   studentObjects,
   graduatedStudents,
+  coursesOfOneStudent,
 }

@@ -214,10 +214,12 @@ const getRoadToSuccessData = async (req, res) => {
   const array = []
   let course = 'Ohjelmoinnin perusteet'
   let uniqueness = 'all'
+  let year = 2017
 
   if (req.params.course !== null) {
     course = req.params.course
     uniqueness = req.params.uniqueness
+    year = req.params.year
   }
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
@@ -233,7 +235,7 @@ const getRoadToSuccessData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(roadToSuccessObjects(array, course, uniqueness))
+    res.send(roadToSuccessObjects(array, year, course, uniqueness))
   })
   await fs.createReadStream(file).pipe(parser)
 }

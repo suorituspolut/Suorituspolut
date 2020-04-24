@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
+// eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
 import { Icon } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
@@ -42,22 +43,6 @@ const Bubbles = () => {
     setBubbleAmount(value)
     handleSearch(year, grade, value)
   }
-
-  const printOutBubbles = () => {
-    if (data.length > 0) {
-      return (
-        <div>
-          <HighchartsReact
-            highcharts={Highcharts}
-            constructorType="chart"
-            options={options}
-          />
-        </div>
-      )
-    }
-    return <p><Icon loading name="spinner" size="big" /></p>
-  }
-
 
   const options = {
     chart: {
@@ -121,6 +106,21 @@ const Bubbles = () => {
       },
     },
     series: data,
+  }
+
+  const printOutBubbles = () => {
+    if (data.length > 0) {
+      return (
+        <div>
+          <HighchartsReact
+            highcharts={Highcharts}
+            constructorType="chart"
+            options={options}
+          />
+        </div>
+      )
+    }
+    return <p><Icon loading name="spinner" size="big" /></p>
   }
 
   return (
