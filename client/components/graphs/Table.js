@@ -4,8 +4,6 @@ import { randomKey } from '../../util/units'
 
 const SimpleTable = ({ data, course, highlight, setHighlight }) => {
 
-
-
   if (data.length > 1) {
     const gradeNames = data.map((gradeArray) => {
       if (gradeArray.courses.length > 0) return gradeArray.name

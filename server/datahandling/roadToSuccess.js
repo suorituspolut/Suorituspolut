@@ -125,7 +125,6 @@ const percentagesForCourses = (byGrades, topTenOfAll) => {
 const dataWithCorrectGradeRange = (grades) => {
   const totalAmount = grades[10].totalAmount
   const totalAccepted = grades[9].totalAmount
-
   if (grades[1].totalAmount > 0 || grades[5].totalAmount > 0) {
     return [
       {
@@ -219,6 +218,59 @@ const dataWithCorrectGradeRange = (grades) => {
         y: grades[8].totalAmount / totalAmount,
         courses: grades[8].courses,
         color: '#4e4c6b',
+      },
+    ]
+  }
+  if (grades[15].totalAmount > 0) {
+    return [
+      {
+        name: 'Kaikki',
+        totalAmount: grades[10].totalAmount,
+        y: grades[10].totalAmount / totalAmount,
+        courses: grades[10].courses,
+        color: '#1675db'
+      },
+      {
+        name: 'LUB',
+        totalAmount: grades[11].totalAmount,
+        y: grades[11].totalAmount / totalAmount,
+        courses: grades[11].courses,
+        color: '#ff5454',
+      },
+      {
+        name: 'NSLA',
+        totalAmount: grades[12].totalAmount,
+        y: grades[12].totalAmount / totalAmount,
+        courses: grades[12].courses,
+        color: '#e3cd9a',
+      },
+      {
+        name: 'CL',
+        totalAmount: grades[13].totalAmount,
+        y: grades[13].totalAmount / totalAmount,
+        courses: grades[13].courses,
+        color: '#e39e30',
+      },
+      {
+        name: 'MCLA',
+        totalAmount: grades[14].totalAmount,
+        y: grades[14].totalAmount / totalAmount,
+        courses: grades[14].courses,
+        color: '#554fa8',
+      },
+      {
+        name: 'ECLA',
+        totalAmount: grades[15].totalAmount,
+        y: grades[15].totalAmount / totalAmount,
+        courses: grades[15].courses,
+        color: '#6ad5fc',
+      },
+      {
+        name: 'L',
+        totalAmount: grades[16].totalAmount,
+        y: grades[16].totalAmount / totalAmount,
+        courses: grades[16].courses,
+        color: '#15d167',
       },
     ]
   }
