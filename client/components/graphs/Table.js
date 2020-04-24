@@ -1,7 +1,10 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
+import { randomKey } from '../../util/units'
 
 const SimpleTable = ({ data, course, highlight, setHighlight }) => {
+
+
 
   if (data.length > 1) {
     const gradeNames = data.map((gradeArray) => {
@@ -32,26 +35,26 @@ const SimpleTable = ({ data, course, highlight, setHighlight }) => {
 
     return (
       <>
-        <h4>Ennen kurssia {course}, opiskelijat ovat käyneet:</h4>
+        <h4>Ennen kurssia "{course}", opiskelijat ovat käyneet:</h4>
         <Table className="ui table">
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Aiempi kurssi</Table.HeaderCell>
               {existingGrades.map((grade) => {
-                if (highlight === grade) return <Table.HeaderCell key={grade} className="highlighted-cell" onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
-                return <Table.HeaderCell onClick={() => setHighlight(grade)} key={grade}>{grade}</Table.HeaderCell>
+                if (highlight === grade) return <Table.HeaderCell key={randomKey()} className="highlighted-cell" onClick={() => setHighlight(grade)} key={randomKey()}>{grade}</Table.HeaderCell>
+                return <Table.HeaderCell onClick={() => setHighlight(grade)} key={randomKey()}>{grade}</Table.HeaderCell>
               })}
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {table.map(course => (
-              <Table.Row key={course.course}>
-                <Table.Cell>
+              <Table.Row key={randomKey()}>
+                <Table.Cell key={randomKey()}>
                   <b>{course.course}</b>
                 </Table.Cell>
                 {existingGrades.map((name) => {
-                  if (highlight === name) return <Table.Cell key={name} className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
-                  return <Table.Cell>{course[name]}%</Table.Cell>
+                  if (highlight === name) return <Table.Cell key={randomKey()} className="highlighted-cell"><b>{course[name]}%</b></Table.Cell> 
+                  return <Table.Cell key={randomKey()}>{course[name] ? course[name] : 0} %</Table.Cell>
                 })}
               </Table.Row>
             ))}

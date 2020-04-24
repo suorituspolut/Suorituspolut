@@ -1,5 +1,5 @@
 import React from 'react'
-import { createNumberOptions, createTextOptions, grades, terms } from '../../util/units'
+import { createNumberOptions, createTextOptions, createYearsWithAll, grades, terms } from '../../util/units'
 import Filter from './Filter'
 
 
@@ -15,12 +15,14 @@ const FilterBar = ({ courses,
   selectedLevels,
   selectedBubbles,
   selectedMaxYear,
+  yearWithAll,
   year,
   studyYear,
   term,
   handleStudyYearChange,
   handleMaxYearChange,
   handleTermChange }) => {
+
 
   return (
     <table className="ui four very basic table filter-container">
@@ -31,7 +33,7 @@ const FilterBar = ({ courses,
               label="Suoritusvuosi"
               handleChange={handleYearChange}
               value={selectedYear}
-              options={createNumberOptions(2013, 2020).reverse()}
+              options={createNumberOptions(2013, 2020, yearWithAll).reverse()}
               placeholder="2019"
             />
           ) : null}

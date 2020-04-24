@@ -70,10 +70,10 @@ export const getHistoDataMany = (subset, sorting) => {
   return xmlHttp.responseText
 }
 
-export const getRoadToSuccess = (course, uniqueness) => {
+export const getRoadToSuccess = (year, course, uniqueness) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open( 'GET', `http://localhost:8000/api/rts/${course}/${uniqueness}`, false)
+    xmlHttp.open( 'GET', `http://localhost:8000/api/rts/${year}/${course}/${uniqueness}`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
