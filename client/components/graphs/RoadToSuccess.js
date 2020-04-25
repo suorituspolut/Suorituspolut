@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Radio } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import Table from './Table'
@@ -14,14 +14,15 @@ const RTS = ({ courses }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [year, setYear] = useState(2017)
   const [data, setData] = useState([])
+  const [uniqueness, setUniqueness] = useState('unique')
 
   useEffect(() => {
-    setData(JSON.parse(getRoadToSuccess(year, course, 'unique')))
+    setData(JSON.parse(getRoadToSuccess(year, course, uniqueness)))
   }, [])
 
-  const handleSearch = (course, year) => {
+  const handleSearch = (course, year, uniqueness) => {
     try {
-      setData(JSON.parse(getRoadToSuccess(year, course, 'unique')))
+      setData(JSON.parse(getRoadToSuccess(year, course, uniqueness)))
     } catch (err) {
       console.log(err)
     }
@@ -36,10 +37,18 @@ const RTS = ({ courses }) => {
     handleSearch(course, value)
   }
 
+  const handleUniquenessChange = (e, { value }) => {
+    setUniqueness(value)
+    handleSearch(course, year, value)
+  }
 
   return (
     <div>
       <Headline text="Arvosanajakauma kursseittain - Mitä kursseja opiskelijat ovat käyneet ennen tiettyä arvosanaa?"/>
+      <div className="rts-radio-container">
+        <Radio className="radiobutton" label="Opiskelijan paras suoritus" checked={uniqueness === 'unique'} value="unique" onChange={handleUniquenessChange} />
+        <Radio className="radiobutton" label="Kaikki suoritukset" checked={uniqueness === 'all'} value="all" onChange={handleUniquenessChange} />
+      </div>
       <FilterBar
         selectedCourse={course}
         courses={courses}

@@ -1,7 +1,7 @@
 {
-  "name": "toskaboiler",
+  "name": "suorituspolut",
   "version": "1.0.0",
-  "description": "Boilerplate for future toska frontend projects",
+  "description": "An application for showing course data",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

@@ -3,7 +3,12 @@ const { dataByGrade, gradeToNumber, whichHasBetterGrade } = require('@root/serve
 
 const roadToSuccessObjects = (data, year, course, uniqueness) => {
   const allStudents = studentObjects(data)
-  const studentsWithCourse = uniqueCoursesEarlier(allStudents, year, course)
+  let studentsWithCourse = []
+  if (uniqueness === 'unique') {
+    studentsWithCourse = uniqueCoursesEarlier(allStudents, year, course)
+  } else {
+    studentsWithCourse = allCoursesEarlier(allStudents, year, course)
+  }
   const byGrades = coursesByGrades(studentsWithCourse)
   const topTen = topTenCourses(byGrades[10].courses)
   const percentagesForGrades = percentagesForCourses(byGrades, topTen)
@@ -54,6 +59,25 @@ const getUniqueEarlierCourses = (credits, chosenDate) => {
     unique.push(credit)
   })
   return unique
+}
+
+const allCoursesEarlier = (students, year, startCourse) => {
+  const studentList = []
+  students.forEach((student) => {
+    let searched = null
+    let earlierCourses = []
+    student.courses.forEach((credit) => {
+      if (credit.course === startCourse && (credit.date.getFullYear() === Number(year) || year === 'Kaikki')) {
+        searched = credit
+      }
+      if (searched) {
+        earlierCourses = getUniqueEarlierCourses(student.courses, searched.date)
+        studentList.push({ searched, earlierCourses })
+      }
+      searched = null
+    })
+  })
+  return studentList
 }
 
 const coursesByGrades = (students) => {

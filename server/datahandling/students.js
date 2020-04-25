@@ -28,11 +28,6 @@ const studentObjects = (data) => {
   student.courses = courses
   students = [...students, student]
 
-
-  //add a mock student into dataset
-  mockStudent.courses.sort((credit1, credit2) => credit1.date - credit2.date)
-  students = [...students, mockStudent]
-
   return students
 }
 
