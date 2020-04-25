@@ -145,7 +145,6 @@ const Histograms = ({ courses, howMany }) => {
       {howMany !== 1
         ? (
           <>
-
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="radio-container">
               <Form>

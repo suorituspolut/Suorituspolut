@@ -22,13 +22,13 @@ const courseHistoArray = (students, course) => {
           if (time < 50) {
             histogramArray[time]++
             sum++
-          }  
+          }
         }
       })
     }  
   })
 
-  return { course, histogramArray, sum}
+  return { course, histogramArray, sum }
 }
 
 const histogramObjects = (data, course, subset, sorting) => {
