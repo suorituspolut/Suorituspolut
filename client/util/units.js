@@ -1,8 +1,9 @@
 export const createNumberOptions = (start, end, all) => {
-  const array = new Array(end - start)
+  let startPos = start
+  const array = new Array(end - startPos)
   for (let i = 0; i < array.length; i++) {
-    array[i] = { key: start, value: start, text: start }
-    start++
+    array[i] = { key: startPos, value: startPos, text: startPos }
+    startPos++
   }
   if (all) {
     array.push({ key: 'Kaikki', value: 'Kaikki', text: 'Kaikki' })
