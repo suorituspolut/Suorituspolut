@@ -3,7 +3,7 @@ const { ApplicationError } = require('@util/customErrors')
 /**
  * Simple example for backend
  */
-let messages = ["message1","message2"]
+let messages = ['message1', 'message2']
 let simpleId = 0
 
 const getAll = async (req, res) => {

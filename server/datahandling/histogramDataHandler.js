@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { mandatoryCourses, mathCourses, csCourses } = require('@root/server/datahandling/courses')
 const { studentObjects } = require('@root/server/datahandling/students')
@@ -25,42 +26,19 @@ const courseHistoArray = (students, course) => {
           }
         }
       })
-    }  
+    }
   })
 
   return { course, histogramArray, sum }
 }
 
-const histogramObjects = (data, course, subset, sorting) => {
-  const students = studentObjects(data)
-
-  if (course) {
-    return courseHistoArray(students, course)
-  }
-
-  let histogramList = []
-  let courses = mandatoryCourses
-  if (subset === 'mathCourses') courses = mathCourses
-  if (subset === 'csCourses') courses = csCourses
-
-  courses.forEach((course) => {
-    const courseHistogramArray = courseHistoArray(students, course)
-    if (courseHistogramArray.sum > 20) {
-      histogramList = [...histogramList, courseHistogramArray]
-    }
+const calculateMedian = (array) => {
+  let sum = 0
+  array.forEach((x) => {
+    sum += x
   })
 
-  if (sorting === 'endHeavy') {
-    return sortByModeEndHeavy(histogramList)
-  }
-  if (sorting === 'deviation') {
-    return sortByStandardDeviation(histogramList)
-  }
-  if (sorting === 'deviationReverse') {
-    return sortByStandardDeviationReverse(histogramList)
-  }
-
-  return sortByModeStartHeavy(histogramList)
+  return (sum / array.length)
 }
 
 const sortByModeEndHeavy = (histogramList) => {
@@ -113,13 +91,36 @@ const sortByStandardDeviationReverse = (histogramList) => {
   return histogramList.sort((histoObject1, histoObject2) => histoObject2.deviation - histoObject1.deviation)
 }
 
-const calculateMedian = (array) => {
-  let sum = 0
-  array.forEach((x) => {
-    sum += x
+const histogramObjects = (data, course, subset, sorting) => {
+  const students = studentObjects(data)
+
+  if (course) {
+    return courseHistoArray(students, course)
+  }
+
+  let histogramList = []
+  let courses = mandatoryCourses
+  if (subset === 'mathCourses') courses = mathCourses
+  if (subset === 'csCourses') courses = csCourses
+
+  courses.forEach((course) => {
+    const courseHistogramArray = courseHistoArray(students, course)
+    if (courseHistogramArray.sum > 20) {
+      histogramList = [...histogramList, courseHistogramArray]
+    }
   })
 
-  return (sum / array.length)
+  if (sorting === 'endHeavy') {
+    return sortByModeEndHeavy(histogramList)
+  }
+  if (sorting === 'deviation') {
+    return sortByStandardDeviation(histogramList)
+  }
+  if (sorting === 'deviationReverse') {
+    return sortByStandardDeviationReverse(histogramList)
+  }
+
+  return sortByModeStartHeavy(histogramList)
 }
 
 module.exports = {
