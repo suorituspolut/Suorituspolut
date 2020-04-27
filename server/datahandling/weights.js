@@ -1,5 +1,9 @@
+/* eslint-disable no-param-reassign */
+const byWeights = (credit1, credit2) => credit2[2] - credit1[2]
+
 // What: returns an array of highchart-objects where the weights of similar paths have been counted together
 // Takes in: an array of highchart-objects with a weight of 1
+
 const addWeights = (credits) => {
   const courseSet = new Map()
   let weightedCredits = []
@@ -27,17 +31,29 @@ const addWeights = (credits) => {
   return weightedCredits
 }
 
-const byWeights = (credit1, credit2) => credit2[2]-credit1[2]
+const findBiggestCourses = (mapOfWeights, amount) => {
+  let array = []
+
+  mapOfWeights.forEach((weight, course) => {
+    array = [...array, { course, weight }]
+  })
+
+  array.sort((a, b) => b.weight - a.weight)
+  array = array.slice(0, amount)
+  array = array.map(c => c.course)
+
+  return array
+}
 
 const othersCategoryFirsts = (weightedCredits, levels) => {
-  let others = 7
+  const others = 7
   const separatedByLevel = new Map()
   let keepList = []
 
   weightedCredits.forEach((credit) => {
     const thisLevel = Number(credit[0][0])
     let array = []
-    if(separatedByLevel.has(thisLevel)) {
+    if (separatedByLevel.has(thisLevel)) {
       array = separatedByLevel.get(thisLevel)
     }
     array = [...array, credit]
@@ -106,7 +122,7 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
       previousLevel = addWeights(previousLevel)
     }
 
-    if ( level === levels - 1) {
+    if (level === levels - 1) {
       keepList = findBiggestCourses(toWeight, others)
 
       array.forEach((highChartObject) => {
@@ -116,28 +132,11 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
       })
       array = addWeights(array)
     }
-
-
   })
 
 
   return addWeights(weightedCredits)
 }
-
-const findBiggestCourses = (mapOfWeights, amount) => {
-  let array = []
-
-  mapOfWeights.forEach((weight, course) => {
-    array = [...array, { course, weight }]
-  })
-
-  array.sort((a, b) => b.weight - a.weight)
-  array = array.slice(0, amount)
-  array = array.map(c => c.course)
-
-  return array
-}
-
 
 // What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
 // Takes in: an array of highchart-objects of a single period-level, the orig. starting course, and amount of categories wanted in total
@@ -146,10 +145,8 @@ const separateOthersCategory = (weightedCredits, startingCourse, amount) => {
   const others = weightedCredits.filter(array => weightedCredits.indexOf(array) >= amount)
 
   if (weightedCredits.length >= 7) {
-    const totalWeightsOfOthers = others.reduce((sum, course) => {
-      return sum + course[2]
-    }, 0)
-    arrayWithOthers = [...arrayWithOthers, [startingCourse, "Muut", totalWeightsOfOthers]] 
+    const totalWeightsOfOthers = others.reduce((sum, course) => sum + course[2], 0)
+    arrayWithOthers = [...arrayWithOthers, [startingCourse, 'Muut', totalWeightsOfOthers]]
   }
   return arrayWithOthers
 }
@@ -194,9 +191,7 @@ const separateOthersCategoryBubble = (weightedCredits, amount) => {
   const others = weightedCredits.filter(array => weightedCredits.indexOf(array) >= amount)
 
   if (weightedCredits.length >= amount) {
-    const totalWeightsOfOthers = others.reduce((sum, course) => {
-      return sum + course[1]
-    }, 0)
+    const totalWeightsOfOthers = others.reduce((sum, course) => sum + course[1], 0)
     arrayWithOthers = [...arrayWithOthers, ['Muut', totalWeightsOfOthers]]
   }
   return arrayWithOthers

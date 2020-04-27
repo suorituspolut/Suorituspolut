@@ -1,26 +1,12 @@
 const { checkGrade } = require('@root/server/datahandling/grades')
 const { toPeriod, isSamePeriod, nextPeriodOf } = require('@root/server/datahandling/periods')
 const { addWeights, separateOthersCategory, othersCategoryFirsts } = require('@root/server/datahandling/weights')
-const { countTheBiggestCourses } = require('@root/server/datahandling/courses')
 const { studentObjects } = require('@root/server/datahandling/students')
-
-// What: ties it all together for a normal graph
-// Takes in: an array of course credits, start course, wanted year of the starting course and the wanted grade
-const studentPaths = (data, year, startCourse, grade) => {
-  const students = studentObjects(data)
-  const arrays = highChartsObjects(students, startCourse, year, grade)
-  const arraysWithSummedWeights = addWeights(arrays)
-  const arraysWithOtherCategory = separateOthersCategory(arraysWithSummedWeights, startCourse, 9)
-  return arraysWithOtherCategory
-}
 
 // What: creates an array of highchart-objects with a starting course, ending course in next period and a weight of 1
 // Takes in: an array of students with their corresponding courses, starting course, year of the starting course, and grade
 // Special: if year is null, returns data of all years, if grade is null, returns data of all grades
-// täällä on nyt seassa tota mun pohdintaa, et millä vois pitää kirjaa siitä, et ketkä on ne opiskelijat, jotka on seuraavassa periodissa suorittanut sen klikattavan kurssin
-// pitää miettiä joku järkevämpi sijoitus sille myöhemmin
 const highChartsObjects = (data, startCourse, year, grade) => {
-
   let highChartsArrays = []
   const studentsWhoHaveDoneCreditcourse = new Map()
 
@@ -57,6 +43,16 @@ const highChartsObjects = (data, startCourse, year, grade) => {
   return highChartsArrays
 }
 
+// What: ties it all together for a normal graph
+// Takes in: an array of course credits, start course, wanted year of the starting course and the wanted grade
+const studentPaths = (data, year, startCourse, grade) => {
+  const students = studentObjects(data)
+  const arrays = highChartsObjects(students, startCourse, year, grade)
+  const arraysWithSummedWeights = addWeights(arrays)
+  const arraysWithOtherCategory = separateOthersCategory(arraysWithSummedWeights, startCourse, 9)
+  return arraysWithOtherCategory
+}
+
 const isCsStudent = (firstCourse) => {
   let isCsStudent = false
   if (firstCourse === 'Ohjelmoinnin perusteet'
@@ -83,7 +79,7 @@ const firstCourses = (data, year, levels, grade) => {
     let nextPeriodWithCredit = 0
     let periodHasChanged = false
 
-    if ( year === startPeriod.year && isCsStudent(firstCourse.course) && checkGrade(grade, firstCourse.grade)) {
+    if (year === startPeriod.year && isCsStudent(firstCourse.course) && checkGrade(grade, firstCourse.grade)) {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
         if (level >= levels) {

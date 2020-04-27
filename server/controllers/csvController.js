@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
@@ -23,7 +24,6 @@ const getSankeyNormal = async (req, res) => {
     course = req.params.course
     grade = req.params.grade
   }
-
 
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
@@ -118,7 +118,6 @@ const getStudyData = async (req, res) => {
     allStudies.shift()
     const studies = [...new Set(allStudies)]
     res.send(studies)
-    //res.send(array)
   })
 
   await fs.createReadStream(file2).pipe(parser)

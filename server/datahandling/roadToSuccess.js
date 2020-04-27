@@ -1,19 +1,27 @@
 const { studentObjects } = require('@root/server/datahandling/students')
 const { dataByGrade, gradeToNumber, whichHasBetterGrade } = require('@root/server/datahandling/grades')
 
-const roadToSuccessObjects = (data, year, course, uniqueness) => {
-  const allStudents = studentObjects(data)
-  let studentsWithCourse = []
-  if (uniqueness === 'unique') {
-    studentsWithCourse = uniqueCoursesEarlier(allStudents, year, course)
-  } else {
-    studentsWithCourse = allCoursesEarlier(allStudents, year, course)
-  }
-  const byGrades = coursesByGrades(studentsWithCourse)
-  const topTen = topTenCourses(byGrades[10].courses)
-  const percentagesForGrades = percentagesForCourses(byGrades, topTen)
-  const dataWithCorrectRange = dataWithCorrectGradeRange(percentagesForGrades)
-  return dataWithCorrectRange
+const getUniqueEarlierCourses = (credits, chosenDate) => {
+  const earlierCourses = new Map()
+  const unique = []
+
+  credits.forEach((credit) => {
+    let creditToAdd = {}
+    if (credit.date < chosenDate) {
+      if (!earlierCourses.has(credit.course)) {
+        earlierCourses.set(credit.course, credit)
+      } else if (earlierCourses.has(credit.course)) {
+        creditToAdd = whichHasBetterGrade(earlierCourses.get(credit.course), credit)
+        earlierCourses.delete(credit.course)
+        earlierCourses.set(credit.course, creditToAdd)
+      }
+    }
+  })
+
+  earlierCourses.forEach((credit) => {
+    unique.push(credit)
+  })
+  return unique
 }
 
 const uniqueCoursesEarlier = (students, year, startCourse) => {
@@ -35,30 +43,6 @@ const uniqueCoursesEarlier = (students, year, startCourse) => {
     }
   })
   return studentList
-}
-
-
-const getUniqueEarlierCourses = (credits, chosenDate) => {
-  const earlierCourses = new Map()
-  const unique = []
-
-  credits.forEach((credit) => {
-    let creditToAdd = {}
-    if (credit.date < chosenDate) {
-      if (!earlierCourses.has(credit.course)) {
-        earlierCourses.set(credit.course, credit)
-      } else if (earlierCourses.has(credit.course)) {
-        creditToAdd = whichHasBetterGrade(earlierCourses.get(credit.course), credit)
-        earlierCourses.delete(credit.course)
-        earlierCourses.set(credit.course, creditToAdd)
-      }
-    }
-  })
-
-  earlierCourses.forEach((credit, course) => {
-    unique.push(credit)
-  })
-  return unique
 }
 
 const allCoursesEarlier = (students, year, startCourse) => {
@@ -147,7 +131,7 @@ const percentagesForCourses = (byGrades, topTenOfAll) => {
 }
 
 const dataWithCorrectGradeRange = (grades) => {
-  const totalAmount = grades[10].totalAmount
+  const { totalAmount } = grades[10]
   const totalAccepted = grades[9].totalAmount
   if (grades[1].totalAmount > 0 || grades[5].totalAmount > 0) {
     return [
@@ -156,7 +140,7 @@ const dataWithCorrectGradeRange = (grades) => {
         totalAmount: grades[10].totalAmount,
         y: grades[10].totalAmount / totalAmount,
         courses: grades[10].courses,
-        color: '#1675db'
+        color: '#1675db',
       },
       {
         name: 'Hylätty',
@@ -187,7 +171,7 @@ const dataWithCorrectGradeRange = (grades) => {
         totalAmount: grades[4].totalAmount,
         y: grades[4].totalAmount / totalAmount,
         courses: grades[4].courses,
-        color: '#6ad5fc',         
+        color: '#6ad5fc',
       },
       {
         name: 'Arvosana: 5',
@@ -200,27 +184,26 @@ const dataWithCorrectGradeRange = (grades) => {
         name: 'Hyväksilukeneet',
         totalAmount: grades[8].totalAmount,
         y: grades[8].totalAmount / totalAmount,
-        courses: grades[8].courses, 
+        courses: grades[8].courses,
         color: '#e3cd9a',
       },
     ]
   }
   if (grades[7].totalAmount > 0) {
-
     return [
       {
         name: 'Kaikki',
         totalAmount: grades[10].totalAmount,
         y: grades[10].totalAmount / totalAmount,
         courses: grades[10].courses,
-        color: '#1675db'
+        color: '#1675db',
       },
       {
         name: 'Hylätty',
         totalAmount: grades[0].totalAmount,
         y: grades[0].totalAmount / totalAmount,
         courses: grades[0].courses,
-        color: '#1d1e1f' 
+        color: '#1d1e1f',
       },
       {
         name: 'Tyydyttävät taidot',
@@ -252,7 +235,7 @@ const dataWithCorrectGradeRange = (grades) => {
         totalAmount: grades[10].totalAmount,
         y: grades[10].totalAmount / totalAmount,
         courses: grades[10].courses,
-        color: '#1675db'
+        color: '#1675db',
       },
       {
         name: 'LUB',
@@ -321,6 +304,21 @@ const dataWithCorrectGradeRange = (grades) => {
       color: '#1d1e1f',
     },
   ]
+}
+
+const roadToSuccessObjects = (data, year, course, uniqueness) => {
+  const allStudents = studentObjects(data)
+  let studentsWithCourse = []
+  if (uniqueness === 'unique') {
+    studentsWithCourse = uniqueCoursesEarlier(allStudents, year, course)
+  } else {
+    studentsWithCourse = allCoursesEarlier(allStudents, year, course)
+  }
+  const byGrades = coursesByGrades(studentsWithCourse)
+  const topTen = topTenCourses(byGrades[10].courses)
+  const percentagesForGrades = percentagesForCourses(byGrades, topTen)
+  const dataWithCorrectRange = dataWithCorrectGradeRange(percentagesForGrades)
+  return dataWithCorrectRange
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 
-// What: Maps a date of a credit into a period-object, with a period number between 1-5 and the year 
+// What: Maps a date of a credit into a period-object, with a period number between 1-5 and the year
 // Takes in: a date-object of the credit
 // boundaries at the moment (may need to be fixed later):
 // period 1: 23.9.-17.11.
@@ -32,44 +32,50 @@ const toPeriod = (date) => {
 }
 
 const timeBetween = (startDate, endDate) => {
-  let start = toPeriod(startDate)
-  let end = toPeriod(endDate)
+  const start = toPeriod(startDate)
+  const end = toPeriod(endDate)
   if (start.year === end.year) {
     return end.period
-  } else if (start.year + 1 === end.year){
+  } if (start.year + 1 === end.year) {
     return 5 + end.period
-  } else if (start.year + 2 === end.year){
+  } if (start.year + 2 === end.year) {
     return 10 + end.period
-  } else if (start.year + 3 === end.year){
+  } if (start.year + 3 === end.year) {
     return 15 + end.period
-  } else if (start.year + 4 === end.year){
+  } if (start.year + 4 === end.year) {
     return 20 + end.period
-  } else if (start.year + 5 === end.year){
+  } if (start.year + 5 === end.year) {
     return 25 + end.period
-  } else if (start.year + 6 === end.year){
+  } if (start.year + 6 === end.year) {
     return 30 + end.period
-  } 
+  }
   return 49
+}
+
+const isSamePeriod = (period1, period2) => {
+  if (period1.year !== period2.year) return false
+  if (period1.period === period2.period) return true
+  return false
 }
 
 const periodToYearEnd = (period) => {
   const p = period.period
-  if(p === 2) return 0
-  if(p === 1) return 1
-  if(p === 5) return 2
-  if(p === 4) return 3
-  return 4 
+  if (p === 2) return 0
+  if (p === 1) return 1
+  if (p === 5) return 2
+  if (p === 4) return 3
+  return 4
 }
 
 const periodToTerm = (period) => {
   if (period === 1 || period === 2) {
     return 'Syksy'
-  } else if (period === 3 || period === 4) {
+  } if (period === 3 || period === 4) {
     return 'Kevät'
-  } else return 'Kesä'
+  } return 'Kesä'
 }
 const periodsToClosestYear = (amount) => {
-  let remainder = amount % 5
+  const remainder = amount % 5
 
   return amount - remainder
 }
@@ -78,16 +84,13 @@ const periodsBetweenTwoDates = (date1, date2) => {
   const start = toPeriod(date1)
   const end = toPeriod(date2)
 
-  if(isSamePeriod(start, end)) return 0
+  if (isSamePeriod(start, end)) return 0
 
-  if(end.year - start.year === 0) {
-    if(end.period > start.period) return end.period - start.period
+  if (end.year - start.year === 0) {
+    if (end.period > start.period) return end.period - start.period
     return (5 - start.period) + end.period
-  } else {
-    return periodToYearEnd(start) + ((end.year - start.year - 1) * 5) + (5 - periodToYearEnd(end))
   }
-  
-  return 100
+  return periodToYearEnd(start) + ((end.year - start.year - 1) * 5) + (5 - periodToYearEnd(end))
 }
 
 // What: finds out the next period for another period-object, works year-around, returns an object
@@ -106,15 +109,7 @@ const nextPeriodOf = (periodObject) => {
   return nextPeriod
 }
 
-const isSamePeriod = (period1, period2) => {
-  if (period1.year !== period2.year) return false
-  if (period1.period === period2.period) return true
-  return false
-}
-
-const dataByYear = (data, year) => {
-  return data.filter(credit => credit.date.getFullYear() === year)
-}
+const dataByYear = (data, year) => data.filter(credit => credit.date.getFullYear() === year)
 
 
 module.exports = {
