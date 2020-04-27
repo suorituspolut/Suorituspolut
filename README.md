@@ -34,6 +34,19 @@ The road to success contains a pie chart that displays the grade distribution of
 The frontend is made using React, the backend uses Node.js, and the application is deployed with Docker.  
 React library Highcharts is used to draw diagrams to help with visualization.
 
+## Installing the application
+
+**In order to use the project, you'll need a dataset that contains information of studies.**
+
+### Installation steps
+
+- Clone the project repository: 
+`git clone https://github.com/suorituspolut/Suorituspolut`
+- Navigate to the cloned repository, and install dependencies with `npm install`  
+
+Application can be launched with `npm start`  
+Linter can be run with `npm run lint`
+
 ## Documentation
 [![CircleCI](https://circleci.com/gh/suorituspolut/Suorituspolut.svg?style=svg)](https://circleci.com/gh/suorituspolut/Suorituspolut)
 [![codecov](https://codecov.io/gh/suorituspolut/Suorituspolut/branch/master/graph/badge.svg)](https://codecov.io/gh/suorituspolut/Suorituspolut)
