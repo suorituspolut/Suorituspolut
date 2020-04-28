@@ -46,6 +46,7 @@ const getSankeyNormal = async (req, res) => {
 
 const getSankeyFirsts = async (req, res) => {
   const array = []
+  const studyrights = []
   let year = 2017
   let levels = 4
   let grade = 'Kaikki'
@@ -62,22 +63,52 @@ const getSankeyFirsts = async (req, res) => {
     grade = req.params.grade
   }
 
-  const parser = parse({ delimiter: ';' }, (err, data) => {
-    if (!data) return
-    data.forEach((credit) => {
-      const newCourse = {
-        studentId: credit[0],
-        courseId: credit[1],
-        course: credit[2],
-        isModule: credit[3],
-        date: new Date(credit[4]),
-        grade: credit[5],
-      }
-      array.push(newCourse)
-    })
-    res.send(firstCourses(array, year, levels, grade))
+
+  const promise = new Promise((resolve) => {
+    fs.createReadStream(file2)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (data) => {
+        const studyright = {
+          id: data[0],
+          trackcode: data[1],
+          studytrack: data[2],
+        }
+        studyrights.push(studyright)
+      })
+      .on('end', () => {
+        resolve()
+      })
   })
-  await fs.createReadStream(file).pipe(parser)
+
+  const promise2 = new Promise((resolve) => {
+    fs.createReadStream(file)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (credit) =>  {
+        const newCourse = {
+          studentId: credit[0],
+          courseId: credit[1],
+          course: credit[2],
+          isModule: credit[3],
+          date: new Date(credit[4]),
+          grade: credit[5],
+        }
+        array.push(newCourse)
+      })
+      .on('end', () => {
+        resolve()
+      })
+  })
+
+
+  Promise.all([
+    promise,
+    promise2,
+  ]).then(() => {
+    res.send(firstCourses(array, studyrights, year, levels, grade))
+  })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 const getCourses = async (req, res) => {
