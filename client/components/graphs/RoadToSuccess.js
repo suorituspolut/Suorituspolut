@@ -21,6 +21,7 @@ const RTS = ({ courses }) => {
   }, [])
 
   const handleSearch = (course, year, uniqueness) => {
+    console.log(uniqueness)
     try {
       setData(JSON.parse(getRoadToSuccess(year, course, uniqueness)))
     } catch (err) {
@@ -29,12 +30,12 @@ const RTS = ({ courses }) => {
   }
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(value, year)
+    handleSearch(value, year, uniqueness)
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(course, value)
+    handleSearch(course, value, uniqueness)
   }
 
   const handleUniquenessChange = (e, { value }) => {
