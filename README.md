@@ -49,7 +49,6 @@ Linter can be run with `npm run lint`
 
 ## Documentation
 [![CircleCI](https://circleci.com/gh/suorituspolut/Suorituspolut.svg?style=svg)](https://circleci.com/gh/suorituspolut/Suorituspolut)
-[![codecov](https://codecov.io/gh/suorituspolut/Suorituspolut/branch/master/graph/badge.svg)](https://codecov.io/gh/suorituspolut/Suorituspolut)
 
 [Product backlog](https://docs.google.com/spreadsheets/d/1LwSKeKnjF9BILT-SWq7dcVWEsRqqfTetZ7wfIkhxkG0/edit#gid=0)
 
