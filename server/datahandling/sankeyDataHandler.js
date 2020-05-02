@@ -53,19 +53,17 @@ const studentPaths = (data, year, startCourse, grade) => {
   return arraysWithOtherCategory
 }
 
-const isCsStudent = (firstCourse) => {
+const isCsStudent = (studentId, studyrights) => {
   let isCsStudent = false
-  if (firstCourse === 'Ohjelmoinnin perusteet'
-    || firstCourse === 'Ohjelmoinnin jatkokurssi'
-    || firstCourse === 'Tietokone työvälineenä') {
-    isCsStudent = true
-  }
+  const right = studyrights.find(right => right.id === studentId)
+  if (right.studytrack === 'Tietojenkäsittelytieteen koulutusohjelma') isCsStudent = true
 
   return isCsStudent
 }
+
 // Creates a highcharts-array of the studentpaths taking into account all credits in each students starting period
 // Takes in: an array of credits and starting year
-const firstCourses = (data, year, levels, grade) => {
+const firstCourses = (data, studytrackData, year, levels, grade) => {
   const students = studentObjects(data)
   let highChartsArrays = []
   let fromCourses = []
@@ -79,7 +77,7 @@ const firstCourses = (data, year, levels, grade) => {
     let nextPeriodWithCredit = 0
     let periodHasChanged = false
 
-    if (year === startPeriod.year && isCsStudent(firstCourse.course) && checkGrade(grade, firstCourse.grade)) {
+    if (year === startPeriod.year && isCsStudent(student.studentNumber, studytrackData) && checkGrade(grade, firstCourse.grade)) {
       student.courses.forEach((course) => {
         const periodOfCourse = toPeriod(course.date)
         if (level >= levels) {
