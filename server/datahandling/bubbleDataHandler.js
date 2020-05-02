@@ -4,7 +4,6 @@ const { checkGrade } = require('@root/server/datahandling/grades')
 
 
 const bubbleData = (data, year, grade, bubbles) => {
-
   const chartData = [
     {
       name: '1. periodi',

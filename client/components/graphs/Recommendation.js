@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Radio } from 'semantic-ui-react'
+import { Table, Radio, Icon } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import { getRecommendations } from '../../util/redux/dataReducer'
 
@@ -52,7 +52,12 @@ const Recommendation = () => {
     if (handledData.length > 10) handledData = handledData.slice(0, 10)
     return (
       <Table.Body>
-        {data.map(course => <Table.Row key={course[0]}><Table.Cell>{course[0]}</Table.Cell><Table.Cell></Table.Cell></Table.Row>)}
+        {data.map(course => (
+          <Table.Row key={course[0]}>
+            <Table.Cell>{course[0]}</Table.Cell>
+            <Table.Cell></Table.Cell>
+          </Table.Row>
+        ))}
       </Table.Body>
     )
   }
@@ -75,7 +80,10 @@ const Recommendation = () => {
             <Table.Row>
               <Table.HeaderCell>{tableHeader}</Table.HeaderCell>
               { signedIn ? (
-                <Table.HeaderCell textAlign='right'>Matti Malli, opiskelijanumero: {studentNumber}</Table.HeaderCell>
+                <Table.HeaderCell textAlign="right">
+                  Matti Malli, opiskelijanumero:
+                  {studentNumber}
+                </Table.HeaderCell>
               ) : <Table.HeaderCell></Table.HeaderCell>}
             </Table.Row>
           </Table.Header>
@@ -85,7 +93,12 @@ const Recommendation = () => {
     )
   }
 
-  return <p>Lataillaan</p>
+  return (
+    <p>
+      <br />
+      <Icon loading name="spinner" size="big" />
+    </p>
+  )
 }
 
 

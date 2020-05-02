@@ -11,9 +11,7 @@ export const createNumberOptions = (start, end, all) => {
   return array
 }
 
-export const createTextOptions = (array) => {
-  return array.map(item => ({ key: item, value: item, text: item }))
-}
+export const createTextOptions = array => array.map(item => ({ key: item, value: item, text: item }))
 
 export const grades = createTextOptions(['Läpäisseet', 'Hylätyt', '1', '2', '3', '4', '5'])
 

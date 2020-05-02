@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
+// eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
 import { Icon } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
