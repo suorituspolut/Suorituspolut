@@ -1,9 +1,23 @@
 const listOfCourses = (data) => {
   const allCourses = data.map(credit => credit.course)
   allCourses.shift()
-  const courses = [...new Set(allCourses)]
 
-  return courses
+  const coursesWithOver20Students = []
+
+  const courseSet = new Map()
+  allCourses.forEach((course) => {
+    if (!courseSet.has(course)) {
+      courseSet.set(course, 1)
+    } else {
+      courseSet.set(course, courseSet.get(course) + 1)
+    }
+  })
+  courseSet.forEach((amount, course) => {
+    if (amount >= 20) {
+      coursesWithOver20Students.push(course)
+    }
+  })
+  return coursesWithOver20Students
 }
 
 const mandatoryCourses = [

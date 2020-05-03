@@ -1,5 +1,22 @@
 const { studentObjects } = require('@root/server/datahandling/students')
 const { dataByGrade, gradeToNumber, whichHasBetterGrade } = require('@root/server/datahandling/grades')
+const { toPeriod, isEarlierPeriod } = require('@root/server/datahandling/periods')
+
+const roadToSuccessObjects = (data, year, course, uniqueness, studytrack, studyrights) => {
+
+  const allStudents = studentObjects(data, studyrights, studytrack)
+  let studentsWithCourse = []
+  if (uniqueness === 'unique') {
+    studentsWithCourse = uniqueCredits(allStudents, year, course)
+  } else {
+    studentsWithCourse = allCredits(allStudents, year, course)
+  }
+  const byGrades = coursesByGrades(studentsWithCourse)
+  const topTen = topTenCourses(byGrades[10].courses)
+  const percentagesForGrades = percentagesForCourses(byGrades, topTen)
+  const dataWithCorrectRange = dataWithCorrectGradeRange(percentagesForGrades)
+  return dataWithCorrectRange
+}
 
 const getUniqueEarlierCourses = (credits, chosenDate) => {
   const earlierCourses = new Map()
@@ -7,7 +24,7 @@ const getUniqueEarlierCourses = (credits, chosenDate) => {
 
   credits.forEach((credit) => {
     let creditToAdd = {}
-    if (credit.date < chosenDate) {
+    if (isEarlierPeriod(toPeriod(credit.date), toPeriod(chosenDate))) {
       if (!earlierCourses.has(credit.course)) {
         earlierCourses.set(credit.course, credit)
       } else if (earlierCourses.has(credit.course)) {
@@ -24,12 +41,11 @@ const getUniqueEarlierCourses = (credits, chosenDate) => {
   return unique
 }
 
-const uniqueCoursesEarlier = (students, year, startCourse) => {
+const uniqueCredits = (students, year, startCourse) => {
   const studentList = []
   students.forEach((student) => {
     let searched = null
     let earlierCourses = []
-
     student.courses.forEach((credit) => {
       if (credit.course === startCourse && searched && (credit.date.getFullYear() === Number(year) || year === 'Kaikki')) {
         searched = whichHasBetterGrade(credit, searched)
@@ -42,10 +58,11 @@ const uniqueCoursesEarlier = (students, year, startCourse) => {
       studentList.push({ searched, earlierCourses })
     }
   })
+
   return studentList
 }
 
-const allCoursesEarlier = (students, year, startCourse) => {
+const allCredits = (students, year, startCourse) => {
   const studentList = []
   students.forEach((student) => {
     let searched = null
@@ -61,6 +78,7 @@ const allCoursesEarlier = (students, year, startCourse) => {
       searched = null
     })
   })
+
   return studentList
 }
 
@@ -304,21 +322,6 @@ const dataWithCorrectGradeRange = (grades) => {
       color: '#1d1e1f',
     },
   ]
-}
-
-const roadToSuccessObjects = (data, year, course, uniqueness) => {
-  const allStudents = studentObjects(data)
-  let studentsWithCourse = []
-  if (uniqueness === 'unique') {
-    studentsWithCourse = uniqueCoursesEarlier(allStudents, year, course)
-  } else {
-    studentsWithCourse = allCoursesEarlier(allStudents, year, course)
-  }
-  const byGrades = coursesByGrades(studentsWithCourse)
-  const topTen = topTenCourses(byGrades[10].courses)
-  const percentagesForGrades = percentagesForCourses(byGrades, topTen)
-  const dataWithCorrectRange = dataWithCorrectGradeRange(percentagesForGrades)
-  return dataWithCorrectRange
 }
 
 module.exports = {

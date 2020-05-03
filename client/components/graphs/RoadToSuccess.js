@@ -15,37 +15,48 @@ const RTS = ({ courses }) => {
   const [year, setYear] = useState(2017)
   const [data, setData] = useState([])
   const [uniqueness, setUniqueness] = useState('unique')
+  const [studytrack, setStudytrack] = useState('cs')
 
   useEffect(() => {
-    setData(JSON.parse(getRoadToSuccess(year, course, uniqueness)))
+    setData(JSON.parse(getRoadToSuccess(year, course, uniqueness, studytrack)))
   }, [])
 
-  const handleSearch = (course, year, uniqueness) => {
-    console.log(uniqueness)
+  const handleSearch = (course, year, uniqueness, studytrack) => {
     try {
-      setData(JSON.parse(getRoadToSuccess(year, course, uniqueness)))
+      setData(JSON.parse(getRoadToSuccess(year, course, uniqueness, studytrack)))
     } catch (err) {
       console.log(err)
     }
   }
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(value, year, uniqueness)
+    handleSearch(value, year, uniqueness, studytrack)
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(course, value, uniqueness)
+    handleSearch(course, value, uniqueness, studytrack)
   }
 
   const handleUniquenessChange = (e, { value }) => {
     setUniqueness(value)
-    handleSearch(course, year, value)
+    handleSearch(course, year, value, studytrack)
   }
+
+  const handleStudytrackChange = (e, { value }) => {
+    setStudytrack(value)
+    handleSearch(course, year, uniqueness, value)
+  }
+
 
   return (
     <div>
       <Headline text="Arvosanajakauma kursseittain - Mitä kursseja opiskelijat ovat käyneet ennen tiettyä arvosanaa?" />
+      <div className="rts-radio-container">
+        <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+        <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+        <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+      </div>
       <div className="rts-radio-container">
         <Radio className="radiobutton" label="Opiskelijan paras suoritus" checked={uniqueness === 'unique'} value="unique" onChange={handleUniquenessChange} />
         <Radio className="radiobutton" label="Kaikki suoritukset" checked={uniqueness === 'all'} value="all" onChange={handleUniquenessChange} />
@@ -120,7 +131,7 @@ const PieChart = ({ grades, course }) => {
           <h5 className="pie-legend">
             Yhteensä&nbsp;
             {grades[0].totalAmount}
-            &nbsp;opiskelijaa
+            &nbsp;suoritusta
           </h5>
         ) : null }
         <Table data={grades} highlight={highlight} setHighlight={setHighlight} course={course} />

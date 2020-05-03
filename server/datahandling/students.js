@@ -1,6 +1,6 @@
-// What: creates an array of student-objects with their corresponding courses in an array
-// Takes in: array of credits with studentIds, dates, courses, grades, module
-const studentObjects = (data) => {
+// creates an array of student-objects with their corresponding courses in an array
+// data of credits, data of all students studyrights, and wanted study track (math, cs or all)
+const studentObjects = (data, studyrights, wantedTrack) => {
   data.shift()
   let students = []
   let courses = []
@@ -26,7 +26,9 @@ const studentObjects = (data) => {
   student.courses = courses
   students = [...students, student]
 
-  return students
+  // filters out the students of math, cs or all if "wantedTrack" left null
+  const correctStudents = students.filter(student => correctStudyTrack(student.studentNumber, studyrights, wantedTrack))
+  return correctStudents
 }
 
 const graduatedStudents = (data) => {
@@ -65,6 +67,17 @@ const coursesOfOneStudent = (studentNumber, data) => {
   })
   return courses
 }
+
+const correctStudyTrack = (studentId, studyrights, wantedTrack) => {
+  if (!studyrights || !wantedTrack || wantedTrack === 'all') return true
+  let track = ''
+  if (wantedTrack === 'cs') track = 'Tietojenkäsittelytieteen koulutusohjelma'
+  if (wantedTrack === 'math') track = 'Matematiikan koulutusohjelma'
+  const right = studyrights.find(right => right.id === studentId)
+  if (right.studytrack === track) return true
+  return false
+}
+
 
 module.exports = {
   studentObjects,

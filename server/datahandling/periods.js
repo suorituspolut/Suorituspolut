@@ -58,6 +58,14 @@ const isSamePeriod = (period1, period2) => {
   return false
 }
 
+const isEarlierPeriod = (period1, period2) => {
+  if (period1.year < period2.year) return true
+  if (period1.year === period2.year && period1.period === 3 && (period2.period === 1 || period2.period === 2)) return true
+  if (period1.year === period2.year && period1.period === 4 && (period2.period === 1 || period2.period === 2)) return true
+  if (period1.year === period2.year && period1.period === 5 && (period2.period === 1 || period2.period === 2)) return true
+  return false
+}
+
 const periodToYearEnd = (period) => {
   const p = period.period
   if (p === 2) return 0
@@ -113,6 +121,7 @@ const dataByYear = (data, year) => data.filter(credit => credit.date.getFullYear
 
 
 module.exports = {
+  isEarlierPeriod,
   isSamePeriod,
   toPeriod,
   nextPeriodOf,
