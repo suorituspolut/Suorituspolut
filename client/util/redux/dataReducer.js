@@ -68,15 +68,15 @@ export const getHistoDataMany = (subset, sorting) => {
   return xmlHttp.responseText
 }
 
-export const getRoadToSuccess = (year, course, uniqueness) => {
+export const getRoadToSuccess = (year, course, uniqueness, studytrack) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', `http://localhost:8000/api/rts/${year}/${course}/${uniqueness}`, false)
+    xmlHttp.open('GET', `http://localhost:8000/api/rts/${year}/${course}/${uniqueness}/${studytrack}`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/rts/${year}/${course}/${uniqueness}`, false)
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/rts/${year}/${course}/${uniqueness}/${studytrack}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }

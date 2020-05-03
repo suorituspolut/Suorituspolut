@@ -210,7 +210,6 @@ const getHistogramDataMany = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
-
 const getBubbleData = async (req, res) => {
   const array = []
   let year = 2017
@@ -247,32 +246,65 @@ const getBubbleData = async (req, res) => {
 const getRoadToSuccessData = async (req, res) => {
   const array = []
   let course = 'Ohjelmoinnin perusteet'
+  const studyrights = []
   let uniqueness = 'all'
   let year = 2017
+  let studytrack = 'all'
 
   if (req.params.course !== null) {
     course = req.params.course
     uniqueness = req.params.uniqueness
     year = req.params.year
+    studytrack = req.params.studytrack
   }
 
-  const parser = parse({ delimiter: ';' }, (err, data) => {
-    if (!data) return
-    data.forEach((credit) => {
-      const newCourse = {
-        studentId: credit[0],
-        courseId: credit[1],
-        course: credit[2],
-        isModule: credit[3],
-        date: new Date(credit[4]),
-        grade: credit[5],
-      }
-      array.push(newCourse)
-    })
-    res.send(roadToSuccessObjects(array, year, course, uniqueness))
+  const promise = new Promise((resolve) => {
+    fs.createReadStream(file2)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (data) => {
+        const studyright = {
+          id: data[0],
+          trackcode: data[1],
+          studytrack: data[2],
+        }
+        studyrights.push(studyright)
+      })
+      .on('end', () => {
+        resolve()
+      })
   })
-  await fs.createReadStream(file).pipe(parser)
+
+  const promise2 = new Promise((resolve) => {
+    fs.createReadStream(file)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (credit) =>  {
+        const newCourse = {
+          studentId: credit[0],
+          courseId: credit[1],
+          course: credit[2],
+          isModule: credit[3],
+          date: new Date(credit[4]),
+          grade: credit[5],
+        }
+        array.push(newCourse)
+      })
+      .on('end', () => {
+        resolve()
+      })
+  })
+
+
+  Promise.all([
+    promise,
+    promise2,
+  ]).then(() => {
+    res.send(roadToSuccessObjects(array, year, course, uniqueness, studytrack, studyrights))
+  })
+    .catch((err) => {
+      console.log(err)
+    })
 }
+
 
 const getRecommendationData = async (req, res) => {
   const array = []
