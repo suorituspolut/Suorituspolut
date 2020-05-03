@@ -4,14 +4,10 @@ import Bubbles from './Bubbles'
 import Sankeys from './Sankey'
 import RoadToSuccess from './RoadToSuccess'
 import Recommendation from './Recommendation'
-import { getCourseData, getRecommendations } from '../../util/redux/dataReducer'
+import { getCourseData } from '../../util/redux/dataReducer'
 
 import Info from '../notifications/Info'
 import infos from '../notifications/Info_contents'
-
-//  const recommendations = JSON.parse(getRecommendations())
-//  At the moment returns studentObjects who have graduated in time
-//  To be changed to return recommended courses in /server/datahandling/recommendationHandler
 
 const GraphSelector = ({ graphToShow }) => {
   const courses = JSON.parse(getCourseData()).sort()

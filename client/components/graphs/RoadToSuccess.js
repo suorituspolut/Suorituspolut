@@ -45,7 +45,7 @@ const RTS = ({ courses }) => {
 
   return (
     <div>
-      <Headline text="Arvosanajakauma kursseittain - Mitä kursseja opiskelijat ovat käyneet ennen tiettyä arvosanaa?"/>
+      <Headline text="Arvosanajakauma kursseittain - Mitä kursseja opiskelijat ovat käyneet ennen tiettyä arvosanaa?" />
       <div className="rts-radio-container">
         <Radio className="radiobutton" label="Opiskelijan paras suoritus" checked={uniqueness === 'unique'} value="unique" onChange={handleUniquenessChange} />
         <Radio className="radiobutton" label="Kaikki suoritukset" checked={uniqueness === 'all'} value="all" onChange={handleUniquenessChange} />
@@ -116,7 +116,13 @@ const PieChart = ({ grades, course }) => {
           constructorType="chart"
           options={options}
         />
-        {grades[0] ? <h5 className="pie-legend">Yhteensä {grades[0].totalAmount} opiskelijaa</h5> : null } 
+        {grades[0] ? (
+          <h5 className="pie-legend">
+            Yhteensä&nbsp;
+            {grades[0].totalAmount}
+            &nbsp;opiskelijaa
+          </h5>
+        ) : null }
         <Table data={grades} highlight={highlight} setHighlight={setHighlight} course={course} />
       </div>
     )

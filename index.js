@@ -7,6 +7,7 @@ require('express-async-errors')
 const { PORT, inProduction } = require('@util/common')
 const logger = require('@util/logger')
 const cors = require('cors')
+
 const app = express()
 app.use(cors())
 

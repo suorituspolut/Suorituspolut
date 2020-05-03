@@ -3,6 +3,7 @@ const routes = require('@util/routes')
 const errorMiddleware = require('@middleware/errorMiddleware')
 const shibbolethCharsetMiddleware = require('@middleware/shibbolethCharsetMiddleware')
 const cors = require('cors')
+
 const app = express()
 
 app.use(cors())
