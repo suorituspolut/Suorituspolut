@@ -52,7 +52,7 @@ const Recommendation = () => {
     if (handledData.length > 10) handledData = handledData.slice(0, 10)
     return (
       <Table.Body>
-        {data.map(course => (
+        {handledData.map(course => (
           <Table.Row key={course[0]}>
             <Table.Cell>{course[0]}</Table.Cell>
             <Table.Cell></Table.Cell>
