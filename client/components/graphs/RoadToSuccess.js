@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Icon, Radio } from 'semantic-ui-react'
+import { Radio, Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import Table from './Table'
@@ -138,7 +138,7 @@ const PieChart = ({ grades, course }) => {
       </div>
     )
   }
-  return <p><Icon loading name="spinner" size="big" /></p>
+  return  <Loader active inline='centered' />
 }
 
 export default RTS

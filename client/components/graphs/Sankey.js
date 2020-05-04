@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Icon } from 'semantic-ui-react'
+import { Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getSankeyData } from '../../util/redux/dataReducer'
@@ -144,7 +144,7 @@ const Sankey = ({ data, type, year }) => {
       </div>
     )
   }
-  return <p><Icon loading name="spinner" size="big" /></p>
+  return  <Loader active inline='centered' />
 }
 
 export default Sankeys

@@ -3,10 +3,13 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 // eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
+
+
+
 
 
 HC_more(Highcharts)
@@ -121,7 +124,7 @@ const Bubbles = () => {
         </div>
       )
     }
-    return <p><Icon loading name="spinner" size="big" /></p>
+    return  <Loader active inline='centered' />
   }
 
   return (

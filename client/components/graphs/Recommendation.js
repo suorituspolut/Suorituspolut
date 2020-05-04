@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Radio, Icon } from 'semantic-ui-react'
+import { Table, Radio, Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import { getRecommendations } from '../../util/redux/dataReducer'
 
@@ -94,10 +94,7 @@ const Recommendation = () => {
   }
 
   return (
-    <p>
-      <br />
-      <Icon loading name="spinner" size="big" />
-    </p>
+    <Loader active inline='centered' />
   )
 }
 
