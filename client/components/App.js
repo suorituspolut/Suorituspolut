@@ -9,9 +9,10 @@ const App = () => {
   const [graphToShow, setGraphToShow] = useState(2)
 
   const handleGraphChange = async (e, { value }) => {
-    await setGraphToShow()
+   
+    await graphToShow
     await setGraphToShow(value)
-
+    
 
   }
   return (
