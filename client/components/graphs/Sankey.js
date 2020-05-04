@@ -73,7 +73,6 @@ const Sankeys = ({ type, courses }) => {
             <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
             <FilterBar
               selectedYear={year}
-              selectedGrade={grade}
               handleGradeChange={handleGradeChange}
               handleYearChange={handleYearChange}
               selectedLevels={levels}

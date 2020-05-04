@@ -49,7 +49,6 @@ const getSankeyFirsts = async (req, res) => {
   const studyrights = []
   let year = 2017
   let levels = 4
-  let grade = 'Kaikki'
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
@@ -58,11 +57,6 @@ const getSankeyFirsts = async (req, res) => {
   if (req.params.levels !== null) {
     levels = Number(req.params.levels)
   }
-
-  if (req.params.grade !== null) {
-    grade = req.params.grade
-  }
-
 
   const promise = new Promise((resolve) => {
     fs.createReadStream(file2)
@@ -104,7 +98,7 @@ const getSankeyFirsts = async (req, res) => {
     promise,
     promise2,
   ]).then(() => {
-    res.send(firstCourses(array, studyrights, year, levels, grade))
+    res.send(firstCourses(array, studyrights, year, levels))
   })
     .catch((err) => {
       console.log(err)
