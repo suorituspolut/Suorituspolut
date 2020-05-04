@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import {
-  Form, Pagination, Radio, Icon,
+  Form, Pagination, Radio, Loader
 } from 'semantic-ui-react'
 import { blueColors } from '../../util/units'
 import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
@@ -126,7 +126,7 @@ const Histograms = ({ courses, howMany }) => {
         </div>
       )
     }
-    return <p><Icon loading name="spinner" size="big" /></p>
+    return  <Loader active inline='centered' />
   }
 
   const printOutOneHistogram = () => {
@@ -137,7 +137,7 @@ const Histograms = ({ courses, howMany }) => {
         </div>
       )
     }
-    return <p><Icon loading name="spinner" size="big" /></p>
+    return  <Loader active inline='centered' />
   }
 
   return (
