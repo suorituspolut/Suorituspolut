@@ -5,6 +5,7 @@ import Highcharts from 'highcharts'
 import HC_more from 'highcharts/highcharts-more'
 import { Icon } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
+import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
 
 
@@ -75,7 +76,7 @@ const Bubbles = () => {
       },
     },
     title: {
-      text: 'Suosituimmat kurssit periodin mukaan',
+      text: 'Vuoden ' + year + ' suoritukset',
     },
     legend: {
       verticalAlign: 'top',
@@ -125,6 +126,7 @@ const Bubbles = () => {
 
   return (
     <div>
+      <Headline text="Kurssisuoritukset perioideittain" />
       <FilterBar
         selectedYear={year}
         selectedGrade={grade}

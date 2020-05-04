@@ -178,7 +178,6 @@ const Histograms = ({ courses, howMany }) => {
         )
         : (
           <>
-
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <FilterBar
               courses={courses}
