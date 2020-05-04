@@ -41,7 +41,7 @@ const GraphSelector = ({ graphToShow }) => {
     <>
       <div className="graph-container">
         {infos.find(element => element.id === graphToShow) ? <Info content={infos.find(element => element.id === graphToShow).text} /> : undefined}
-        {!whichGraph(graphToShow).content ? whichGraph(graphToShow) : <>hi</>}
+        {whichGraph(graphToShow)}
       </div>
     </>
 
