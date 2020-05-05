@@ -63,7 +63,7 @@ const filterCoursesFromList = (courseList, studentCourseList) => {
 }
 
 
-const getRecommendations = (data, year, term, studentNumber, goalYears) => {
+const recommendationTimeObjects = (data, year, term, studentNumber, goalYears) => {
   const timely = timelyGraduated(data, goalYears)
   const courseList = makeCourseList(timely, year, term)
   if (studentNumber !== 'null') {
@@ -76,5 +76,5 @@ const getRecommendations = (data, year, term, studentNumber, goalYears) => {
 }
 
 module.exports = {
-  getRecommendations,
+  recommendationTimeObjects,
 }

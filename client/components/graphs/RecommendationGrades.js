@@ -5,12 +5,13 @@ import { Radio, Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import Table from './Table'
-import { getRoadToSuccess } from '../../util/redux/dataReducer'
+import { getRecommendationsGrade } from '../../util/redux/dataReducer'
+import { graphImages } from '../../util/highChartOptions'
 
 
 require('highcharts/modules/exporting')(Highcharts)
 
-const RTS = ({ courses }) => {
+const RecommendationGrades = ({ courses }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [year, setYear] = useState(2017)
   const [data, setData] = useState([])
@@ -18,12 +19,12 @@ const RTS = ({ courses }) => {
   const [studytrack, setStudytrack] = useState('cs')
 
   useEffect(() => {
-    setData(JSON.parse(getRoadToSuccess(year, course, uniqueness, studytrack)))
+    setData(JSON.parse(getRecommendationsGrade(year, course, uniqueness, studytrack)))
   }, [])
 
   const handleSearch = (course, year, uniqueness, studytrack) => {
     try {
-      setData(JSON.parse(getRoadToSuccess(year, course, uniqueness, studytrack)))
+      setData(JSON.parse(getRecommendationsGrade(year, course, uniqueness, studytrack)))
     } catch (err) {
       console.log(err)
     }
@@ -62,7 +63,7 @@ const RTS = ({ courses }) => {
         <Radio className="radiobutton" label="Kaikki suoritukset" checked={uniqueness === 'all'} value="all" onChange={handleUniquenessChange} />
       </div>
       <FilterBar
-        selectedCourse={course}
+        course={course}
         courses={courses}
         handleCourseChange={handleCourseChange}
         selectedYear={year}
@@ -99,6 +100,7 @@ const PieChart = ({ grades, course }) => {
           valueSuffix: '%',
         },
       },
+      exporting: graphImages,
       plotOptions: {
         series: {
           allowPointSelect: true,
@@ -141,4 +143,4 @@ const PieChart = ({ grades, course }) => {
   return  <Loader active inline='centered' />
 }
 
-export default RTS
+export default RecommendationGrades

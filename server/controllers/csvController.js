@@ -3,17 +3,37 @@ const { listOfCourses } = require('@root/server/datahandling/courses')
 const { studentPaths, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
 const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
-const { roadToSuccessObjects } = require('@root/server/datahandling/roadToSuccess')
-const { getRecommendations } = require('@root/server/datahandling/recommendationHandler')
+const { recommendationGradeObjects } = require('@root/server/datahandling/recommendationGradeHandler')
+const { recommendationTimeObjects } = require('@root/server/datahandling/recommendationTimeHandler')
 
 const parse = require('csv-parse')
 const fs = require('fs')
 
-
 const file = (`${process.cwd()}/data/anon_dataset.csv`)
 const file2 = (`${process.cwd()}/data/student_background.csv`)
 
-const getSankeyNormal = async (req, res) => {
+const getCourseData = async (req, res) => {
+  const array = []
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    data.forEach((credit) => {
+      const newCourse = {
+        studentId: credit[0],
+        courseId: credit[1],
+        course: credit[2],
+        isModule: credit[3],
+        date: new Date(credit[4]),
+        grade: credit[5],
+      }
+      array.push(newCourse)
+    })
+    res.send(listOfCourses(array))
+  })
+
+  await fs.createReadStream(file).pipe(parser)
+}
+
+const getSimpleSankeyData = async (req, res) => {
   const array = []
   let year = 2017
   let course = 'Ohjelmoinnin perusteet'
@@ -44,7 +64,7 @@ const getSankeyNormal = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
-const getSankeyFirsts = async (req, res) => {
+const getMultiSankeyData = async (req, res) => {
   const array = []
   const studyrights = []
   let year = 2017
@@ -105,50 +125,7 @@ const getSankeyFirsts = async (req, res) => {
     })
 }
 
-const getCourses = async (req, res) => {
-  const array = []
-
-  const parser = parse({ delimiter: ';' }, (err, data) => {
-    data.forEach((credit) => {
-      const newCourse = {
-        studentId: credit[0],
-        courseId: credit[1],
-        course: credit[2],
-        isModule: credit[3],
-        date: new Date(credit[4]),
-        grade: credit[5],
-      }
-      array.push(newCourse)
-    })
-    res.send(listOfCourses(array))
-  })
-
-  await fs.createReadStream(file).pipe(parser)
-}
-
-const getStudyData = async (req, res) => {
-  const array = []
-
-  const parser = parse({ delimiter: ';' }, (err, data) => {
-    data.forEach((credit) => {
-      const newStudy = {
-        studentId: credit[0],
-        studyCode: credit[1],
-        studyName: credit[2],
-      }
-      array.push(newStudy)
-    })
-
-    const allStudies = array.map(credit => credit.studyName)
-    allStudies.shift()
-    const studies = [...new Set(allStudies)]
-    res.send(studies)
-  })
-
-  await fs.createReadStream(file2).pipe(parser)
-}
-
-const getHistogramData = async (req, res) => {
+const getSimpleHistogramData = async (req, res) => {
   const array = []
   let course = 'Ohjelmoinnin perusteet'
 
@@ -175,7 +152,7 @@ const getHistogramData = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
-const getHistogramDataMany = async (req, res) => {
+const getMultiHistogramData = async (req, res) => {
   const array = []
 
   let sorting = 'startHeavy'
@@ -237,7 +214,7 @@ const getBubbleData = async (req, res) => {
   await fs.createReadStream(file).pipe(parser)
 }
 
-const getRoadToSuccessData = async (req, res) => {
+const getRecommendationGradeData = async (req, res) => {
   const array = []
   let course = 'Ohjelmoinnin perusteet'
   const studyrights = []
@@ -292,15 +269,14 @@ const getRoadToSuccessData = async (req, res) => {
     promise,
     promise2,
   ]).then(() => {
-    res.send(roadToSuccessObjects(array, year, course, uniqueness, studytrack, studyrights))
+    res.send(recommendationGradeObjects(array, year, course, uniqueness, studytrack, studyrights))
   })
     .catch((err) => {
       console.log(err)
     })
 }
 
-
-const getRecommendationData = async (req, res) => {
+const getRecommendationTimeData = async (req, res) => {
   const array = []
   let year = 2017
   let term = 'Syksy'
@@ -332,19 +308,41 @@ const getRecommendationData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(getRecommendations(array, year, term, studentNumber, goalYears))
+    res.send(recommendationTimeObjects(array, year, term, studentNumber, goalYears))
   })
   await fs.createReadStream(file).pipe(parser)
 }
 
+const getStudyData = async (req, res) => {
+  const array = []
+
+  const parser = parse({ delimiter: ';' }, (err, data) => {
+    data.forEach((credit) => {
+      const newStudy = {
+        studentId: credit[0],
+        studyCode: credit[1],
+        studyName: credit[2],
+      }
+      array.push(newStudy)
+    })
+
+    const allStudies = array.map(credit => credit.studyName)
+    allStudies.shift()
+    const studies = [...new Set(allStudies)]
+    res.send(studies)
+  })
+
+  await fs.createReadStream(file2).pipe(parser)
+}
+
 module.exports = {
-  getSankeyNormal,
-  getSankeyFirsts,
-  getCourses,
-  getHistogramData,
+  getCourseData,
+  getSimpleSankeyData,
+  getMultiSankeyData,
+  getSimpleHistogramData,
+  getMultiHistogramData,
   getBubbleData,
-  getHistogramDataMany,
-  getRoadToSuccessData,
-  getRecommendationData,
+  getRecommendationGradeData,
+  getRecommendationTimeData,
   getStudyData,
 }

@@ -7,9 +7,7 @@ import { Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
-
-
-
+import { graphImages } from '../../util/highChartOptions'
 
 
 HC_more(Highcharts)
@@ -38,8 +36,9 @@ const Bubbles = () => {
     handleSearch(value, grade, bubbleAmount)
   }
 
-  const handleGradeChange = (e, { value }) => {
-    setGrade(value)
+  const handleGradeChange = async (e, { value }) => {
+    await setGrade(value)
+    console.log(grade)
     handleSearch(year, value, bubbleAmount)
   }
 
@@ -47,6 +46,7 @@ const Bubbles = () => {
     setBubbleAmount(value)
     handleSearch(year, grade, value)
   }
+
 
   const options = {
     chart: {
@@ -57,27 +57,7 @@ const Bubbles = () => {
     credits: {
       text: '',
     },
-    exporting: {
-      menuItemDefinitions: {
-        viewFullscreen: {
-          text: 'Koko näyttö',
-        },
-        downloadPNG: {
-          text: 'Lataa PNG-kuvana',
-        },
-        downloadSVG: {
-          text: 'Lataa SVG-kuvana',
-        },
-        downloadPDF: {
-          text: 'Lataa PDF:nä',
-        },
-      },
-      buttons: {
-        contextButton: {
-          menuItems: ['viewFullscreen', 'downloadPNG', 'downloadSVG', 'downloadPDF'],
-        },
-      },
-    },
+    exporting: graphImages,
     title: {
       text: 'Vuoden ' + year + ' suoritukset',
     },
@@ -124,16 +104,19 @@ const Bubbles = () => {
         </div>
       )
     }
-    return  <Loader active inline='centered' />
+    else if (!data) {
+      return <p>No data</p>
+    }
+    return <Loader active inline="centered" />
   }
 
   return (
     <div>
       <Headline text="Kurssisuoritukset perioideittain" />
       <FilterBar
-        selectedYear={year}
-        selectedGrade={grade}
-        selectedBubbles={bubbleAmount}
+        year={year}
+        grade={grade}
+        bubbles={bubbleAmount}
         handleGradeChange={handleGradeChange}
         handleYearChange={handleYearChange}
         handleBubblesChange={handleBubblesChange}

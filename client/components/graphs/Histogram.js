@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import {
-  Form, Pagination, Radio, Loader
+  Form, Pagination, Radio, Loader,
 } from 'semantic-ui-react'
-import { blueColors } from '../../util/units'
-import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
+import { graphImages } from '../../util/highChartOptions'
+import { blueColors } from '../../util/units'
+import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
 
 
 require('highcharts/modules/exporting')(Highcharts)
@@ -166,7 +167,7 @@ const Histograms = ({ courses, howMany }) => {
 
             <FilterBar
               handleMaxYearChange={handleMaxYearChange}
-              selectedMaxYear={maxYear}
+              maxYear={maxYear}
             />
             <div>
               {printOutFiveHistograms(startIndex)}
@@ -182,9 +183,9 @@ const Histograms = ({ courses, howMany }) => {
             <FilterBar
               courses={courses}
               handleCourseChange={handleCourseChange}
-              selectedCourse={course}
+              course={course}
               handleMaxYearChange={handleMaxYearChange}
-              selectedMaxYear={maxYear}
+              maxYear={maxYear}
             />
             {printOutOneHistogram()}
           </>
@@ -224,6 +225,7 @@ const Histogram = ({
         text: '',
       },
     },
+    exporting: graphImages,
     tooltip: {
       headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
       pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>'

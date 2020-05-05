@@ -6,7 +6,7 @@ import NavBar from './navsAndFooters/NavBar'
 
 
 const App = () => {
-  const [graphToShow, setGraphToShow] = useState(2)
+  const [graphToShow, setGraphToShow] = useState(5)
 
   const handleGraphChange = async (e, { value }) => {
    

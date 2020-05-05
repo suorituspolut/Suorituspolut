@@ -5,6 +5,8 @@ import { Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getSankeyData } from '../../util/redux/dataReducer'
+import { graphImages } from '../../util/highChartOptions'
+
 
 require('highcharts/modules/sankey')(Highcharts)
 require('highcharts/modules/exporting')(Highcharts)
@@ -57,9 +59,9 @@ const Sankeys = ({ type, courses }) => {
           <>
             <Headline text="Mitä kursseja on suoritettu seuraavassa periodissa" />
             <FilterBar
-              selectedCourse={course}
-              selectedYear={year}
-              selectedGrade={grade}
+              course={course}
+              year={year}
+              grade={grade}
               courses={courses}
               handleCourseChange={handleCourseChange}
               handleGradeChange={handleGradeChange}
@@ -72,10 +74,10 @@ const Sankeys = ({ type, courses }) => {
           <>
             <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
             <FilterBar
-              selectedYear={year}
+              year={year}
               handleGradeChange={handleGradeChange}
               handleYearChange={handleYearChange}
-              selectedLevels={levels}
+              levels={levels}
               handleLevelChange={handleLevelChange}
             />
             <Sankey type={type} data={firstsData} year={year} />
@@ -93,27 +95,7 @@ const Sankey = ({ data, type, year }) => {
       credits: {
         text: '',
       },
-      exporting: {
-        menuItemDefinitions: {
-          viewFullscreen: {
-            text: 'Koko näyttö',
-          },
-          downloadPNG: {
-            text: 'Lataa PNG-kuvana',
-          },
-          downloadSVG: {
-            text: 'Lataa SVG-kuvana',
-          },
-          downloadPDF: {
-            text: 'Lataa PDF:nä',
-          },
-        },
-        buttons: {
-          contextButton: {
-            menuItems: ['viewFullscreen', 'downloadPNG', 'downloadSVG', 'downloadPDF'],
-          },
-        },
-      },
+      exporting: graphImages,
       title: {
         text: 'Suorituspolut',
       },

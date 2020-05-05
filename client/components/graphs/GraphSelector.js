@@ -2,8 +2,8 @@ import React from 'react'
 import Histograms from './Histogram'
 import Bubbles from './Bubbles'
 import Sankeys from './Sankey'
-import RoadToSuccess from './RoadToSuccess'
-import Recommendation from './Recommendation'
+import RecommendationGrades from './RecommendationGrades'
+import RecommendationTime from './RecommendationTime'
 import { getCourseData } from '../../util/redux/dataReducer'
 
 import Info from '../notifications/Info'
@@ -25,9 +25,9 @@ const GraphSelector = ({ graphToShow }) => {
       case 5:
         return <Bubbles />
       case 8:
-        return <RoadToSuccess courses={courses} />
+        return <RecommendationGrades courses={courses} />
       case 9:
-        return <Recommendation />
+        return <RecommendationTime />
       default:
         return (
           <>

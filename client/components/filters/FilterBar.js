@@ -7,21 +7,21 @@ import Filter from './Filter'
 
 const FilterBar = ({
   courses,
+  course,
+  grade,
+  year,
+  levels,
+  bubbles,
+  maxYear,
+  yearWithAll,
+  schoolYear,
+  studyYear,
+  term,
   handleCourseChange,
   handleGradeChange,
   handleYearChange,
   handleLevelChange,
   handleBubblesChange,
-  selectedCourse,
-  selectedGrade,
-  selectedYear,
-  selectedLevels,
-  selectedBubbles,
-  selectedMaxYear,
-  yearWithAll,
-  year,
-  studyYear,
-  term,
   handleStudyYearChange,
   handleMaxYearChange,
   handleTermChange,
@@ -29,65 +29,65 @@ const FilterBar = ({
   <table className="ui four very basic table filter-container">
     <tbody>
       <tr>
-        {selectedYear ? (
+        {year ? (
           <Filter
             label="Suoritusvuosi"
             handleChange={handleYearChange}
-            value={selectedYear}
+            value={year}
             options={createNumberOptions(2013, 2020, yearWithAll).reverse()}
             placeholder="2017"
           />
         ) : null}
-        {selectedCourse ? (
+        {course ? (
           <Filter
             label="Kurssi"
             handleChange={handleCourseChange}
-            value={selectedCourse}
+            value={course}
             options={createTextOptions(courses)}
             placeholder="Aloituskurssi"
           />
         ) : null}
-        {selectedGrade ? (
+        {grade ? (
           <Filter
             label="Arvosana"
             handleChange={handleGradeChange}
-            value={selectedGrade}
+            value={grade}
             options={grades}
             placeholder="Läpäisseet"
           />
         ) : null}
-        {selectedLevels ? (
+        {levels ? (
           <Filter
             label="Näytettävien tasojen määrä"
             handleChange={handleLevelChange}
-            value={selectedLevels}
+            value={levels}
             options={createNumberOptions(1, 10)}
             placeholder="5"
           />
         ) : null}
-        {selectedBubbles ? (
+        {bubbles ? (
           <Filter
             label="Näytettävien kurssien määrä per periodi"
             handleChange={handleBubblesChange}
-            value={selectedBubbles}
+            value={bubbles}
             options={createNumberOptions(1, 50)}
             placeholder="10"
           />
         ) : null}
-        {selectedMaxYear ? (
+        {maxYear ? (
           <Filter
             label="Vuosien määrä"
             handleChange={handleMaxYearChange}
-            value={selectedMaxYear}
+            value={maxYear}
             options={createNumberOptions(1, 11)}
             placeholder="5"
           />
         ) : null}
-        {year ? (
+        {schoolYear ? (
           <Filter
             label="Lukuvuosi"
             handleChange={handleYearChange}
-            value={year}
+            value={schoolYear}
             options={createNumberOptions(1, 5)}
             placeholder="2"
           />
