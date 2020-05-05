@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 const { studentObjects } = require('@root/server/datahandling/students')
 const { dataByGrade, gradeToNumber, whichHasBetterGrade } = require('@root/server/datahandling/grades')
 const { toPeriod, isEarlierPeriod } = require('@root/server/datahandling/periods')

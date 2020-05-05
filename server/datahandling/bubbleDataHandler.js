@@ -3,7 +3,7 @@ const { creditArraysBubble, addWeightsBubble, separateOthersCategoryBubble } = r
 const { checkGrade } = require('@root/server/datahandling/grades')
 
 
-const bubbleData = (data, year, grade, bubbles) => {
+const bubbleObjects = (data, year, grade, bubbles) => {
   const chartData = [
     {
       name: '1. periodi',
@@ -29,25 +29,8 @@ const bubbleData = (data, year, grade, bubbles) => {
 
   data.forEach((credit) => {
     if ((!year || credit.date.getFullYear() === year) && (!grade || checkGrade(grade, credit.grade))) {
-      switch (toPeriod(credit.date).period) {
-        case 1:
-          chartData[0].data = [...chartData[0].data, credit]
-          break
-        case 2:
-          chartData[1].data = [...chartData[1].data, credit]
-          break
-        case 3:
-          chartData[2].data = [...chartData[2].data, credit]
-          break
-        case 4:
-          chartData[3].data = [...chartData[3].data, credit]
-          break
-        case 5:
-          chartData[4].data = [...chartData[4].data, credit]
-          break
-        default:
-          break
-      }
+      const creditPeriod = toPeriod(credit.date).period
+      chartData[creditPeriod - 1].data = [...chartData[creditPeriod - 1].data, credit]
     }
   })
 
@@ -62,5 +45,5 @@ const bubbleData = (data, year, grade, bubbles) => {
 }
 
 module.exports = {
-  bubbleData,
+  bubbleObjects,
 }

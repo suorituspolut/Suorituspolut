@@ -26,28 +26,28 @@ export const getSankeyData = (type, year, course, grade, levels) => {
   return xmlHttp.responseText
 }
 
-export const getHistogramData = (course) => {
+export const getSimpleHistogramData = (course) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', `http://localhost:8000/api/histogram/${course}/`, false)
+    xmlHttp.open('GET', `http://localhost:8000/api/simplehistogram/${course}/`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histogram/${course}/`, false)
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/simplehistogram/${course}/`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }
 
-export const getHistoDataMany = (subset, sorting) => {
+export const getMultiHistogramData = (subset, sorting) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', `http://localhost:8000/api/histomany/${sorting}/${subset}`, false)
+    xmlHttp.open('GET', `http://localhost:8000/api/multihistogram/${sorting}/${subset}`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest(sorting)
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histomany/${sorting}/${subset}`, false)
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/multihistogram/${sorting}/${subset}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }

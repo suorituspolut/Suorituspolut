@@ -66,7 +66,7 @@ const RecommendationGrades = ({ courses }) => {
         course={course}
         courses={courses}
         handleCourseChange={handleCourseChange}
-        selectedYear={year}
+        year={year}
         yearWithAll
         handleYearChange={handleYearChange}
       />

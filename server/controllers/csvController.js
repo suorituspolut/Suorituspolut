@@ -1,8 +1,8 @@
 /* eslint-disable prefer-destructuring */
-const { listOfCourses } = require('@root/server/datahandling/courses')
-const { studentPaths, firstCourses } = require('@root/server/datahandling/sankeyDataHandler')
+const { courseData } = require('@root/server/datahandling/courses')
+const { simpleSankeyObjects, multiSankeyObjects } = require('@root/server/datahandling/sankeyDataHandler')
 const { histogramObjects } = require('@root/server/datahandling/histogramDataHandler')
-const { bubbleData } = require('@root/server/datahandling/bubbleDataHandler')
+const { bubbleObjects } = require('@root/server/datahandling/bubbleDataHandler')
 const { recommendationGradeObjects } = require('@root/server/datahandling/recommendationGradeHandler')
 const { recommendationTimeObjects } = require('@root/server/datahandling/recommendationTimeHandler')
 
@@ -27,7 +27,7 @@ const getCourseData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(listOfCourses(array))
+    res.send(courseData(array))
   })
 
   await fs.createReadStream(file).pipe(parser)
@@ -58,7 +58,7 @@ const getSimpleSankeyData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(studentPaths(array, year, course, grade))
+    res.send(simpleSankeyObjects(array, year, course, grade))
   })
 
   await fs.createReadStream(file).pipe(parser)
@@ -118,7 +118,7 @@ const getMultiSankeyData = async (req, res) => {
     promise,
     promise2,
   ]).then(() => {
-    res.send(firstCourses(array, studyrights, year, levels))
+    res.send(multiSankeyObjects(array, studyrights, year, levels))
   })
     .catch((err) => {
       console.log(err)
@@ -209,7 +209,7 @@ const getBubbleData = async (req, res) => {
       }
       array.push(newCourse)
     })
-    res.send(bubbleData(array, year, grade, bubbles))
+    res.send(bubbleObjects(array, year, grade, bubbles))
   })
   await fs.createReadStream(file).pipe(parser)
 }

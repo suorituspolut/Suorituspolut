@@ -1,9 +1,42 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { mandatoryCourses, mathCourses, csCourses } = require('@root/server/datahandling/courses')
 const { studentObjects } = require('@root/server/datahandling/students')
 
-const courseHistoArray = (students, course) => {
+const histogramObjects = (data, course, subset, sorting) => {
+  const students = studentObjects(data)
+
+  if (course) {
+    return simpleHistogramData(students, course)
+  }
+
+  let histogramList = []
+  let courses = mandatoryCourses
+  if (subset === 'mathCourses') courses = mathCourses
+  if (subset === 'csCourses') courses = csCourses
+
+  courses.forEach((course) => {
+    const courseHistogramArray = simpleHistogramData(students, course)
+    if (courseHistogramArray.sum > 20) {
+      histogramList = [...histogramList, courseHistogramArray]
+    }
+  })
+
+  if (sorting === 'endHeavy') {
+    return sortByModeEndHeavy(histogramList)
+  }
+  if (sorting === 'deviation') {
+    return sortByStandardDeviation(histogramList)
+  }
+  if (sorting === 'deviationReverse') {
+    return sortByStandardDeviationReverse(histogramList)
+  }
+
+  return sortByModeStartHeavy(histogramList)
+}
+
+const simpleHistogramData = (students, course) => {
   let sum = 0
   const histogramArray = new Array(50)
   for (let i = 0; i < histogramArray.length; i++) {
@@ -89,38 +122,6 @@ const sortByStandardDeviationReverse = (histogramList) => {
   })
 
   return histogramList.sort((histoObject1, histoObject2) => histoObject2.deviation - histoObject1.deviation)
-}
-
-const histogramObjects = (data, course, subset, sorting) => {
-  const students = studentObjects(data)
-
-  if (course) {
-    return courseHistoArray(students, course)
-  }
-
-  let histogramList = []
-  let courses = mandatoryCourses
-  if (subset === 'mathCourses') courses = mathCourses
-  if (subset === 'csCourses') courses = csCourses
-
-  courses.forEach((course) => {
-    const courseHistogramArray = courseHistoArray(students, course)
-    if (courseHistogramArray.sum > 20) {
-      histogramList = [...histogramList, courseHistogramArray]
-    }
-  })
-
-  if (sorting === 'endHeavy') {
-    return sortByModeEndHeavy(histogramList)
-  }
-  if (sorting === 'deviation') {
-    return sortByStandardDeviation(histogramList)
-  }
-  if (sorting === 'deviationReverse') {
-    return sortByStandardDeviationReverse(histogramList)
-  }
-
-  return sortByModeStartHeavy(histogramList)
 }
 
 module.exports = {

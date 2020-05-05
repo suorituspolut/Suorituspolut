@@ -1,7 +1,20 @@
+/* eslint-disable no-use-before-define */
 const { graduatedStudents, coursesOfOneStudent } = require('@root/server/datahandling/students')
 const {
   periodsBetweenTwoDates, periodsToClosestYear, periodToTerm, toPeriod,
 } = require('@root/server/datahandling/periods')
+
+
+const recommendationTimeObjects = (data, year, term, studentNumber, goalYears) => {
+  const timely = timelyGraduated(data, goalYears)
+  const courseList = makeCourseList(timely, year, term)
+  if (studentNumber !== 'null') {
+    const studentCourseList = coursesOfOneStudent(studentNumber, data)
+    const filtered = filterCoursesFromList(courseList, studentCourseList)
+    return filtered
+  }
+  return courseList
+}
 
 // Gets all students who have graduated and filters all the timely graduated ones
 const timelyGraduated = (data, goalYears) => {
@@ -60,19 +73,6 @@ const filterCoursesFromList = (courseList, studentCourseList) => {
   })
 
   return newList
-}
-
-
-const recommendationTimeObjects = (data, year, term, studentNumber, goalYears) => {
-  const timely = timelyGraduated(data, goalYears)
-  const courseList = makeCourseList(timely, year, term)
-  if (studentNumber !== 'null') {
-    const studentCourseList = coursesOfOneStudent(studentNumber, data)
-    const filtered = filterCoursesFromList(courseList, studentCourseList)
-    return filtered
-  }
-
-  return courseList
 }
 
 module.exports = {

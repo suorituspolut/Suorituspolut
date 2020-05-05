@@ -1,9 +1,8 @@
 /* eslint-disable no-param-reassign */
 const byWeights = (credit1, credit2) => credit2[2] - credit1[2]
 
-// What: returns an array of highchart-objects where the weights of similar paths have been counted together
-// Takes in: an array of highchart-objects with a weight of 1
-
+// Returns an array of highchart-objects where the weights of similar paths have been counted together
+// Takes in an array of highchart-objects with a weight of 1
 const addWeights = (credits) => {
   const courseSet = new Map()
   let weightedCredits = []
@@ -138,8 +137,8 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
   return addWeights(weightedCredits)
 }
 
-// What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
-// Takes in: an array of highchart-objects of a single period-level, the orig. starting course, and amount of categories wanted in total
+// Returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
+// An array of highchart-objects of a single period-level, the orig. starting course, and amount of categories wanted in total
 const separateOthersCategory = (weightedCredits, startingCourse, amount) => {
   let arrayWithOthers = weightedCredits.filter(array => weightedCredits.indexOf(array) < amount)
   const others = weightedCredits.filter(array => weightedCredits.indexOf(array) >= amount)
@@ -151,16 +150,16 @@ const separateOthersCategory = (weightedCredits, startingCourse, amount) => {
   return arrayWithOthers
 }
 
-// What: creates the basic highchart-objects for the bubblechart
-// Takes in: an array of credits of a period
+// Creates the basic highchart-objects for the bubblechart
+// Takes in an array of credits of a period
 const creditArraysBubble = (credits) => {
   const highChartArrays = credits.map(credit => [credit.course, 1])
   return highChartArrays
 }
 
 
-// What: returns an array of highchart-objects where the weights of same courses in the period have been counted together
-// Takes in: an array of highchart-objects with a weight of 1
+// Returns an array of highchart-objects where the weights of same courses in the period have been counted together
+// Takes in an array of highchart-objects with a weight of 1
 const addWeightsBubble = (credits) => {
   const courseSet = new Map()
   let weightedCredits = []
@@ -184,8 +183,8 @@ const addWeightsBubble = (credits) => {
   return weightedCredits
 }
 
-// What: returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
-// Takes in: an array of highchart-objects of a course with a weight of 1, and amount of categories wanted in total
+// Returns an array of highchart-objects where the smaller courses have been mapped into a category "Others"
+// Takes in an array of highchart-objects of a course with a weight of 1, and amount of categories wanted in total
 const separateOthersCategoryBubble = (weightedCredits, amount) => {
   let arrayWithOthers = weightedCredits.filter(array => weightedCredits.indexOf(array) < amount)
   const others = weightedCredits.filter(array => weightedCredits.indexOf(array) >= amount)

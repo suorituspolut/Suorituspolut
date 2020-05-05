@@ -8,7 +8,7 @@ import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { graphImages } from '../../util/highChartOptions'
 import { blueColors } from '../../util/units'
-import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
+import { getSimpleHistogramData, getMultiHistogramData } from '../../util/redux/dataReducer'
 
 
 require('highcharts/modules/exporting')(Highcharts)
@@ -65,13 +65,13 @@ const Histograms = ({ courses, howMany }) => {
   const [activePage, setActivePage] = useState(1)
 
   useEffect(() => {
-    setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
-    setDataMany(JSON.parse(getHistoDataMany(subset, sorting)))
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course)).histogramArray, maxYear))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, sorting)))
   }, [])
 
   const handleSearch = (course, maxYear) => {
     try {
-      setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
+      setData(dataWithColors(JSON.parse(getSimpleHistogramData(course)).histogramArray, maxYear))
     } catch (err) {
       console.log(err)
     }
@@ -85,19 +85,19 @@ const Histograms = ({ courses, howMany }) => {
   const handleMaxYearChange = (e, { value }) => {
     e.preventDefault()
     setMaxYear(value)
-    setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, value))
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course)).histogramArray, value))
   }
 
   const handleSortingChange = (e, { value }) => {
     setSorting(value)
-    setDataMany(JSON.parse(getHistoDataMany(subset, value)))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, value)))
     setActivePage(1)
     setStartIndex(0)
   }
 
   const handleSubsetChange = (e, { value }) => {
     setSubset(value)
-    setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
+    setDataMany(JSON.parse(getMultiHistogramData(value, sorting)))
     setActivePage(1)
     setStartIndex(0)
   }
