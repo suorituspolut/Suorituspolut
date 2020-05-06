@@ -74,9 +74,8 @@ const Sankeys = ({ type, courses }) => {
             <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
             <FilterBar
               year={year}
-              handleGradeChange={handleGradeChange}
-              handleYearChange={handleYearChange}
               levels={levels}
+              handleYearChange={handleYearChange}
               handleLevelChange={handleLevelChange}
             />
             <Sankey type={type} data={multiData} year={year} />
@@ -106,10 +105,10 @@ const Sankey = ({ data, type, year }) => {
         turboThreshold: 9000,
         data,
         type: 'sankey',
-        name: type === 'multiple' ? '' : 'Suoritusten määrä',
+        name: type === 'multi' ? '' : 'Suoritusten määrä',
       }],
       tooltip: {
-        nodeFormat: type === 'multiple' ? '{point.name}' : '{point.name} {point.sum}',
+        nodeFormat: type === 'multi' ? '{point.name}' : '{point.name} {point.sum}',
       },
     }
 

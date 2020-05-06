@@ -97,9 +97,11 @@ const infos = [
   {
     id: 'recommendationTime',
     text: {
-      what: 'Tähän kurssinsuositteluun voi antaa käyttäjätiedot suoritetuista kursseista, \
-      joiden perusteella sovellus suosittelee kursseja haluttuun periodiin.',
-      options: '',
+      what: 'Antaa suosituksia kussakin opintojen vaiheessa käytäviksi kursseiksi. \
+      Suositukset perustuvat siihen, mitä kursseja tietyssä ajassa valmistuneet opiskelijat ovat yleisimmin käyneet \
+      kyseisenä ajankohtana.',
+      options: 'Hakua voi rajata halutun lukuvuoden ja lukukauden mukaan, sekä sen perusteella, \
+      missä ajassa verrattavat opiskelijat ovat valmistuneet.',
       usage: '',
       how: '',
       other: '',
