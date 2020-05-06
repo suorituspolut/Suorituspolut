@@ -95,8 +95,8 @@ export const getMultiHistogramData = (subset, sorting) => {
   return xmlHttp.responseText
 }
 
-export const getBubbleData = (year, grade, bubbles) => {
-  const urlEnd = `${year}/${grade}/${bubbles}`
+export const getBubbleData = (year, grade, bubbles, studytrack) => {
+  const urlEnd = `${year}/${grade}/${bubbles}/${studytrack}`
 
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()

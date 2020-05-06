@@ -186,6 +186,8 @@ const getBubbleData = async (req, res) => {
   let year = 2017
   let grade = null
   let bubbles = 10
+  let wantedTrack = 'cs'
+  const studyrights = []
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
@@ -196,22 +198,55 @@ const getBubbleData = async (req, res) => {
     bubbles = Number(req.params.bubbles)
   }
 
-  const parser = parse({ delimiter: ';' }, (err, data) => {
-    if (!data) return
-    data.forEach((credit) => {
-      const newCourse = {
-        studentId: credit[0],
-        courseId: credit[1],
-        course: credit[2],
-        isModule: credit[3],
-        date: new Date(credit[4]),
-        grade: credit[5],
-      }
-      array.push(newCourse)
-    })
-    res.send(bubbleObjects(array, year, grade, bubbles))
+  if (req.params.track !== null) {
+    wantedTrack = req.params.track
+  }
+
+  const promise = new Promise((resolve) => {
+    fs.createReadStream(file2)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (data) => {
+        const studyright = {
+          id: data[0],
+          trackcode: data[1],
+          studytrack: data[2],
+        }
+        studyrights.push(studyright)
+      })
+      .on('end', () => {
+        resolve()
+      })
   })
-  await fs.createReadStream(file).pipe(parser)
+
+  const promise2 = new Promise((resolve) => {
+    fs.createReadStream(file)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (credit) =>  {
+        const newCourse = {
+          studentId: credit[0],
+          courseId: credit[1],
+          course: credit[2],
+          isModule: credit[3],
+          date: new Date(credit[4]),
+          grade: credit[5],
+        }
+        array.push(newCourse)
+      })
+      .on('end', () => {
+        resolve()
+      })
+  })
+
+
+  Promise.all([
+    promise,
+    promise2,
+  ]).then(() => {
+    res.send(bubbleObjects(array, year, grade, bubbles, studyrights, wantedTrack))
+  })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 const getRecommendationGradeData = async (req, res) => {

@@ -23,31 +23,33 @@ const Bubbles = ({ studytracks }) => {
   const [grade, setGrade] = useState('Läpäisseet')
   const [data, setData] = useState([])
   const [studytrack, setStudytrack] = useState('Tietojenkäsittelytieteen koulutusohjelma')
+
   useEffect(() => {
-    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
   }, [])
 
-  const handleSearch = (year, grade, bubbleAmount) => {
-    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+  const handleSearch = (year, grade, bubbleAmount, studytrack) => {
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(value, grade, bubbleAmount)
+    handleSearch(value, grade, bubbleAmount, studytrack)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
-    handleSearch(year, value, bubbleAmount)
+    handleSearch(year, value, bubbleAmount, studytrack)
   }
 
   const handleBubblesChange = (e, { value }) => {
     setBubbleAmount(value)
-    handleSearch(year, grade, value)
+    handleSearch(year, grade, value, studytrack)
   }
 
   const handleStudytrackChange = (e, { value }) => {
     setStudytrack(value)
+    handleSearch(year, grade, bubbleAmount, value)
   }
 
 
