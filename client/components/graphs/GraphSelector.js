@@ -4,29 +4,30 @@ import Bubbles from './Bubbles'
 import Sankeys from './Sankey'
 import RecommendationGrades from './RecommendationGrades'
 import RecommendationTime from './RecommendationTime'
-import { getCourseData } from '../../util/redux/dataReducer'
+import { getCourseData, getStudytrackData } from '../../util/redux/dataReducer'
 
 import Info from '../notifications/Info'
 import infos from '../notifications/Info_contents'
 
 const GraphSelector = ({ graphToShow }) => {
   const courses = JSON.parse(getCourseData()).sort()
+  const studytracks = JSON.parse(getStudytrackData())
 
   const whichGraph = (graph) => {
     switch (graph) {
-      case 1:
-        return <Sankeys courses={courses} type="normal" />
-      case 2:
-        return <Sankeys courses={courses} type="firsts" />
-      case 3:
-        return <Histograms courses={courses} howMany={1} />
-      case 4:
-        return <Histograms courses={courses} howMany={5} />
-      case 5:
-        return <Bubbles />
-      case 8:
+      case 'simplesankey':
+        return <Sankeys courses={courses} type="simple" />
+      case 'multisankey':
+        return <Sankeys courses={courses} type="multi" />
+      case 'simplehistogram':
+        return <Histograms courses={courses} simple />
+      case 'multihistogram':
+        return <Histograms courses={courses} />
+      case 'bubbles':
+        return <Bubbles studytracks={studytracks} />
+      case 'recommendationGrades':
         return <RecommendationGrades courses={courses} />
-      case 9:
+      case 'recommendationTime':
         return <RecommendationTime />
       default:
         return (

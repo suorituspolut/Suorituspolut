@@ -6,6 +6,8 @@ import { basePath, inProduction } from 'Utilities/common'
  * ApiConnection simplifies redux usage
  */
 
+const getStuff = axios.create('http://localhost:8000/api/courses')
+
 const getAxios = axios.create({ baseURL: `${basePath}api` })
 
 const callApi = async (url, method = 'get', data) => {

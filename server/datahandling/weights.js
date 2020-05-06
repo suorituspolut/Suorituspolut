@@ -30,6 +30,10 @@ const addWeights = (credits) => {
   return weightedCredits
 }
 
+
+// Returns an array of the biggest courses
+// Takes in a map (key: name of course value: weight) and the amount of courses wanted in the return array
+// intended for the use of the othersCategoryFirsts method
 const findBiggestCourses = (mapOfWeights, amount) => {
   let array = []
 
@@ -44,11 +48,17 @@ const findBiggestCourses = (mapOfWeights, amount) => {
   return array
 }
 
+
+// For the SankeyFirsts-graph where the others categorization needs to be done on each level (similar to separateOthersCategory-method)
+// Returns an array of highcharts-objects (from: course, to: course, weight)
+// Takes in an array of highcharts-objects where weights are already added together and the number of levels
+// to be shown on graph
 const othersCategoryFirsts = (weightedCredits, levels) => {
-  const others = 7
+  const amountOfCoursesShown = 7
   const separatedByLevel = new Map()
   let keepList = []
 
+  // separates credits into a map by which level they belong to (key: level number, value: credit)
   weightedCredits.forEach((credit) => {
     const thisLevel = Number(credit[0][0])
     let array = []
@@ -61,7 +71,7 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
 
   let toWeight = new Map()
 
-  // level 1
+  // Does others categorization for the first level
   if (separatedByLevel.has(1)) {
     let array = separatedByLevel.get(1)
     const fromWeight = new Map()
@@ -83,7 +93,7 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
       }
     }
 
-    keepList = findBiggestCourses(fromWeight, others)
+    keepList = findBiggestCourses(fromWeight, amountOfCoursesShown)
     array.forEach((highChartObject) => {
       if (!keepList.includes(highChartObject[0])) {
         highChartObject[0] = '1: Muut'
@@ -92,11 +102,11 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
     array = addWeights(array)
   }
 
-  // rest of the levels
+  // Does others categorization for the rest of the levels
   separatedByLevel.forEach((array, level) => {
     let previousLevel = separatedByLevel.get(level - 1)
     if (level !== 1) {
-      keepList = findBiggestCourses(toWeight, others)
+      keepList = findBiggestCourses(toWeight, amountOfCoursesShown)
       toWeight = new Map()
       array.forEach((highChartObject) => {
         if (!keepList.includes(highChartObject[0])) {
@@ -117,12 +127,12 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
           highChartObject[1] = `${level}: Muut`
         }
       })
-      // array = addWeights(array)
       previousLevel = addWeights(previousLevel)
     }
 
+    // Does others categorization for the last level
     if (level === levels - 1) {
-      keepList = findBiggestCourses(toWeight, others)
+      keepList = findBiggestCourses(toWeight, amountOfCoursesShown)
 
       array.forEach((highChartObject) => {
         if (!keepList.includes(highChartObject[1])) {
@@ -132,7 +142,6 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
       array = addWeights(array)
     }
   })
-
 
   return addWeights(weightedCredits)
 }

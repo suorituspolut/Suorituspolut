@@ -11,6 +11,19 @@ export const getCourseData = () => {
   return xmlHttp.responseText
 }
 
+export const getStudytrackData = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', 'http://localhost:8000/api/studytracks', false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', 'https://toska.cs.helsinki.fi/suorituspolut/api/studytracks', false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
 export const getSankeyData = (type, year, course, grade, levels) => {
   const urlEnd = `${type}/${year}/${course}/${grade}/${levels}`
 
@@ -22,6 +35,36 @@ export const getSankeyData = (type, year, course, grade, levels) => {
   }
   const xmlHttp = new XMLHttpRequest()
   xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/sankey/${urlEnd}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getSimpleSankeyData = (year, course, grade) => {
+  const urlEnd = `${year}/${course}/${grade}`
+
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/simplesankey/${urlEnd}`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/simplesankey/${urlEnd}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getMultiSankeyData = (year, levels) => {
+  const urlEnd = `${year}/${levels}`
+
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/multisankey/${urlEnd}`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/multisankey/${urlEnd}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }
@@ -52,8 +95,8 @@ export const getMultiHistogramData = (subset, sorting, studytrack) => {
   return xmlHttp.responseText
 }
 
-export const getBubbleData = (year, grade, bubbles) => {
-  const urlEnd = `${year}/${grade}/${bubbles}`
+export const getBubbleData = (year, grade, bubbles, studytrack) => {
+  const urlEnd = `${year}/${grade}/${bubbles}/${studytrack}`
 
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()

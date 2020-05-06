@@ -1,9 +1,12 @@
 const { toPeriod } = require('@root/server/datahandling/periods')
 const { creditArraysBubble, addWeightsBubble, separateOthersCategoryBubble } = require('@root/server/datahandling/weights')
 const { checkGrade } = require('@root/server/datahandling/grades')
+const { correctStudyTrack } = require('@root/server/datahandling/students')
 
+// Returns the arrays for a highchart-graph
+const bubbleObjects = (data, year, grade, bubbles, studytracks, wantedStudyTrack) => {
+  data.shift()
 
-const bubbleObjects = (data, year, grade, bubbles) => {
   const chartData = [
     {
       name: '1. periodi',
@@ -28,7 +31,7 @@ const bubbleObjects = (data, year, grade, bubbles) => {
   ]
 
   data.forEach((credit) => {
-    if ((!year || credit.date.getFullYear() === year) && (!grade || checkGrade(grade, credit.grade))) {
+    if ((!year || credit.date.getFullYear() === year) && (!grade || checkGrade(grade, credit.grade)) && correctStudyTrack(credit.studentId, studytracks, wantedStudyTrack)) {
       const creditPeriod = toPeriod(credit.date).period
       chartData[creditPeriod - 1].data = [...chartData[creditPeriod - 1].data, credit]
     }

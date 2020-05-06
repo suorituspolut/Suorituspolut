@@ -2,7 +2,7 @@
 
 const infos = [
   {
-    id: 1,
+    id: 'simplesankey',
     text: {
       what: 'Näyttää sen, mitä kursseja valitun kurssin suorittaneet opiskelijat ovat käyneet seuraavassa periodissa.',
       options: 'Hakua voi rajata sen kurssin perusteella,\
@@ -15,7 +15,7 @@ const infos = [
     },
   },
   {
-    id: 2,
+    id: 'multisankey',
     text: {
       what: 'Näyttää opintojen etenemisen periodeittain kunkin opiskelijan ensimmäisistä kursseista lähtien.',
       options: 'Hakua voi rajata ensimmäisen suorituksen vuoden ja arvosanan perusteella, \
@@ -30,7 +30,7 @@ const infos = [
     },
   },
   {
-    id: 3,
+    id: 'simplehistogram',
     text: {
       what: 'Näyttää, missä vaiheessa opintojaan opiskelijat käyvät valitun kurssin.',
       options: 'Hakua voi rajata kurssin sekä näytettävien opiskeluvuosien perusteella.',
@@ -45,7 +45,7 @@ const infos = [
     },
   },
   {
-    id: 4,
+    id: 'multihistogram',
     text: {
       what: 'Näyttää useiden kurssien osalta, missä vaiheessa opintojaan opiskelijat käyvät kyseiset kurssit.',
       options: 'Hakua voi rajata koskemaan kandivaiheen pakollisia TKT-kursseja, \
@@ -62,7 +62,7 @@ const infos = [
     },
   },
   {
-    id: 5,
+    id: 'bubbles',
     text: {
       what: 'Näyttää sen, missä periodissa kurssit on suoritettu minäkin vuonna. ',
       options: 'Hakua voi rajata suoritusvuoden sekä suoritusten arvosanan perusteella.  \
@@ -74,7 +74,7 @@ const infos = [
     },
   },
   {
-    id: 8,
+    id: 'recommendationGrades',
     text: {
       what: 'Näyttää valitun kurssin arvosanajakauman haluttuna vuonna, sekä kurssit, \
       joita on käyty ennen valittua kurssia.',
@@ -95,11 +95,13 @@ const infos = [
     },
   },
   {
-    id: 9,
+    id: 'recommendationTime',
     text: {
-      what: 'Tähän kurssinsuositteluun voi antaa käyttäjätiedot suoritetuista kursseista, \
-      joiden perusteella sovellus suosittelee kursseja haluttuun periodiin.',
-      options: '',
+      what: 'Antaa suosituksia kussakin opintojen vaiheessa käytäviksi kursseiksi. \
+      Suositukset perustuvat siihen, mitä kursseja tietyssä ajassa valmistuneet opiskelijat ovat yleisimmin käyneet \
+      kyseisenä ajankohtana.',
+      options: 'Hakua voi rajata halutun lukuvuoden ja lukukauden mukaan, sekä sen perusteella, \
+      missä ajassa verrattavat opiskelijat ovat valmistuneet.',
       usage: '',
       how: '',
       other: '',

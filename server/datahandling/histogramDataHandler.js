@@ -74,6 +74,7 @@ const calculateMedian = (array) => {
   return (sum / array.length)
 }
 
+// sorts a list of histogram-objects by their mode, smallest modes first
 const sortByModeEndHeavy = (histogramList) => {
   histogramList.forEach((histoObject) => {
     histoObject.biggestIndex = histoObject.histogramArray.indexOf(Math.max(...histoObject.histogramArray))
@@ -82,6 +83,7 @@ const sortByModeEndHeavy = (histogramList) => {
   return histogramList.sort((histoObject1, histoObject2) => histoObject2.biggestIndex - histoObject1.biggestIndex)
 }
 
+// sorts a list of histogram-objects by their mode, biggest modes first
 const sortByModeStartHeavy = (histogramList) => {
   histogramList.forEach((histoObject) => {
     histoObject.biggestIndex = histoObject.histogramArray.indexOf(Math.max(...histoObject.histogramArray))
@@ -90,6 +92,7 @@ const sortByModeStartHeavy = (histogramList) => {
   return histogramList.sort((histoObject1, histoObject2) => histoObject1.biggestIndex - histoObject2.biggestIndex)
 }
 
+// sorts a list of histogram-objects by their standard deviation, smallest first
 const sortByStandardDeviation = (histogramList) => {
   histogramList.forEach((histoObject) => {
     const median = calculateMedian(histoObject.histogramArray)
@@ -107,6 +110,7 @@ const sortByStandardDeviation = (histogramList) => {
   return histogramList.sort((histoObject1, histoObject2) => histoObject1.deviation - histoObject2.deviation)
 }
 
+// sorts a list of histogram-objects by their standard deviation, biggest first
 const sortByStandardDeviationReverse = (histogramList) => {
   histogramList.forEach((histoObject) => {
     const median = calculateMedian(histoObject.histogramArray)

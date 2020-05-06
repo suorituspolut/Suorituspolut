@@ -17,6 +17,8 @@ const recommendationTimeObjects = (data, year, term, studentNumber, goalYears) =
 }
 
 // Gets all students who have graduated and filters all the timely graduated ones
+// Takes in an array of credit-objects and the number of years a student should have graduated in
+// to be considered "timely graduated"
 const timelyGraduated = (data, goalYears) => {
   const periods = goalYears * 5
   const students = graduatedStudents(data)

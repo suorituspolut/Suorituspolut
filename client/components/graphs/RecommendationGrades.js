@@ -140,7 +140,7 @@ const PieChart = ({ grades, course }) => {
       </div>
     )
   }
-  return  <Loader active inline='centered' />
+  return <Loader active inline="centered" />
 }
 
 export default RecommendationGrades
