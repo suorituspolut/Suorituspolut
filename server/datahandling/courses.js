@@ -184,7 +184,6 @@ const countTheBiggestCourses = (array, amount) => {
   return biggestCourses
 }
 
-
 module.exports = {
   courseData,
   mandatoryCourses,

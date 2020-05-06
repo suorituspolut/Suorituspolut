@@ -2,7 +2,7 @@ const { toPeriod } = require('@root/server/datahandling/periods')
 const { creditArraysBubble, addWeightsBubble, separateOthersCategoryBubble } = require('@root/server/datahandling/weights')
 const { checkGrade } = require('@root/server/datahandling/grades')
 
-
+// Returns the arrays for a highchart-graph
 const bubbleObjects = (data, year, grade, bubbles) => {
   const chartData = [
     {

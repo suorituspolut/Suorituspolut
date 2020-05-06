@@ -4,7 +4,7 @@ import Highcharts from 'highcharts'
 import { Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
-import { getSankeyData } from '../../util/redux/dataReducer'
+import { getSimpleSankeyData, getMultiSankeyData } from '../../util/redux/dataReducer'
 import { graphImages } from '../../util/highChartOptions'
 
 
@@ -17,17 +17,17 @@ const Sankeys = ({ type, courses }) => {
   const [course, setCourse] = useState('Ohjelmoinnin perusteet')
   const [grade, setGrade] = useState('Läpäisseet')
   const [levels, setLevels] = useState(5)
-  const [firstsData, setFirstsData] = useState([])
-  const [normalData, setNormalData] = useState([])
+  const [multiData, setMultiData] = useState([])
+  const [simpleData, setSimpleData] = useState([])
 
   useEffect(() => {
-    setFirstsData(JSON.parse(getSankeyData('firsts', year, course, grade, levels)))
-    setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
+    setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade)))
+    setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
   }, [])
 
   const handleSearch = (year, course, grade, levels) => {
-    if (type === 'firsts') setFirstsData(JSON.parse(getSankeyData('firsts', year, course, grade, levels)))
-    else setNormalData(JSON.parse(getSankeyData('normal', year, course, grade, levels)))
+    if (type === 'multi') setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
+    else setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade)))
   }
 
   const handleYearChange = (e, { value }) => {
@@ -53,8 +53,7 @@ const Sankeys = ({ type, courses }) => {
 
   return (
     <>
-
-      {type === 'normal'
+      {type === 'simple'
         ? (
           <>
             <Headline text="Mitä kursseja on suoritettu seuraavassa periodissa" />
@@ -67,7 +66,7 @@ const Sankeys = ({ type, courses }) => {
               handleGradeChange={handleGradeChange}
               handleYearChange={handleYearChange}
             />
-            <Sankey type={type} data={normalData} year={year} />
+            <Sankey type={type} data={simpleData} year={year} />
           </>
         )
         : (
@@ -80,7 +79,7 @@ const Sankeys = ({ type, courses }) => {
               levels={levels}
               handleLevelChange={handleLevelChange}
             />
-            <Sankey type={type} data={firstsData} year={year} />
+            <Sankey type={type} data={multiData} year={year} />
           </>
         )
       }
@@ -107,10 +106,10 @@ const Sankey = ({ data, type, year }) => {
         turboThreshold: 9000,
         data,
         type: 'sankey',
-        name: type === 'firsts' ? '' : 'Suoritusten määrä',
+        name: type === 'multiple' ? '' : 'Suoritusten määrä',
       }],
       tooltip: {
-        nodeFormat: type === 'firsts' ? '{point.name}' : '{point.name} {point.sum}',
+        nodeFormat: type === 'multiple' ? '{point.name}' : '{point.name} {point.sum}',
       },
     }
 
@@ -125,7 +124,7 @@ const Sankey = ({ data, type, year }) => {
       </div>
     )
   }
-  return  <Loader active inline='centered' />
+  return <Loader active inline="centered" />
 }
 
 export default Sankeys

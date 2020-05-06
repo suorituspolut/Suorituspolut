@@ -26,6 +26,36 @@ export const getSankeyData = (type, year, course, grade, levels) => {
   return xmlHttp.responseText
 }
 
+export const getSimpleSankeyData = (year, course, grade) => {
+  const urlEnd = `${year}/${course}/${grade}`
+
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/simplesankey/${urlEnd}`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/simplesankey/${urlEnd}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getMultiSankeyData = (year, levels) => {
+  const urlEnd = `${year}/${levels}`
+
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/multisankey/${urlEnd}`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/multisankey/${urlEnd}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
 export const getSimpleHistogramData = (course) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()

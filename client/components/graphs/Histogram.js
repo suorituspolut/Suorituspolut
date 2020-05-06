@@ -123,7 +123,7 @@ const Histograms = ({ courses, howMany }) => {
 
       return (
         <div>
-          {coursesOnAPage.map(course => <Histogram key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} deviation={course.deviation} />)}
+          {coursesOnAPage.map(course => <HistogramGraph key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} deviation={course.deviation} />)}
         </div>
       )
     }
@@ -134,11 +134,11 @@ const Histograms = ({ courses, howMany }) => {
     if (courses.length > 0 && datamany.length > 0) {
       return (
         <div>
-          <Histogram maxYear={maxYear} data={data} course={course} categories={categories} />
+          <HistogramGraph maxYear={maxYear} data={data} course={course} categories={categories} />
         </div>
       )
     }
-    return  <Loader active inline='centered' />
+    return <Loader active inline="centered" />
   }
 
   return (
@@ -195,7 +195,7 @@ const Histograms = ({ courses, howMany }) => {
   )
 }
 
-const Histogram = ({
+const HistogramGraph = ({
   data, course, categories, deviation,
 }) => {
   let deviationSubtitle = ''

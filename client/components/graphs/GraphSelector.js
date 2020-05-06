@@ -15,9 +15,9 @@ const GraphSelector = ({ graphToShow }) => {
   const whichGraph = (graph) => {
     switch (graph) {
       case 1:
-        return <Sankeys courses={courses} type="normal" />
+        return <Sankeys courses={courses} type="simple" />
       case 2:
-        return <Sankeys courses={courses} type="firsts" />
+        return <Sankeys courses={courses} type="multi" />
       case 3:
         return <Histograms courses={courses} howMany={1} />
       case 4:

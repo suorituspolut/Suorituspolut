@@ -36,9 +36,8 @@ const Bubbles = () => {
     handleSearch(value, grade, bubbleAmount)
   }
 
-  const handleGradeChange = async (e, { value }) => {
-    await setGrade(value)
-    console.log(grade)
+  const handleGradeChange = (e, { value }) => {
+    setGrade(value)
     handleSearch(year, value, bubbleAmount)
   }
 
@@ -91,10 +90,18 @@ const Bubbles = () => {
     },
     series: data,
   }
-
-  const printOutBubbles = () => {
-    if (data.length > 0) {
-      return (
+  if (data.length > 0) {
+    return (
+      <div>
+        <Headline text="Kurssisuoritukset perioideittain" />
+        <FilterBar
+          year={year}
+          grade={grade}
+          bubbles={bubbleAmount}
+          handleGradeChange={handleGradeChange}
+          handleYearChange={handleYearChange}
+          handleBubblesChange={handleBubblesChange}
+        />
         <div className="graph-container">
           <HighchartsReact
             highcharts={Highcharts}
@@ -102,28 +109,10 @@ const Bubbles = () => {
             options={options}
           />
         </div>
-      )
-    }
-    else if (!data) {
-      return <p>No data</p>
-    }
-    return <Loader active inline="centered" />
+      </div>
+    )
   }
-
-  return (
-    <div>
-      <Headline text="Kurssisuoritukset perioideittain" />
-      <FilterBar
-        year={year}
-        grade={grade}
-        bubbles={bubbleAmount}
-        handleGradeChange={handleGradeChange}
-        handleYearChange={handleYearChange}
-        handleBubblesChange={handleBubblesChange}
-      />
-      {printOutBubbles()}
-    </div>
-  )
+  return <Loader active inline="centered" />
 }
 
 export default Bubbles

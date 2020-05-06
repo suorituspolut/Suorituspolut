@@ -15,14 +15,15 @@ const FilterBar = ({
   maxYear,
   yearWithAll,
   schoolYear,
-  studyYear,
+  goalYear,
   term,
   handleCourseChange,
   handleGradeChange,
   handleYearChange,
   handleLevelChange,
   handleBubblesChange,
-  handleStudyYearChange,
+  handleSchoolYearChange,
+  handleGoalYearChange,
   handleMaxYearChange,
   handleTermChange,
 }) => (
@@ -86,7 +87,7 @@ const FilterBar = ({
         {schoolYear ? (
           <Filter
             label="Lukuvuosi"
-            handleChange={handleYearChange}
+            handleChange={handleSchoolYearChange}
             value={schoolYear}
             options={createNumberOptions(1, 5)}
             placeholder="2"
@@ -101,11 +102,11 @@ const FilterBar = ({
             placeholder="Syksy"
           />
         ) : null}
-        {studyYear ? (
+        {goalYear ? (
           <Filter
             label="Tavoiteaika"
-            handleChange={handleStudyYearChange}
-            value={studyYear}
+            handleChange={handleGoalYearChange}
+            value={goalYear}
             options={createNumberOptions(2, 5)}
             placeholder="3"
           />
