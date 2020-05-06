@@ -7,54 +7,15 @@ import {
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { graphImages } from '../../util/highChartOptions'
-import { blueColors } from '../../util/units'
+import { dataWithColors, histogramCategories } from '../../util/units'
 import { getSimpleHistogramData, getMultiHistogramData } from '../../util/redux/dataReducer'
 
 
 require('highcharts/modules/exporting')(Highcharts)
 
+const categories = histogramCategories(10)
 
-const countCategories = (maxYear) => {
-  const categories = []
-  let currentYear = 1
-  let currentPeriod = 1
-
-  for (let i = 1; i < maxYear * 5 + 1; i++) {
-    categories[i - 1] = `${currentYear} .vuosi /  ${currentPeriod} .periodi`
-    currentPeriod++
-    if (i % 5 === 0) {
-      currentYear++
-      currentPeriod = 1
-    }
-  }
-
-  return categories
-}
-
-const categories = countCategories(10)
-
-const dataWithColors = (data, maxYear) => {
-  const addingColors = data.map((dataPoint, index) => {
-    if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
-    if (index >= 5 && index < 10) return ({ y: dataPoint, color: blueColors[1] })
-    if (index >= 10 && index < 15) return ({ y: dataPoint, color: blueColors[2] })
-    if (index >= 15 && index < 20) return ({ y: dataPoint, color: blueColors[3] })
-    if (index >= 20 && index < 25) return ({ y: dataPoint, color: blueColors[0] })
-    if (index >= 25 && index < 30) return ({ y: dataPoint, color: blueColors[1] })
-    if (index >= 30 && index < 35) return ({ y: dataPoint, color: blueColors[2] })
-    if (index >= 35 && index < 40) return ({ y: dataPoint, color: blueColors[3] })
-    if (index >= 40 && index < 45) return ({ y: dataPoint, color: blueColors[0] })
-    if (index >= 45 && index < 50) return ({ y: dataPoint, color: blueColors[1] })
-  })
-  const array = []
-  for (let i = 0; i < maxYear * 5; i++) {
-    array[i] = addingColors[i]
-  }
-  return array
-}
-
-
-const Histograms = ({ courses, howMany }) => {
+const Histograms = ({ courses, simple }) => {
   const [sorting, setSorting] = useState('startHeavy')
   const [subset, setSubset] = useState('mandatoryCourses')
   const [data, setData] = useState([])
@@ -83,9 +44,8 @@ const Histograms = ({ courses, howMany }) => {
   }
 
   const handleMaxYearChange = (e, { value }) => {
-    e.preventDefault()
     setMaxYear(value)
-    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course)).histogramArray, value))
+    handleSearch(course, value)
   }
 
   const handleSortingChange = (e, { value }) => {
@@ -127,7 +87,7 @@ const Histograms = ({ courses, howMany }) => {
         </div>
       )
     }
-    return  <Loader active inline='centered' />
+    return <Loader active inline="centered" />
   }
 
   const printOutOneHistogram = () => {
@@ -143,7 +103,7 @@ const Histograms = ({ courses, howMany }) => {
 
   return (
     <>
-      {howMany !== 1
+      {!simple
         ? (
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />

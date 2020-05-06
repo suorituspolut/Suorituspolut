@@ -4,16 +4,16 @@ import Logo from '../../assets/logo.png'
 
 const NavBar = ({ onChange, value }) => {
   const options = [
-    { key: 1, value: 1, text: 'Kurssien suorituspolut periodeittain ja kursseittain (Sankey-graafi)' },
-    { key: 2, value: 2, text: 'Kurssien suorituspolut periodeittain, useampia periodeja (Sankey-graafi)' },
-    { key: 3, value: 3, text: 'Kurssin suoritusajankohta (Histogrammi)' },
-    { key: 4, value: 4, text: 'Useamman kurssin suoritusajankohta (Histogrammi)' },
-    { key: 5, value: 5, text: 'Listaus kursseista periodeittain (Kuplagraafi)' },
+    { key: 'simplesankey', value: 'simplesankey', text: 'Kurssien suorituspolut periodeittain ja kursseittain (Sankey-graafi)' },
+    { key: 'multisankey', value: 'multisankey', text: 'Kurssien suorituspolut periodeittain, useampia periodeja (Sankey-graafi)' },
+    { key: 'simplehistogram', value: 'simplehistogram', text: 'Kurssin suoritusajankohta (Histogrammi)' },
+    { key: 'multihistogram', value: 'multihistogram', text: 'Useamman kurssin suoritusajankohta (Histogrammi)' },
+    { key: 'bubbles', value: 'bubbles', text: 'Listaus kursseista periodeittain (Kuplagraafi)' },
   ]
 
   const recommendationOptions = [
-    { key: 1, value: 8, text: 'Arvosanojen perusteella' },
-    { key: 2, value: 9, text: 'Opintojen vaiheen perusteella' },
+    { key: 'recommendationGrades', value: 'recommendationGrades', text: 'Arvosanojen perusteella' },
+    { key: 'recommendationTime', value: 'recommendationTime', text: 'Opintojen vaiheen perusteella' },
   ]
 
   return (

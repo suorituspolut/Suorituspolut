@@ -14,19 +14,19 @@ const GraphSelector = ({ graphToShow }) => {
 
   const whichGraph = (graph) => {
     switch (graph) {
-      case 1:
+      case 'simplesankey':
         return <Sankeys courses={courses} type="simple" />
-      case 2:
+      case 'multisankey':
         return <Sankeys courses={courses} type="multi" />
-      case 3:
-        return <Histograms courses={courses} howMany={1} />
-      case 4:
-        return <Histograms courses={courses} howMany={5} />
-      case 5:
+      case 'simplehistogram':
+        return <Histograms courses={courses} simple />
+      case 'multihistogram':
+        return <Histograms courses={courses} />
+      case 'bubbles':
         return <Bubbles />
-      case 8:
+      case 'recommendationGrades':
         return <RecommendationGrades courses={courses} />
-      case 9:
+      case 'recommendationTime':
         return <RecommendationTime />
       default:
         return (
