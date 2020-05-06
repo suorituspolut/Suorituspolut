@@ -3,7 +3,7 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 // eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
-import { Loader } from 'semantic-ui-react'
+import { Radio, Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
@@ -22,7 +22,7 @@ const Bubbles = ({ studytracks }) => {
   const [bubbleAmount, setBubbleAmount] = useState(5)
   const [grade, setGrade] = useState('Läpäisseet')
   const [data, setData] = useState([])
-  const [studytrack, setStudytrack] = useState('Tietojenkäsittelytieteen koulutusohjelma')
+  const [studytrack, setStudytrack] = useState('cs')
 
   useEffect(() => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
@@ -100,16 +100,18 @@ const Bubbles = ({ studytracks }) => {
     return (
       <div>
         <Headline text="Kurssisuoritukset perioideittain" />
+        <div className="rts-radio-container">
+          <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+          <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+          <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+        </div>
         <FilterBar
           year={year}
           grade={grade}
           bubbles={bubbleAmount}
-          studytracks={studytracks}
-          studytrack={studytrack}
           handleGradeChange={handleGradeChange}
           handleYearChange={handleYearChange}
           handleBubblesChange={handleBubblesChange}
-          handleStudytrackChange={handleStudytrackChange}
         />
         <div className="graph-container">
           <HighchartsReact

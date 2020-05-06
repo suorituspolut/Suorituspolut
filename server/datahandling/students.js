@@ -70,7 +70,7 @@ const coursesOfOneStudent = (studentNumber, data) => {
 
 const correctStudyTrack = (studentId, studyrights, wantedTrack) => {
   if (!studyrights || !wantedTrack || wantedTrack === 'all') return true
-  let track = wantedTrack
+  let track = ''
   if (wantedTrack === 'cs') track = 'Tietojenkäsittelytieteen koulutusohjelma'
   if (wantedTrack === 'math') track = 'Matematiikan koulutusohjelma'
   const right = studyrights.find(right => right.id === studentId)
