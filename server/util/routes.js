@@ -13,7 +13,7 @@ router.get('/simplehistogram/:course', data.getSimpleHistogramData)
 router.get('/multihistogram/:sorting/:subset', data.getMultiHistogramData)
 router.get('/recommendationsgrade/:year/:course/:uniqueness/:studytrack', data.getRecommendationGradeData)
 router.get('/recommendationstime/:year/:term/:studentNumber/:goalYears', data.getRecommendationTimeData)
-router.get('/studies', data.getStudyData)
+router.get('/studytracks', data.getStudyData)
 
 
 module.exports = router

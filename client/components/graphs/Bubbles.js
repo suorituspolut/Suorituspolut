@@ -17,12 +17,12 @@ require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
 
-const Bubbles = () => {
+const Bubbles = ({ studytracks }) => {
   const [year, setYear] = useState(2017)
   const [bubbleAmount, setBubbleAmount] = useState(5)
   const [grade, setGrade] = useState('Läpäisseet')
   const [data, setData] = useState([])
-
+  const [studytrack, setStudytrack] = useState('Tietojenkäsittelytieteen koulutusohjelma')
   useEffect(() => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
   }, [])
@@ -44,6 +44,10 @@ const Bubbles = () => {
   const handleBubblesChange = (e, { value }) => {
     setBubbleAmount(value)
     handleSearch(year, grade, value)
+  }
+
+  const handleStudytrackChange = (e, { value }) => {
+    setStudytrack(value)
   }
 
 
@@ -98,9 +102,12 @@ const Bubbles = () => {
           year={year}
           grade={grade}
           bubbles={bubbleAmount}
+          studytracks={studytracks}
+          studytrack={studytrack}
           handleGradeChange={handleGradeChange}
           handleYearChange={handleYearChange}
           handleBubblesChange={handleBubblesChange}
+          handleStudytrackChange={handleStudytrackChange}
         />
         <div className="graph-container">
           <HighchartsReact
