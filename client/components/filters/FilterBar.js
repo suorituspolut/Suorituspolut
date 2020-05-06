@@ -17,6 +17,8 @@ const FilterBar = ({
   schoolYear,
   goalYear,
   term,
+  studytracks,
+  studytrack,
   handleCourseChange,
   handleGradeChange,
   handleYearChange,
@@ -26,6 +28,7 @@ const FilterBar = ({
   handleGoalYearChange,
   handleMaxYearChange,
   handleTermChange,
+  handleStudytrackChange,
 }) => (
   <table className="ui four very basic table filter-container">
     <tbody>
@@ -109,6 +112,15 @@ const FilterBar = ({
             value={goalYear}
             options={createNumberOptions(2, 5)}
             placeholder="3"
+          />
+        ) : null}
+        {studytrack ? (
+          <Filter
+            label="Koulutusohjelma"
+            handleChange={handleStudytrackChange}
+            value={studytrack}
+            options={createTextOptions(studytracks)}
+            placeholder="Tietojenkäsittelytieteen koulutusohjelma"
           />
         ) : null}
       </tr>

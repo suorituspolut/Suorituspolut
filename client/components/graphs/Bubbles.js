@@ -17,33 +17,39 @@ require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
 
-const Bubbles = () => {
+const Bubbles = ({ studytracks }) => {
   const [year, setYear] = useState(2017)
   const [bubbleAmount, setBubbleAmount] = useState(5)
   const [grade, setGrade] = useState('Läpäisseet')
   const [data, setData] = useState([])
+  const [studytrack, setStudytrack] = useState('Tietojenkäsittelytieteen koulutusohjelma')
 
   useEffect(() => {
-    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
   }, [])
 
-  const handleSearch = (year, grade, bubbleAmount) => {
-    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+  const handleSearch = (year, grade, bubbleAmount, studytrack) => {
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(value, grade, bubbleAmount)
+    handleSearch(value, grade, bubbleAmount, studytrack)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
-    handleSearch(year, value, bubbleAmount)
+    handleSearch(year, value, bubbleAmount, studytrack)
   }
 
   const handleBubblesChange = (e, { value }) => {
     setBubbleAmount(value)
-    handleSearch(year, grade, value)
+    handleSearch(year, grade, value, studytrack)
+  }
+
+  const handleStudytrackChange = (e, { value }) => {
+    setStudytrack(value)
+    handleSearch(year, grade, bubbleAmount, value)
   }
 
 
@@ -98,9 +104,12 @@ const Bubbles = () => {
           year={year}
           grade={grade}
           bubbles={bubbleAmount}
+          studytracks={studytracks}
+          studytrack={studytrack}
           handleGradeChange={handleGradeChange}
           handleYearChange={handleYearChange}
           handleBubblesChange={handleBubblesChange}
+          handleStudytrackChange={handleStudytrackChange}
         />
         <div className="graph-container">
           <HighchartsReact
