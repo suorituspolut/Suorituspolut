@@ -68,6 +68,8 @@ const coursesOfOneStudent = (studentNumber, data) => {
   return courses
 }
 
+// Checks if the student is of correct training programme
+// Takes in the id of the student, an array of studyrights objects and the correct study track wanted
 const correctStudyTrack = (studentId, studyrights, wantedTrack) => {
   if (!studyrights || !wantedTrack || wantedTrack === 'all') return true
   let track = wantedTrack
