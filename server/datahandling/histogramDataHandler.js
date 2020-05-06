@@ -4,8 +4,8 @@ const { periodsBetweenTwoDates } = require('@root/server/datahandling/periods')
 const { mandatoryCourses, mathCourses, csCourses } = require('@root/server/datahandling/courses')
 const { studentObjects } = require('@root/server/datahandling/students')
 
-const histogramObjects = (data, course, subset, sorting) => {
-  const students = studentObjects(data)
+const histogramObjects = (data, course, subset, sorting, studytrack, studyrights) => {
+  const students = studentObjects(data, studyrights, studytrack)
 
   if (course) {
     return simpleHistogramData(students, course)

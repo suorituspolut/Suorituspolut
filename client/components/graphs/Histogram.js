@@ -24,15 +24,16 @@ const Histograms = ({ courses, simple }) => {
   const [maxYear, setMaxYear] = useState(5)
   const [startIndex, setStartIndex] = useState(0)
   const [activePage, setActivePage] = useState(1)
+  const [studytrack, setStudytrack] = useState('cs')
 
   useEffect(() => {
-    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course)).histogramArray, maxYear))
-    setDataMany(JSON.parse(getMultiHistogramData(subset, sorting)))
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, maxYear))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, sorting, studytrack)))
   }, [])
 
-  const handleSearch = (course, maxYear) => {
+  const handleSearch = (course, maxYear, studytrack) => {
     try {
-      setData(dataWithColors(JSON.parse(getSimpleHistogramData(course)).histogramArray, maxYear))
+      setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, maxYear))
     } catch (err) {
       console.log(err)
     }
@@ -40,24 +41,24 @@ const Histograms = ({ courses, simple }) => {
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(value, maxYear)
+    handleSearch(value, maxYear, studytrack)
   }
 
   const handleMaxYearChange = (e, { value }) => {
     setMaxYear(value)
-    handleSearch(course, value)
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, value))
   }
 
   const handleSortingChange = (e, { value }) => {
     setSorting(value)
-    setDataMany(JSON.parse(getMultiHistogramData(subset, value)))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, value, studytrack)))
     setActivePage(1)
     setStartIndex(0)
   }
 
   const handleSubsetChange = (e, { value }) => {
     setSubset(value)
-    setDataMany(JSON.parse(getMultiHistogramData(value, sorting)))
+    setDataMany(JSON.parse(getMultiHistogramData(value, sorting, studytrack)))
     setActivePage(1)
     setStartIndex(0)
   }
@@ -67,6 +68,13 @@ const Histograms = ({ courses, simple }) => {
     setActivePage(activePage)
     if (activePage !== 1) setStartIndex((activePage - 1) * 5)
     else setStartIndex(0)
+  }
+
+  const handleStudytrackChange = (e, { value }) => {
+    e.preventDefault()
+    setStudytrack(value)
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, value)).histogramArray, maxYear))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, sorting, value)))
   }
 
   const printOutFiveHistograms = (index) => {
@@ -109,6 +117,14 @@ const Histograms = ({ courses, simple }) => {
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
             <div className="radio-container">
               <Form>
+                <h5 className="radio-container">Valitse tutkinto-ohjelman opiskelijat:</h5>
+                <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+                <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+                <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+              </Form>
+            </div>
+            <div className="radio-container">
+              <Form>
                 <h5 className="radio-container">Valitse näytettävät kurssit:</h5>
                 <Radio className="radiobutton" label="Näytä pakolliset TKT-kurssit" checked={subset === 'mandatoryCourses'} value="mandatoryCourses" onChange={handleSubsetChange} />
                 <Radio className="radiobutton" label="Näytä kaikki TKT-kurssit" checked={subset === 'csCourses'} value="csCourses" onChange={handleSubsetChange} />
@@ -140,6 +156,11 @@ const Histograms = ({ courses, simple }) => {
         : (
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
+            <div className="radio-container">
+              <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+            </div>
             <FilterBar
               courses={courses}
               handleCourseChange={handleCourseChange}
