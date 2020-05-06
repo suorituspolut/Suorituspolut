@@ -30,6 +30,10 @@ const addWeights = (credits) => {
   return weightedCredits
 }
 
+
+// Returns an array of the biggest courses
+// Takes in a map (key: name of course value: weight) and the amount of courses wanted in the return array
+// intended for the use of the othersCategoryFirsts method
 const findBiggestCourses = (mapOfWeights, amount) => {
   let array = []
 
@@ -44,6 +48,11 @@ const findBiggestCourses = (mapOfWeights, amount) => {
   return array
 }
 
+
+// For the SankeyFirsts-graph where the others categorization needs to be done on each level (similar to separateOthersCategory-method)
+// Returns an array of highcharts-objects (from: course, to: course, weight)
+// Takes in an array of highcharts-objects where weights are already added together and the number of levels
+// to be shown on graph
 const othersCategoryFirsts = (weightedCredits, levels) => {
   const others = 7
   const separatedByLevel = new Map()
@@ -117,7 +126,6 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
           highChartObject[1] = `${level}: Muut`
         }
       })
-      // array = addWeights(array)
       previousLevel = addWeights(previousLevel)
     }
 
@@ -132,7 +140,6 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
       array = addWeights(array)
     }
   })
-
 
   return addWeights(weightedCredits)
 }
