@@ -97,7 +97,7 @@ const getMultiSankeyData = async (req, res) => {
   const promise2 = new Promise((resolve) => {
     fs.createReadStream(file)
       .pipe(parse({ delimiter: ';' }))
-      .on('data', (credit) =>  {
+      .on('data', (credit) => {
         const newCourse = {
           studentId: credit[0],
           courseId: credit[1],
@@ -127,58 +127,121 @@ const getMultiSankeyData = async (req, res) => {
 
 const getSimpleHistogramData = async (req, res) => {
   const array = []
+  const studyrights = []
   let course = 'Ohjelmoinnin perusteet'
+  let studytrack = 'all'
 
 
   if (req.params.course !== null) {
     course = req.params.course
+    studytrack = req.params.studytrack
   }
 
-  const parser = parse({ delimiter: ';' }, (err, data) => {
-    if (!data) return
-    data.forEach((credit) => {
-      const newCourse = {
-        studentId: credit[0],
-        courseId: credit[1],
-        course: credit[2],
-        isModule: credit[3],
-        date: new Date(credit[4]),
-        grade: credit[5],
-      }
-      array.push(newCourse)
-    })
-    res.send(histogramObjects(array, course))
+  const promise = new Promise((resolve) => {
+    fs.createReadStream(file2)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (data) => {
+        const studyright = {
+          id: data[0],
+          trackcode: data[1],
+          studytrack: data[2],
+        }
+        studyrights.push(studyright)
+      })
+      .on('end', () => {
+        resolve()
+      })
   })
-  await fs.createReadStream(file).pipe(parser)
+
+  const promise2 = new Promise((resolve) => {
+    fs.createReadStream(file)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (credit) => {
+        const newCourse = {
+          studentId: credit[0],
+          courseId: credit[1],
+          course: credit[2],
+          isModule: credit[3],
+          date: new Date(credit[4]),
+          grade: credit[5],
+        }
+        array.push(newCourse)
+      })
+      .on('end', () => {
+        resolve()
+      })
+  })
+
+
+  Promise.all([
+    promise,
+    promise2,
+  ]).then(() => {
+    res.send(histogramObjects(array, course, null, null, studytrack, studyrights))
+  })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 const getMultiHistogramData = async (req, res) => {
   const array = []
+  const studyrights = []
 
   let sorting = 'startHeavy'
   let subset = 'mandatoryCourses'
+  let studytrack = 'all'
 
   if (req.params.sorting !== null) {
     sorting = req.params.sorting
     subset = req.params.subset
+    studytrack = req.params.studytrack
   }
 
-  const parser = parse({ delimiter: ';' }, (err, data) => {
-    if (!data) return
-    data.forEach((credit) => {
-      const newCourse = {
-        studentId: credit[0],
-        courseId: credit[1],
-        course: credit[2],
-        isModule: credit[3],
-        date: new Date(credit[4]),
-        grade: credit[5],
-      }
-      array.push(newCourse)
-    })
-    res.send(histogramObjects(array, null, subset, sorting))
+  const promise = new Promise((resolve) => {
+    fs.createReadStream(file2)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (data) => {
+        const studyright = {
+          id: data[0],
+          trackcode: data[1],
+          studytrack: data[2],
+        }
+        studyrights.push(studyright)
+      })
+      .on('end', () => {
+        resolve()
+      })
   })
-  await fs.createReadStream(file).pipe(parser)
+
+  const promise2 = new Promise((resolve) => {
+    fs.createReadStream(file)
+      .pipe(parse({ delimiter: ';' }))
+      .on('data', (credit) => {
+        const newCourse = {
+          studentId: credit[0],
+          courseId: credit[1],
+          course: credit[2],
+          isModule: credit[3],
+          date: new Date(credit[4]),
+          grade: credit[5],
+        }
+        array.push(newCourse)
+      })
+      .on('end', () => {
+        resolve()
+      })
+  })
+
+  Promise.all([
+    promise,
+    promise2,
+  ]).then(() => {
+    res.send(histogramObjects(array, null, subset, sorting, studytrack, studyrights))
+  })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 const getBubbleData = async (req, res) => {
@@ -248,7 +311,7 @@ const getRecommendationGradeData = async (req, res) => {
   const promise2 = new Promise((resolve) => {
     fs.createReadStream(file)
       .pipe(parse({ delimiter: ';' }))
-      .on('data', (credit) =>  {
+      .on('data', (credit) => {
         const newCourse = {
           studentId: credit[0],
           courseId: credit[1],
