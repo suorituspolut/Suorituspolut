@@ -22,38 +22,38 @@ const Sankeys = ({ type, courses }) => {
   const [studytrack, setStudytrack] = useState('all')
 
   useEffect(() => {
-    setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade)))
+    setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, studytrack)))
     setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
   }, [])
 
-  const handleSearch = (year, course, grade, levels) => {
+  const handleSearch = (year, course, grade, levels, studytrack) => {
     if (type === 'multi') setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
-    else setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade)))
+    else setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, studytrack)))
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(value, course, grade, levels)
+    handleSearch(value, course, grade, levels, studytrack)
   }
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(year, value, grade, levels)
+    handleSearch(year, value, grade, levels, studytrack)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
-    handleSearch(year, course, value, levels)
+    handleSearch(year, course, value, levels, studytrack)
   }
 
   const handleLevelChange = (e, { value }) => {
     setLevels(value)
-    handleSearch(year, course, grade, value)
+    handleSearch(year, course, grade, value, studytrack)
   }
 
   const handleStudytrackChange = (e, { value }) => {
     setStudytrack(value)
-    handleSearch(year, course, grade, levels)
+    handleSearch(year, course, grade, levels, value)
   }
 
   return (

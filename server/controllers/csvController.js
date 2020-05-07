@@ -38,13 +38,16 @@ const getSimpleSankeyData = async (req, res) => {
   let year = 2017
   let course = 'Ohjelmoinnin perusteet'
   let grade = 'Kaikki'
+  let studytrack = 'all'
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
     course = req.params.course
     grade = req.params.grade
+    studytrack = req.params.studytrack
   }
 
+  console.log(studytrack)
   const parser = parse({ delimiter: ';' }, (err, data) => {
     if (!data) return
     data.forEach((credit) => {

@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/', (req, res) => res.send('welcome to root'))
 router.get('/courses', data.getCourseData)
-router.get('/simplesankey/:year/:course/:grade/', data.getSimpleSankeyData)
+router.get('/simplesankey/:year/:course/:grade/:studytrack', data.getSimpleSankeyData)
 router.get('/multisankey/:year/:levels/', data.getMultiSankeyData)
 router.get('/bubbles/:year/:grade/:bubbles/:track', data.getBubbleData)
 router.get('/simplehistogram/:course/:studytrack', data.getSimpleHistogramData)
