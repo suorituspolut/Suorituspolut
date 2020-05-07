@@ -17,7 +17,7 @@ require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/boost')(Highcharts)
 
 
-const Bubbles = ({ studytracks }) => {
+const Bubbles = () => {
   const [year, setYear] = useState(2017)
   const [bubbleAmount, setBubbleAmount] = useState(5)
   const [grade, setGrade] = useState('Läpäisseet')
@@ -64,7 +64,7 @@ const Bubbles = ({ studytracks }) => {
     },
     exporting: graphImages,
     title: {
-      text: 'Vuoden ' + year + ' suoritukset',
+      text: `Vuoden ${year} suoritukset`,
     },
     legend: {
       verticalAlign: 'top',
