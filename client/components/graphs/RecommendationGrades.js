@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import { Radio, Loader } from 'semantic-ui-react'
+import ReactGA from 'react-ga'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import Table from './Table'
@@ -20,11 +21,19 @@ const RecommendationGrades = ({ courses }) => {
 
   useEffect(() => {
     setData(JSON.parse(getRecommendationsGrade(year, course, uniqueness, studytrack)))
+    ReactGA.event({
+      category: 'RecommendationGrades',
+      action: `course: ${course} year: ${year} studytrack: ${studytrack} uniqueness: ${uniqueness}`,
+    })
   }, [])
 
   const handleSearch = (course, year, uniqueness, studytrack) => {
     try {
       setData(JSON.parse(getRecommendationsGrade(year, course, uniqueness, studytrack)))
+      ReactGA.event({
+        category: 'RecommendationGrades',
+        action: `course: ${course} year: ${year} studytrack: ${studytrack} uniqueness: ${uniqueness}`,
+      })
     } catch (err) {
       console.log(err)
     }
