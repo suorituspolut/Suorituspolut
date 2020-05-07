@@ -6,7 +6,7 @@ const { studentObjects } = require('@root/server/datahandling/students')
 
 // Ties it all together for a normal graph
 // An array of course credits, start course, wanted year of the starting course and the wanted grade
-const simpleSankeyObjects = (data, year, startCourse, grade) => {
+const simpleSankeyObjects = (data, year, startCourse, grade, wantedTrack, studytracks) => {
   const students = studentObjects(data)
   const arrays = highChartsObjects(students, startCourse, year, grade)
   const arraysWithSummedWeights = addWeights(arrays)
