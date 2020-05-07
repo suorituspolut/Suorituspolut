@@ -8,6 +8,7 @@ import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
 import { graphImages } from '../../util/highChartOptions'
+import ReactGA from 'react-ga'
 
 
 HC_more(Highcharts)
@@ -26,10 +27,18 @@ const Bubbles = () => {
 
   useEffect(() => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
+    ReactGA.event({
+      category: 'Bubble-graph',
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`
+    })
   }, [])
 
   const handleSearch = (year, grade, bubbleAmount, studytrack) => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
+    ReactGA.event({
+      category: 'Bubble-graph',
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`
+    })
   }
 
   const handleYearChange = (e, { value }) => {
