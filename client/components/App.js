@@ -6,6 +6,8 @@ import NavBar from './navsAndFooters/NavBar'
 const App = () => {
   const [graphToShow, setGraphToShow] = useState('bubbles')
 
+  console.log(process.env.GA_KEY)
+
   const handleGraphChange = async (e, { value }) => {
     await graphToShow
     await setGraphToShow(value)
