@@ -17,8 +17,8 @@ const simpleSankeyObjects = (data, year, startCourse, grade, wantedTrack, studyt
 // Ties it all together for a multilevel sankey-graph
 // Creates a highcharts-array of the studentpaths taking into account all credits in each students starting period
 // Takes in an array of credits and starting year
-const multiSankeyObjects = (data, studyrights, year, levels) => {
-  const students = studentObjects(data, studyrights, 'cs')
+const multiSankeyObjects = (data, studyrights, year, levels, wantedTrack) => {
+  const students = studentObjects(data, studyrights, wantedTrack)
   let highChartsArrays = []
   let fromCourses = []
   let toCourses = []

@@ -113,7 +113,6 @@ const getMultiSankeyData = async (req, res) => {
     studytrack = req.params.studytrack
   }
 
-  console.log(studytrack)
   const promise = new Promise((resolve) => {
     fs.createReadStream(file2)
       .pipe(parse({ delimiter: ';' }))
@@ -154,7 +153,7 @@ const getMultiSankeyData = async (req, res) => {
     promise,
     promise2,
   ]).then(() => {
-    res.send(multiSankeyObjects(array, studyrights, year, levels))
+    res.send(multiSankeyObjects(array, studyrights, year, levels, studytrack))
   })
     .catch((err) => {
       console.log(err)
