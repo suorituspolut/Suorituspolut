@@ -4,6 +4,7 @@ import Highcharts from 'highcharts'
 import {
   Form, Pagination, Radio, Loader,
 } from 'semantic-ui-react'
+import ReactGA from 'react-ga'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { graphImages } from '../../util/highChartOptions'
@@ -29,6 +30,18 @@ const Histograms = ({ courses, simple }) => {
   useEffect(() => {
     setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, maxYear))
     setDataMany(JSON.parse(getMultiHistogramData(subset, sorting, studytrack)))
+
+    if (!simple) {
+      ReactGA.event({
+        category: 'HistogramMulti-graph',
+        action: `Studytrack: ${studytrack} soring: ${sorting} course-subset: ${subset}`
+      })
+    } else {
+      ReactGA.event({
+        category: 'HistogramSimple-graph',
+        action: `Studytrack: ${studytrack} course: ${course} course-subset: ${subset}`
+      })
+    }
   }, [])
 
   const handleSearch = (course, maxYear, studytrack) => {
@@ -36,6 +49,18 @@ const Histograms = ({ courses, simple }) => {
       setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, maxYear))
     } catch (err) {
       console.log(err)
+    }
+
+    if (!simple) {
+      ReactGA.event({
+        category: 'HistogramMulti-graph',
+        action: `Studytrack: ${studytrack} soring: ${sorting}`
+      })
+    } else {
+      ReactGA.event({
+        category: 'HistogramSimple-graph',
+        action: `Studytrack: ${studytrack} course: ${course}`
+      })
     }
   }
 

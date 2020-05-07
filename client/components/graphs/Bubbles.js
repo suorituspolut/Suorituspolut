@@ -4,6 +4,7 @@ import Highcharts from 'highcharts'
 // eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
 import { Radio, Loader } from 'semantic-ui-react'
+import ReactGA from 'react-ga'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
@@ -26,10 +27,18 @@ const Bubbles = () => {
 
   useEffect(() => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
+    ReactGA.event({
+      category: 'Bubble-graph',
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`
+    })
   }, [])
 
   const handleSearch = (year, grade, bubbleAmount, studytrack) => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
+    ReactGA.event({
+      category: 'Bubble-graph',
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`
+    })
   }
 
   const handleYearChange = (e, { value }) => {
