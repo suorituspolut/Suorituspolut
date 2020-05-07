@@ -39,8 +39,8 @@ export const getSankeyData = (type, year, course, grade, levels) => {
   return xmlHttp.responseText
 }
 
-export const getSimpleSankeyData = (year, course, grade) => {
-  const urlEnd = `${year}/${course}/${grade}`
+export const getSimpleSankeyData = (year, course, grade, studytrack) => {
+  const urlEnd = `${year}/${course}/${grade}/${studytrack}`
 
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
@@ -54,8 +54,8 @@ export const getSimpleSankeyData = (year, course, grade) => {
   return xmlHttp.responseText
 }
 
-export const getMultiSankeyData = (year, levels) => {
-  const urlEnd = `${year}/${levels}`
+export const getMultiSankeyData = (year, levels, studytrack) => {
+  const urlEnd = `${year}/${levels}/${studytrack}`
 
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()

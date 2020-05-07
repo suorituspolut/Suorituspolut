@@ -5,9 +5,9 @@ const { addWeights, separateOthersCategory, othersCategoryFirsts } = require('@r
 const { studentObjects } = require('@root/server/datahandling/students')
 
 // Ties it all together for a normal graph
-// An array of course credits, start course, wanted year of the starting course and the wanted grade
-const simpleSankeyObjects = (data, year, startCourse, grade) => {
-  const students = studentObjects(data)
+// An array of course credits, start course, wanted year of the starting course, the wanted grade, wanted study programme and array of studyrights
+const simpleSankeyObjects = (data, year, startCourse, grade, wantedTrack, studytracks) => {
+  const students = studentObjects(data, studytracks, wantedTrack)
   const arrays = highChartsObjects(students, startCourse, year, grade)
   const arraysWithSummedWeights = addWeights(arrays)
   const arraysWithOtherCategory = separateOthersCategory(arraysWithSummedWeights, startCourse, 9)
@@ -17,8 +17,8 @@ const simpleSankeyObjects = (data, year, startCourse, grade) => {
 // Ties it all together for a multilevel sankey-graph
 // Creates a highcharts-array of the studentpaths taking into account all credits in each students starting period
 // Takes in an array of credits and starting year
-const multiSankeyObjects = (data, studyrights, year, levels) => {
-  const students = studentObjects(data, studyrights, 'cs')
+const multiSankeyObjects = (data, studyrights, year, levels, wantedTrack) => {
+  const students = studentObjects(data, studyrights, wantedTrack)
   let highChartsArrays = []
   let fromCourses = []
   let toCourses = []

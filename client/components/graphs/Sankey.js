@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Loader } from 'semantic-ui-react'
+import { Radio, Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getSimpleSankeyData, getMultiSankeyData } from '../../util/redux/dataReducer'
@@ -19,37 +19,42 @@ const Sankeys = ({ type, courses }) => {
   const [levels, setLevels] = useState(5)
   const [multiData, setMultiData] = useState([])
   const [simpleData, setSimpleData] = useState([])
+  const [studytrack, setStudytrack] = useState('all')
 
   useEffect(() => {
-    setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade)))
-    setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
+    setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, studytrack)))
+    setMultiData(JSON.parse(getMultiSankeyData(year, levels, studytrack)))
   }, [])
 
-  const handleSearch = (year, course, grade, levels) => {
-    if (type === 'multi') setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
-    else setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade)))
+  const handleSearch = (year, course, grade, levels, studytrack) => {
+    if (type === 'multi') setMultiData(JSON.parse(getMultiSankeyData(year, levels, studytrack)))
+    else setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, studytrack)))
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(value, course, grade, levels)
+    handleSearch(value, course, grade, levels, studytrack)
   }
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(year, value, grade, levels)
+    handleSearch(year, value, grade, levels, studytrack)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
-    handleSearch(year, course, value, levels)
+    handleSearch(year, course, value, levels, studytrack)
   }
 
   const handleLevelChange = (e, { value }) => {
     setLevels(value)
-    handleSearch(year, course, grade, value)
+    handleSearch(year, course, grade, value, studytrack)
   }
 
+  const handleStudytrackChange = (e, { value }) => {
+    setStudytrack(value)
+    handleSearch(year, course, grade, levels, value)
+  }
 
   return (
     <>
@@ -57,6 +62,11 @@ const Sankeys = ({ type, courses }) => {
         ? (
           <>
             <Headline text="Mitä kursseja on suoritettu seuraavassa periodissa" />
+            <div className="rts-radio-container">
+              <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+            </div>
             <FilterBar
               course={course}
               year={year}
@@ -72,6 +82,11 @@ const Sankeys = ({ type, courses }) => {
         : (
           <>
             <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
+            <div className="rts-radio-container">
+              <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+            </div>
             <FilterBar
               year={year}
               levels={levels}
