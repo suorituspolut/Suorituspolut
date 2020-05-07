@@ -19,7 +19,7 @@ const Sankeys = ({ type, courses }) => {
   const [levels, setLevels] = useState(5)
   const [multiData, setMultiData] = useState([])
   const [simpleData, setSimpleData] = useState([])
-  const [studytrack, setStudytrack] = useState('all')
+  const [studytrack, setStudytrack] = useState('cs')
 
   useEffect(() => {
     setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, studytrack)))
