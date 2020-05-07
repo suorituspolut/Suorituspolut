@@ -29,7 +29,7 @@ const Bubbles = () => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
     ReactGA.event({
       category: 'Bubble-graph',
-      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`,
     })
   }, [])
 
@@ -37,7 +37,7 @@ const Bubbles = () => {
     setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
     ReactGA.event({
       category: 'Bubble-graph',
-      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`,
     })
   }
 

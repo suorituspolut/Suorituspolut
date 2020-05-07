@@ -28,12 +28,12 @@ const Sankeys = ({ type, courses }) => {
     if (type === 'multi') {
       ReactGA.event({
         category: 'SankeyMulti-graph',
-        action: `year: ${year} course: ${course} `
+        action: `year: ${year} course: ${course} studytrack: ${studytrack}`,
       })
     } else {
       ReactGA.event({
         category: 'SankeySimple-graph',
-        action: `year: ${year} course: ${course} `
+        action: `year: ${year} course: ${course} studytrack: ${studytrack}`,
       })
     }
   }, [])
@@ -45,12 +45,12 @@ const Sankeys = ({ type, courses }) => {
     if (type === 'multi') {
       ReactGA.event({
         category: 'SankeyMulti-graph',
-        action: `year: ${year} course: ${course} `
+        action: `year: ${year} course: ${course} studytrack: ${studytrack}`,
       })
     } else {
       ReactGA.event({
         category: 'SankeySimple-graph',
-        action: `year: ${year} course: ${course} `
+        action: `year: ${year} course: ${course} studytrack: ${studytrack}`,
       })
     }
   }
