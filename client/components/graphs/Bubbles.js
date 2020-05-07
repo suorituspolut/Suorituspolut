@@ -4,11 +4,11 @@ import Highcharts from 'highcharts'
 // eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
 import { Radio, Loader } from 'semantic-ui-react'
+import ReactGA from 'react-ga'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
 import { graphImages } from '../../util/highChartOptions'
-import ReactGA from 'react-ga'
 
 
 HC_more(Highcharts)
