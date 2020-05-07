@@ -8,7 +8,7 @@ import NavBar from './navsAndFooters/NavBar'
 // GA_KEY=<Google Analytics Account Key>
 
 const App = () => {
-  const [graphToShow, setGraphToShow] = useState('bubbles')
+  const [graphToShow, setGraphToShow] = useState('multisankey')
 
   useEffect(() => {
     try {
