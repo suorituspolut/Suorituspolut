@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
-import { Loader } from 'semantic-ui-react'
+import { Radio, Loader } from 'semantic-ui-react'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getSimpleSankeyData, getMultiSankeyData } from '../../util/redux/dataReducer'
@@ -19,6 +19,7 @@ const Sankeys = ({ type, courses }) => {
   const [levels, setLevels] = useState(5)
   const [multiData, setMultiData] = useState([])
   const [simpleData, setSimpleData] = useState([])
+  const [studytrack, setStudytrack] = useState('all')
 
   useEffect(() => {
     setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade)))
@@ -50,6 +51,10 @@ const Sankeys = ({ type, courses }) => {
     handleSearch(year, course, grade, value)
   }
 
+  const handleStudytrackChange = (e, { value }) => {
+    setStudytrack(value)
+    handleSearch(year, course, grade, levels)
+  }
 
   return (
     <>
@@ -57,6 +62,11 @@ const Sankeys = ({ type, courses }) => {
         ? (
           <>
             <Headline text="Mitä kursseja on suoritettu seuraavassa periodissa" />
+            <div className="rts-radio-container">
+              <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+            </div>
             <FilterBar
               course={course}
               year={year}
