@@ -23,11 +23,11 @@ const Sankeys = ({ type, courses }) => {
 
   useEffect(() => {
     setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, studytrack)))
-    setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
+    setMultiData(JSON.parse(getMultiSankeyData(year, levels, studytrack)))
   }, [])
 
   const handleSearch = (year, course, grade, levels, studytrack) => {
-    if (type === 'multi') setMultiData(JSON.parse(getMultiSankeyData(year, levels)))
+    if (type === 'multi') setMultiData(JSON.parse(getMultiSankeyData(year, levels, studytrack)))
     else setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, studytrack)))
   }
 
@@ -82,6 +82,11 @@ const Sankeys = ({ type, courses }) => {
         : (
           <>
             <Headline text="Mitä kursseja on suoritettu seuraavissa periodeissa" />
+            <div className="rts-radio-container">
+              <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+            </div>
             <FilterBar
               year={year}
               levels={levels}

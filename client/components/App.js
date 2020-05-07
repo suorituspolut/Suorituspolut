@@ -4,7 +4,7 @@ import GraphSelector from './graphs/GraphSelector'
 import NavBar from './navsAndFooters/NavBar'
 
 const App = () => {
-  const [graphToShow, setGraphToShow] = useState('simplesankey')
+  const [graphToShow, setGraphToShow] = useState('multisankey')
 
   const handleGraphChange = async (e, { value }) => {
     await graphToShow

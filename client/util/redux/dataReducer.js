@@ -54,8 +54,8 @@ export const getSimpleSankeyData = (year, course, grade, studytrack) => {
   return xmlHttp.responseText
 }
 
-export const getMultiSankeyData = (year, levels) => {
-  const urlEnd = `${year}/${levels}`
+export const getMultiSankeyData = (year, levels, studytrack) => {
+  const urlEnd = `${year}/${levels}/${studytrack}`
 
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
