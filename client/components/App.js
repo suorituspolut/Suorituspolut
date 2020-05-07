@@ -4,6 +4,9 @@ import Footer from './navsAndFooters/Footer'
 import GraphSelector from './graphs/GraphSelector'
 import NavBar from './navsAndFooters/NavBar'
 
+// To use Google Analytics make a file named .env in the root folder and add the line:
+// GA_KEY=<Google Analytics Account Key>
+
 const App = () => {
   const [graphToShow, setGraphToShow] = useState('bubbles')
 
