@@ -99,6 +99,7 @@ const getMultiSankeyData = async (req, res) => {
   const studyrights = []
   let year = 2017
   let levels = 4
+  let studytrack = 'cs'
 
   if (req.params.year !== null) {
     year = Number(req.params.year)
@@ -108,6 +109,11 @@ const getMultiSankeyData = async (req, res) => {
     levels = Number(req.params.levels)
   }
 
+  if (req.params.studytrack !== null) {
+    studytrack = req.params.studytrack
+  }
+
+  console.log(studytrack)
   const promise = new Promise((resolve) => {
     fs.createReadStream(file2)
       .pipe(parse({ delimiter: ';' }))
