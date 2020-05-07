@@ -34,12 +34,12 @@ const Histograms = ({ courses, simple }) => {
     if (!simple) {
       ReactGA.event({
         category: 'HistogramMulti-graph',
-        action: `Studytrack: ${studytrack} soring: ${sorting} course-subset: ${subset}`
+        action: `Studytrack: ${studytrack} soring: ${sorting} course-subset: ${subset}`,
       })
     } else {
       ReactGA.event({
         category: 'HistogramSimple-graph',
-        action: `Studytrack: ${studytrack} course: ${course} course-subset: ${subset}`
+        action: `Studytrack: ${studytrack} course: ${course} course-subset: ${subset}`,
       })
     }
   }, [])
@@ -54,12 +54,12 @@ const Histograms = ({ courses, simple }) => {
     if (!simple) {
       ReactGA.event({
         category: 'HistogramMulti-graph',
-        action: `Studytrack: ${studytrack} soring: ${sorting}`
+        action: `Studytrack: ${studytrack} soring: ${sorting}`,
       })
     } else {
       ReactGA.event({
         category: 'HistogramSimple-graph',
-        action: `Studytrack: ${studytrack} course: ${course}`
+        action: `Studytrack: ${studytrack} course: ${course}`,
       })
     }
   }

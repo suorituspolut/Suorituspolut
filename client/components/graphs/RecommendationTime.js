@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Radio, Loader } from 'semantic-ui-react'
+import ReactGA from 'react-ga'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getRecommendationsTime } from '../../util/redux/dataReducer'
@@ -17,10 +18,18 @@ const RecommendationTime = () => {
 
   useEffect(() => {
     setData(JSON.parse(getRecommendationsTime(schoolYear, term, studentNumber, goalYears)))
+    ReactGA.event({
+      category: 'RecommendationTime',
+      action: `year: ${schoolYear}. term: ${term} goalYears: ${goalYears}`,
+    })
   }, [])
 
   const getData = (schoolYear, term, studentNumber, goalYears) => {
     setData(JSON.parse(getRecommendationsTime(schoolYear, term, studentNumber, goalYears)))
+    ReactGA.event({
+      category: 'RecommendationTime',
+      action: `year: ${schoolYear}. term: ${term} goalYears: ${goalYears}`,
+    })
   }
 
   const handleSchoolYearChange = (e, { value }) => {
