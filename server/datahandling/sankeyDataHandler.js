@@ -5,9 +5,9 @@ const { addWeights, separateOthersCategory, othersCategoryFirsts } = require('@r
 const { studentObjects } = require('@root/server/datahandling/students')
 
 // Ties it all together for a normal graph
-// An array of course credits, start course, wanted year of the starting course and the wanted grade
+// An array of course credits, start course, wanted year of the starting course, the wanted grade, wanted study programme and array of studyrights
 const simpleSankeyObjects = (data, year, startCourse, grade, wantedTrack, studytracks) => {
-  const students = studentObjects(data)
+  const students = studentObjects(data, studytracks, wantedTrack)
   const arrays = highChartsObjects(students, startCourse, year, grade)
   const arraysWithSummedWeights = addWeights(arrays)
   const arraysWithOtherCategory = separateOthersCategory(arraysWithSummedWeights, startCourse, 9)
