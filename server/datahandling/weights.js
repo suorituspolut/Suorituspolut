@@ -49,7 +49,7 @@ const findBiggestCourses = (mapOfWeights, amount) => {
 }
 
 
-// For the SankeyFirsts-graph where the others categorization needs to be done on each level (similar to separateOthersCategory-method)
+// For the MultiSankey-graph where the others categorization needs to be done on each level (similar to separateOthersCategory-method)
 // Returns an array of highcharts-objects (from: course, to: course, weight)
 // Takes in an array of highcharts-objects where weights are already added together and the number of levels
 // to be shown on graph
@@ -72,6 +72,8 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
   let toWeight = new Map()
 
   // Does others categorization for the first level
+  // On the first level the biggest courses are decided by the outgoing weights from the course (fromWeight)
+  // The rest of the courses are bundled into one highchart-object "Others"
   if (separatedByLevel.has(1)) {
     let array = separatedByLevel.get(1)
     const fromWeight = new Map()
@@ -103,6 +105,8 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
   }
 
   // Does others categorization for the rest of the levels
+  // For the rest of the levels the biggest courses are decided by the incoming weights to the course (toWeight)
+  // The rest of the courses are bundled into one highcharts-object "Others"
   separatedByLevel.forEach((array, level) => {
     let previousLevel = separatedByLevel.get(level - 1)
     if (level !== 1) {
@@ -131,6 +135,8 @@ const othersCategoryFirsts = (weightedCredits, levels) => {
     }
 
     // Does others categorization for the last level
+    // Last level has to be done separately, because those courses are only found on the second last
+    // level high-charts objects in the "to"-variable
     if (level === levels - 1) {
       keepList = findBiggestCourses(toWeight, amountOfCoursesShown)
 
