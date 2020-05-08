@@ -78,6 +78,8 @@ const Sankeys = ({ type, courses }) => {
   const handleStudytrackChange = (e, { value }) => {
     setStudytrack(value)
     handleSearch(year, course, grade, levels, value)
+    setSimpleData(JSON.parse(getSimpleSankeyData(year, course, grade, value)))
+    setMultiData(JSON.parse(getMultiSankeyData(year, levels, value)))
   }
 
   return (
