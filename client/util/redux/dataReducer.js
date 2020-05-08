@@ -1,3 +1,28 @@
+export const getCourseData = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', 'http://localhost:8000/api/courses', false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', 'https://toska.cs.helsinki.fi/suorituspolut/api/courses', false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getStudytrackData = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', 'http://localhost:8000/api/studytracks', false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', 'https://toska.cs.helsinki.fi/suorituspolut/api/studytracks', false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
 
 export const getSankeyData = (type, year, course, grade, levels) => {
   const urlEnd = `${type}/${year}/${course}/${grade}/${levels}`
@@ -14,8 +39,64 @@ export const getSankeyData = (type, year, course, grade, levels) => {
   return xmlHttp.responseText
 }
 
-export const getBubbleData = (year, grade, bubbles) => {
-  const urlEnd = `${year}/${grade}/${bubbles}`
+export const getSimpleSankeyData = (year, course, grade, studytrack) => {
+  const urlEnd = `${year}/${course}/${grade}/${studytrack}`
+
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/simplesankey/${urlEnd}`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/simplesankey/${urlEnd}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getMultiSankeyData = (year, levels, studytrack) => {
+  const urlEnd = `${year}/${levels}/${studytrack}`
+
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/multisankey/${urlEnd}`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/multisankey/${urlEnd}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getSimpleHistogramData = (course, studytrack) => {
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/simplehistogram/${course}/${studytrack}/`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/simplehistogram/${course}/${studytrack}/`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getMultiHistogramData = (subset, sorting, studytrack) => {
+  if (process.env.NODE_ENV !== 'production') {
+    const xmlHttp = new XMLHttpRequest()
+    xmlHttp.open('GET', `http://localhost:8000/api/multihistogram/${sorting}/${subset}/${studytrack}`, false)
+    xmlHttp.send(null)
+    return xmlHttp.responseText
+  }
+  const xmlHttp = new XMLHttpRequest(sorting)
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/multihistogram/${sorting}/${subset}/${studytrack}`, false)
+  xmlHttp.send(null)
+  return xmlHttp.responseText
+}
+
+export const getBubbleData = (year, grade, bubbles, studytrack) => {
+  const urlEnd = `${year}/${grade}/${bubbles}/${studytrack}`
 
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
@@ -29,67 +110,28 @@ export const getBubbleData = (year, grade, bubbles) => {
   return xmlHttp.responseText
 }
 
-export const getCourseData = () => {
+export const getRecommendationsGrade = (year, course, uniqueness, studytrack) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', 'http://localhost:8000/api/courses', false)
+    xmlHttp.open('GET', `http://localhost:8000/api/recommendationsgrade/${year}/${course}/${uniqueness}/${studytrack}`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open('GET', 'https://toska.cs.helsinki.fi/suorituspolut/api/courses', false)
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/recommendationsgrade/${year}/${course}/${uniqueness}/${studytrack}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }
 
-export const getHistogramData = (course) => {
+export const getRecommendationsTime = (year, term, studentNumber, goalYears) => {
   if (process.env.NODE_ENV !== 'production') {
     const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', `http://localhost:8000/api/histogram/${course}/`, false)
+    xmlHttp.open('GET', `http://localhost:8000/api/recommendationstime/${year}/${term}/${studentNumber}/${goalYears}`, false)
     xmlHttp.send(null)
     return xmlHttp.responseText
   }
   const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histogram/${course}/`, false)
-  xmlHttp.send(null)
-  return xmlHttp.responseText
-}
-
-export const getHistoDataMany = (subset, sorting) => {
-  if (process.env.NODE_ENV !== 'production') {
-    const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', `http://localhost:8000/api/histomany/${sorting}/${subset}`, false)
-    xmlHttp.send(null)
-    return xmlHttp.responseText
-  }
-  const xmlHttp = new XMLHttpRequest(sorting)
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/histomany/${sorting}/${subset}`, false)
-  xmlHttp.send(null)
-  return xmlHttp.responseText
-}
-
-export const getRoadToSuccess = (year, course, uniqueness, studytrack) => {
-  if (process.env.NODE_ENV !== 'production') {
-    const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', `http://localhost:8000/api/rts/${year}/${course}/${uniqueness}/${studytrack}`, false)
-    xmlHttp.send(null)
-    return xmlHttp.responseText
-  }
-  const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/rts/${year}/${course}/${uniqueness}/${studytrack}`, false)
-  xmlHttp.send(null)
-  return xmlHttp.responseText
-}
-
-export const getRecommendations = (year, term, studentNumber, goalYears) => {
-  if (process.env.NODE_ENV !== 'production') {
-    const xmlHttp = new XMLHttpRequest()
-    xmlHttp.open('GET', `http://localhost:8000/api/recommendations/${year}/${term}/${studentNumber}/${goalYears}`, false)
-    xmlHttp.send(null)
-    return xmlHttp.responseText
-  }
-  const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/recommendations/${year}/${term}/${studentNumber}/${goalYears}`, false)
+  xmlHttp.open('GET', `https://toska.cs.helsinki.fi/suorituspolut/api/recommendationstime/${year}/${term}/${studentNumber}/${goalYears}`, false)
   xmlHttp.send(null)
   return xmlHttp.responseText
 }

@@ -1,4 +1,4 @@
-const listOfCourses = (data) => {
+const courseData = (data) => {
   const allCourses = data.map(credit => credit.course)
   allCourses.shift()
 
@@ -184,9 +184,8 @@ const countTheBiggestCourses = (array, amount) => {
   return biggestCourses
 }
 
-
 module.exports = {
-  listOfCourses,
+  courseData,
   mandatoryCourses,
   mathCourses,
   csCourses,

@@ -3,13 +3,12 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 // eslint-disable-next-line camelcase
 import HC_more from 'highcharts/highcharts-more'
-import { Loader } from 'semantic-ui-react'
+import { Radio, Loader } from 'semantic-ui-react'
+import ReactGA from 'react-ga'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
 import { getBubbleData } from '../../util/redux/dataReducer'
-
-
-
+import { graphImages } from '../../util/highChartOptions'
 
 
 HC_more(Highcharts)
@@ -24,29 +23,44 @@ const Bubbles = () => {
   const [bubbleAmount, setBubbleAmount] = useState(5)
   const [grade, setGrade] = useState('Läpäisseet')
   const [data, setData] = useState([])
+  const [studytrack, setStudytrack] = useState('cs')
 
   useEffect(() => {
-    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
+    ReactGA.event({
+      category: 'Bubble-graph',
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`,
+    })
   }, [])
 
-  const handleSearch = (year, grade, bubbleAmount) => {
-    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount)))
+  const handleSearch = (year, grade, bubbleAmount, studytrack) => {
+    setData(JSON.parse(getBubbleData(year, grade, bubbleAmount, studytrack)))
+    ReactGA.event({
+      category: 'Bubble-graph',
+      action: `year: ${year} grade: ${grade} studytrack: ${studytrack}`,
+    })
   }
 
   const handleYearChange = (e, { value }) => {
     setYear(value)
-    handleSearch(value, grade, bubbleAmount)
+    handleSearch(value, grade, bubbleAmount, studytrack)
   }
 
   const handleGradeChange = (e, { value }) => {
     setGrade(value)
-    handleSearch(year, value, bubbleAmount)
+    handleSearch(year, value, bubbleAmount, studytrack)
   }
 
   const handleBubblesChange = (e, { value }) => {
     setBubbleAmount(value)
-    handleSearch(year, grade, value)
+    handleSearch(year, grade, value, studytrack)
   }
+
+  const handleStudytrackChange = (e, { value }) => {
+    setStudytrack(value)
+    handleSearch(year, grade, bubbleAmount, value)
+  }
+
 
   const options = {
     chart: {
@@ -57,29 +71,9 @@ const Bubbles = () => {
     credits: {
       text: '',
     },
-    exporting: {
-      menuItemDefinitions: {
-        viewFullscreen: {
-          text: 'Koko näyttö',
-        },
-        downloadPNG: {
-          text: 'Lataa PNG-kuvana',
-        },
-        downloadSVG: {
-          text: 'Lataa SVG-kuvana',
-        },
-        downloadPDF: {
-          text: 'Lataa PDF:nä',
-        },
-      },
-      buttons: {
-        contextButton: {
-          menuItems: ['viewFullscreen', 'downloadPNG', 'downloadSVG', 'downloadPDF'],
-        },
-      },
-    },
+    exporting: graphImages,
     title: {
-      text: 'Vuoden ' + year + ' suoritukset',
+      text: `Vuoden ${year} suoritukset`,
     },
     legend: {
       verticalAlign: 'top',
@@ -111,10 +105,23 @@ const Bubbles = () => {
     },
     series: data,
   }
-
-  const printOutBubbles = () => {
-    if (data.length > 0) {
-      return (
+  if (data.length > 0) {
+    return (
+      <div>
+        <Headline text="Kurssisuoritukset perioideittain" />
+        <div className="rts-radio-container">
+          <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+          <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+          <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+        </div>
+        <FilterBar
+          year={year}
+          grade={grade}
+          bubbles={bubbleAmount}
+          handleGradeChange={handleGradeChange}
+          handleYearChange={handleYearChange}
+          handleBubblesChange={handleBubblesChange}
+        />
         <div className="graph-container">
           <HighchartsReact
             highcharts={Highcharts}
@@ -122,25 +129,10 @@ const Bubbles = () => {
             options={options}
           />
         </div>
-      )
-    }
-    return  <Loader active inline='centered' />
+      </div>
+    )
   }
-
-  return (
-    <div>
-      <Headline text="Kurssisuoritukset perioideittain" />
-      <FilterBar
-        selectedYear={year}
-        selectedGrade={grade}
-        selectedBubbles={bubbleAmount}
-        handleGradeChange={handleGradeChange}
-        handleYearChange={handleYearChange}
-        handleBubblesChange={handleBubblesChange}
-      />
-      {printOutBubbles()}
-    </div>
-  )
+  return <Loader active inline="centered" />
 }
 
 export default Bubbles

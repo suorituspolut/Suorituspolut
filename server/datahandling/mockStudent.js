@@ -1,3 +1,6 @@
+// This is a mock student that is added to the dataset
+// intended for demonstration of the sign-in functionality in the recommendationTime-view
+
 const date1 = new Date('21 Oct 2016 03:00:00 GMT')
 const date2 = new Date('18 Dec 2016 03:00:00 GMT')
 

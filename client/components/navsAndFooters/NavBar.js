@@ -4,16 +4,16 @@ import Logo from '../../assets/logo.png'
 
 const NavBar = ({ onChange, value }) => {
   const options = [
-    { key: 1, value: 1, text: 'Sankey (kurssien suorituspolut periodeittain)' },
-    { key: 2, value: 2, text: 'Sankey (kurssien suorituspolut periodeittain, aloituskurssit)' },
-    { key: 3, value: 3, text: 'Histogrammi (kurssin suoritusajankohta)' },
-    { key: 4, value: 4, text: 'Histogrammi (useamman kurssin suoritusajankohta)' },
-    { key: 5, value: 5, text: 'Kuplagraafi (listaus kursseista periodeittain)' },
+    { key: 'simplesankey', value: 'simplesankey', text: 'Kurssien suorituspolut periodeittain ja kursseittain (Sankey-graafi)' },
+    { key: 'multisankey', value: 'multisankey', text: 'Kurssien suorituspolut periodeittain, useampia periodeja (Sankey-graafi)' },
+    { key: 'simplehistogram', value: 'simplehistogram', text: 'Kurssin suoritusajankohta (Histogrammi)' },
+    { key: 'multihistogram', value: 'multihistogram', text: 'Useamman kurssin suoritusajankohta (Histogrammi)' },
+    { key: 'bubbles', value: 'bubbles', text: 'Listaus kursseista periodeittain (Kuplagraafi)' },
   ]
 
-  const suositusOptions = [
-    { key: 1, value: 8, text: 'Road to success' },
-    { key: 2, value: 9, text: 'Kurssisuositukset' },
+  const recommendationOptions = [
+    { key: 'recommendationGrades', value: 'recommendationGrades', text: 'Arvosanojen perusteella' },
+    { key: 'recommendationTime', value: 'recommendationTime', text: 'Opintojen vaiheen perusteella' },
   ]
 
   return (
@@ -25,7 +25,7 @@ const NavBar = ({ onChange, value }) => {
         <Dropdown text="Kurssigraafit" value={value} options={options} onChange={onChange} />
       </Menu.Item>
       <Menu.Item className="navbar-item">
-        <Dropdown text="Suosituskurssit" value={value} options={suositusOptions} onChange={onChange} />
+        <Dropdown text="Kurssisuositukset" value={value} options={recommendationOptions} onChange={onChange} />
       </Menu.Item>
     </Menu>
   )

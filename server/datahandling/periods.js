@@ -6,7 +6,7 @@
 // period 2: 18.11.-19.2.
 // period 3: 20.2.-5.4.
 // period 4: 6.4.-31.5.
-// period 5: 1.6.-22.9.
+// period 5: 1.6.-22.9. (summer period)
 const toPeriod = (date) => {
   let period = 0
   const day = date.getDate()
@@ -52,6 +52,8 @@ const timeBetween = (startDate, endDate) => {
   return 49
 }
 
+
+// Checks if two periods are the same period
 const isSamePeriod = (period1, period2) => {
   if (period1.year !== period2.year) return false
   if (period1.period === period2.period) return true
@@ -66,6 +68,8 @@ const isEarlierPeriod = (period1, period2) => {
   return false
 }
 
+// Checks to see how many period left to the end of the year
+// needed for the calculation in the periodsBetweenTwoDates-method
 const periodToYearEnd = (period) => {
   const p = period.period
   if (p === 2) return 0
@@ -88,6 +92,7 @@ const periodsToClosestYear = (amount) => {
   return amount - remainder
 }
 
+// Calculates the number of periods between two given dates
 const periodsBetweenTwoDates = (date1, date2) => {
   const start = toPeriod(date1)
   const end = toPeriod(date2)

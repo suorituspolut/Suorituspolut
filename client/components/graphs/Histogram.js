@@ -2,58 +2,21 @@ import React, { useEffect, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import {
-  Form, Pagination, Radio, Loader
+  Form, Pagination, Radio, Loader,
 } from 'semantic-ui-react'
-import { blueColors } from '../../util/units'
-import { getHistogramData, getHistoDataMany } from '../../util/redux/dataReducer'
+import ReactGA from 'react-ga'
 import FilterBar from '../filters/FilterBar'
 import Headline from '../Headline'
+import { graphImages } from '../../util/highChartOptions'
+import { dataWithColors, histogramCategories } from '../../util/units'
+import { getSimpleHistogramData, getMultiHistogramData } from '../../util/redux/dataReducer'
 
 
 require('highcharts/modules/exporting')(Highcharts)
 
+const categories = histogramCategories(10)
 
-const countCategories = (maxYear) => {
-  const categories = []
-  let currentYear = 1
-  let currentPeriod = 1
-
-  for (let i = 1; i < maxYear * 5 + 1; i++) {
-    categories[i - 1] = `${currentYear} .vuosi /  ${currentPeriod} .periodi`
-    currentPeriod++
-    if (i % 5 === 0) {
-      currentYear++
-      currentPeriod = 1
-    }
-  }
-
-  return categories
-}
-
-const categories = countCategories(10)
-
-const dataWithColors = (data, maxYear) => {
-  const addingColors = data.map((dataPoint, index) => {
-    if (index < 5) return ({ y: dataPoint, color: blueColors[0] })
-    if (index >= 5 && index < 10) return ({ y: dataPoint, color: blueColors[1] })
-    if (index >= 10 && index < 15) return ({ y: dataPoint, color: blueColors[2] })
-    if (index >= 15 && index < 20) return ({ y: dataPoint, color: blueColors[3] })
-    if (index >= 20 && index < 25) return ({ y: dataPoint, color: blueColors[0] })
-    if (index >= 25 && index < 30) return ({ y: dataPoint, color: blueColors[1] })
-    if (index >= 30 && index < 35) return ({ y: dataPoint, color: blueColors[2] })
-    if (index >= 35 && index < 40) return ({ y: dataPoint, color: blueColors[3] })
-    if (index >= 40 && index < 45) return ({ y: dataPoint, color: blueColors[0] })
-    if (index >= 45 && index < 50) return ({ y: dataPoint, color: blueColors[1] })
-  })
-  const array = []
-  for (let i = 0; i < maxYear * 5; i++) {
-    array[i] = addingColors[i]
-  }
-  return array
-}
-
-
-const Histograms = ({ courses, howMany }) => {
+const Histograms = ({ courses, simple }) => {
   const [sorting, setSorting] = useState('startHeavy')
   const [subset, setSubset] = useState('mandatoryCourses')
   const [data, setData] = useState([])
@@ -62,41 +25,65 @@ const Histograms = ({ courses, howMany }) => {
   const [maxYear, setMaxYear] = useState(5)
   const [startIndex, setStartIndex] = useState(0)
   const [activePage, setActivePage] = useState(1)
+  const [studytrack, setStudytrack] = useState('cs')
 
   useEffect(() => {
-    setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
-    setDataMany(JSON.parse(getHistoDataMany(subset, sorting)))
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, maxYear))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, sorting, studytrack)))
+
+    if (!simple) {
+      ReactGA.event({
+        category: 'HistogramMulti-graph',
+        action: `Studytrack: ${studytrack} soring: ${sorting} course-subset: ${subset}`,
+      })
+    } else {
+      ReactGA.event({
+        category: 'HistogramSimple-graph',
+        action: `Studytrack: ${studytrack} course: ${course} course-subset: ${subset}`,
+      })
+    }
   }, [])
 
-  const handleSearch = (course, maxYear) => {
+  const handleSearch = (course, maxYear, studytrack) => {
     try {
-      setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, maxYear))
+      setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, maxYear))
     } catch (err) {
       console.log(err)
+    }
+
+    if (!simple) {
+      ReactGA.event({
+        category: 'HistogramMulti-graph',
+        action: `Studytrack: ${studytrack} soring: ${sorting}`,
+      })
+    } else {
+      ReactGA.event({
+        category: 'HistogramSimple-graph',
+        action: `Studytrack: ${studytrack} course: ${course}`,
+      })
     }
   }
 
   const handleCourseChange = (e, { value }) => {
     setCourse(value)
-    handleSearch(value, maxYear)
+    handleSearch(value, maxYear, studytrack)
   }
 
   const handleMaxYearChange = (e, { value }) => {
-    e.preventDefault()
     setMaxYear(value)
-    setData(dataWithColors(JSON.parse(getHistogramData(course)).histogramArray, value))
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, studytrack)).histogramArray, value))
   }
 
   const handleSortingChange = (e, { value }) => {
     setSorting(value)
-    setDataMany(JSON.parse(getHistoDataMany(subset, value)))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, value, studytrack)))
     setActivePage(1)
     setStartIndex(0)
   }
 
   const handleSubsetChange = (e, { value }) => {
     setSubset(value)
-    setDataMany(JSON.parse(getHistoDataMany(value, sorting)))
+    setDataMany(JSON.parse(getMultiHistogramData(value, sorting, studytrack)))
     setActivePage(1)
     setStartIndex(0)
   }
@@ -106,6 +93,13 @@ const Histograms = ({ courses, howMany }) => {
     setActivePage(activePage)
     if (activePage !== 1) setStartIndex((activePage - 1) * 5)
     else setStartIndex(0)
+  }
+
+  const handleStudytrackChange = (e, { value }) => {
+    e.preventDefault()
+    setStudytrack(value)
+    setData(dataWithColors(JSON.parse(getSimpleHistogramData(course, value)).histogramArray, maxYear))
+    setDataMany(JSON.parse(getMultiHistogramData(subset, sorting, value)))
   }
 
   const printOutFiveHistograms = (index) => {
@@ -122,30 +116,38 @@ const Histograms = ({ courses, howMany }) => {
 
       return (
         <div>
-          {coursesOnAPage.map(course => <Histogram key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} deviation={course.deviation} />)}
+          {coursesOnAPage.map(course => <HistogramGraph key={course.course} data={dataWithColors(course.histogramArray, maxYear)} course={course.course} categories={categories} deviation={course.deviation} />)}
         </div>
       )
     }
-    return  <Loader active inline='centered' />
+    return <Loader active inline="centered" />
   }
 
   const printOutOneHistogram = () => {
     if (courses.length > 0 && datamany.length > 0) {
       return (
         <div>
-          <Histogram maxYear={maxYear} data={data} course={course} categories={categories} />
+          <HistogramGraph maxYear={maxYear} data={data} course={course} categories={categories} />
         </div>
       )
     }
-    return  <Loader active inline='centered' />
+    return <Loader active inline="centered" />
   }
 
   return (
     <>
-      {howMany !== 1
+      {!simple
         ? (
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
+            <div className="radio-container">
+              <Form>
+                <h5 className="radio-container">Valitse tutkinto-ohjelman opiskelijat:</h5>
+                <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+                <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+                <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+              </Form>
+            </div>
             <div className="radio-container">
               <Form>
                 <h5 className="radio-container">Valitse näytettävät kurssit:</h5>
@@ -166,7 +168,7 @@ const Histograms = ({ courses, howMany }) => {
 
             <FilterBar
               handleMaxYearChange={handleMaxYearChange}
-              selectedMaxYear={maxYear}
+              maxYear={maxYear}
             />
             <div>
               {printOutFiveHistograms(startIndex)}
@@ -179,12 +181,17 @@ const Histograms = ({ courses, howMany }) => {
         : (
           <>
             <Headline text="Kurssin suoritusajankohdat opintojen aikana" />
+            <div className="radio-container">
+              <Radio className="radiobutton" label="TKT:n pääaineopiskelijat" checked={studytrack === 'cs'} value="cs" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Matematiikan pääaineopiskelijat" checked={studytrack === 'math'} value="math" onChange={handleStudytrackChange} />
+              <Radio className="radiobutton" label="Kaikki tutkinto-ohjelmat" checked={studytrack === 'all'} value="all" onChange={handleStudytrackChange} />
+            </div>
             <FilterBar
               courses={courses}
               handleCourseChange={handleCourseChange}
-              selectedCourse={course}
+              course={course}
               handleMaxYearChange={handleMaxYearChange}
-              selectedMaxYear={maxYear}
+              maxYear={maxYear}
             />
             {printOutOneHistogram()}
           </>
@@ -194,7 +201,7 @@ const Histograms = ({ courses, howMany }) => {
   )
 }
 
-const Histogram = ({
+const HistogramGraph = ({
   data, course, categories, deviation,
 }) => {
   let deviationSubtitle = ''
@@ -224,6 +231,7 @@ const Histogram = ({
         text: '',
       },
     },
+    exporting: graphImages,
     tooltip: {
       headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
       pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>'

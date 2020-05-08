@@ -1,8 +1,12 @@
+/* eslint-disable no-use-before-define */
 const { studentObjects } = require('@root/server/datahandling/students')
 const { dataByGrade, gradeToNumber, whichHasBetterGrade } = require('@root/server/datahandling/grades')
 const { toPeriod, isEarlierPeriod } = require('@root/server/datahandling/periods')
 
-const roadToSuccessObjects = (data, year, course, uniqueness, studytrack, studyrights) => {
+
+// Returns the arrays for the piechart and table
+// Requires data as studentObjects, the year, wanted course, whether best or all credits are wanted, the wanted studytrack and the array of studyrights
+const recommendationGradeObjects = (data, year, course, uniqueness, studytrack, studyrights) => {
 
   const allStudents = studentObjects(data, studyrights, studytrack)
   let studentsWithCourse = []
@@ -325,5 +329,5 @@ const dataWithCorrectGradeRange = (grades) => {
 }
 
 module.exports = {
-  roadToSuccessObjects,
+  recommendationGradeObjects,
 }

@@ -4,6 +4,7 @@ const htmlTemplate = require('html-webpack-template')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = (env, argv) => {
   const { mode } = argv
@@ -87,6 +88,7 @@ module.exports = (env, argv) => {
         filename: '[name].css',
         chunkFilename: '[name]-[id].css',
       }),
+      new Dotenv(),
       ...additionalPlugins,
     ],
   }
