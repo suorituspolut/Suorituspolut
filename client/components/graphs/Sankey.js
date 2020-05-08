@@ -152,9 +152,10 @@ const Sankey = ({ data, type, year }) => {
       },
     }
 
-
     return (
+
       <div className="graph-container">
+
         <HighchartsReact
           highcharts={Highcharts}
           constructorType="chart"
@@ -163,7 +164,10 @@ const Sankey = ({ data, type, year }) => {
       </div>
     )
   }
-  return <Loader active inline="centered" />
+
+  const [time, setTime] = useState(<Loader active inline="centered" />)
+  setTimeout(() => { setTime('Ei tarpeeksi dataa tai sen hakuaika loppui (10 sekuntia)') }, 10000)
+  return (<div className="graph-container">{time}</div>)
 }
 
 export default Sankeys
